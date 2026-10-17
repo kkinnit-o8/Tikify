@@ -1,5 +1,5 @@
 // Caches the app shell so Tikify opens offline. Sounds themselves live in IndexedDB.
-const CACHE = 'tikify-v1';
+const CACHE = 'tikify-v2';
 const SHELL = [
   './',
   'index.html',

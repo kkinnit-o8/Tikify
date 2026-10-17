@@ -717,10 +717,12 @@ function renderSearch(view) {
 // ----- settings / backup -----
 async function settingsMenu() {
   const v = await sheetMenu('Tikify', [
+    ...(isStandalone() ? [] : [{ label: 'Add to home screen', value: 'install', icon: ICON.plus }]),
     { label: 'Export backup', value: 'export' },
     { label: 'Import backup', value: 'import' },
     { label: 'About', value: 'about' },
   ], `${state.sounds.size} sounds · ${state.playlists.length} playlists · stored on this device`);
+  if (v === 'install') showInstallPrompt();
   if (v === 'export') exportBackup();
   if (v === 'import') importBackup();
   if (v === 'about') {
@@ -1078,6 +1080,87 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { if (!$('#sheetBackdrop').hidden) closeSheet(null); else closePlayer(); }
 });
 
+// ---------- install (PWA) prompt ----------
+let deferredInstall = null; // Chrome/Edge/Android hand us this so we can show the real install dialog
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstall = e;
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstall = null;
+  localStorageSet('installed', true);
+  toast('Tikify was added to your home screen');
+});
+
+const isStandalone = () =>
+  window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () =>
+  /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+// In-app browsers (TikTok, Instagram, …) can't install web apps.
+const isInAppBrowser = () => /tiktok|musical_ly|bytedance|instagram|fban|fbav|snapchat|line\//i.test(navigator.userAgent);
+
+const IOS_SHARE = '<svg class="inline-ic" viewBox="0 0 24 24"><path d="M12 2l4 4-1.4 1.4L13 5.8V15h-2V5.8L9.4 7.4 8 6zM5 10h3v2H6v8h12v-8h-2v-2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1z"/></svg>';
+const ADD_BOX = '<svg class="inline-ic" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v14h14V5zm6 3h2v3h3v2h-3v3h-2v-3H8v-2h3z"/></svg>';
+
+async function showInstallPrompt() {
+  let steps = '';
+  let action = '';
+  if (isInAppBrowser()) {
+    steps = `<ol class="install-steps">
+      <li>Tap <b>⋯</b> (top right) and choose <b>Open in browser</b>.</li>
+      <li>Then add Tikify to your home screen from there.</li></ol>`;
+  } else if (deferredInstall) {
+    action = '<button class="btn primary wide" data-install>Install Tikify</button>';
+  } else if (isIOS()) {
+    steps = `<ol class="install-steps">
+      <li>Tap the <b>Share</b> button ${IOS_SHARE} in Safari's toolbar.</li>
+      <li>Scroll down and tap <b>Add to Home Screen</b> ${ADD_BOX}.</li>
+      <li>Tap <b>Add</b>. Then open Tikify from your home screen.</li></ol>`;
+  } else {
+    steps = `<ol class="install-steps">
+      <li>Open your browser menu <b>⋮</b>.</li>
+      <li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>`;
+  }
+  const html = `
+    <div class="install">
+      <img class="install-icon" src="icons/icon-192.png" alt="">
+      <div class="install-badge">Recommended</div>
+      <div class="sheet-title center">Add Tikify to your home screen</div>
+      <ul class="install-perks">
+        <li>Opens full screen, just like a real app</li>
+        <li>Your sounds play offline</li>
+        <li>Keeps your library safer from being cleared by the browser</li>
+        ${isIOS() ? '' : '<li>Share TikToks straight to Tikify</li>'}
+      </ul>
+      ${steps}
+      ${action}
+      <button class="btn ghost wide" data-later>${action ? 'Not now' : 'Got it'}</button>
+    </div>`;
+  const choice = await openSheet(html, (sheet, close) => {
+    $('[data-later]', sheet).onclick = () => close('later');
+    const btn = $('[data-install]', sheet);
+    if (btn) btn.onclick = () => close('install');
+  });
+  if (choice === 'install' && deferredInstall) {
+    deferredInstall.prompt();
+    const { outcome } = await deferredInstall.userChoice;
+    deferredInstall = null;
+    if (outcome !== 'accepted') localStorageSet('installDismissedAt', Date.now());
+  } else {
+    localStorageSet('installDismissedAt', Date.now());
+  }
+}
+
+// Ask on first visit, then again at most every 3 days until installed.
+function maybeShowInstallPrompt() {
+  if (isStandalone() || localStorageGet('installed', false)) return;
+  const last = localStorageGet('installDismissedAt', 0);
+  if (Date.now() - last < 3 * 24 * 60 * 60 * 1000) return;
+  setTimeout(() => {
+    if ($('#sheetBackdrop').hidden && !isStandalone()) showInstallPrompt();
+  }, 2500);
+}
+
 // ---------- boot ----------
 function readShareTarget() {
   const params = new URLSearchParams(location.search);
@@ -1101,4 +1184,5 @@ function readShareTarget() {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  maybeShowInstallPrompt();
 })();

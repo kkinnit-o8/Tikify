@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tikify</title>
+  <meta name="description" content="Save TikTok sounds and play them like music. Make playlists, listen offline.">
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tikify">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <button class="icon-btn" id="backBtn" aria-label="Back" hidden>
+        <svg viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg>
+      </button>
+      <h1 id="viewTitle">Your Library</h1>
+      <button class="icon-btn" id="menuBtn" aria-label="More" hidden>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+      </button>
+    </header>
+
+    <main id="view"></main>
+
+    <div class="mini-player" id="miniPlayer" hidden>
+      <div class="mini-progress"><div id="miniProgressBar"></div></div>
+      <img id="miniCover" alt="">
+      <div class="mini-meta">
+        <div class="mini-title" id="miniTitle"></div>
+        <div class="mini-artist" id="miniArtist"></div>
+      </div>
+      <button class="icon-btn" id="miniPlay" aria-label="Play/Pause"></button>
+      <button class="icon-btn" id="miniNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><path d="M6 6v12l8.5-6zM16 6h2v12h-2z"/></svg>
+      </button>
+    </div>
+
+    <nav class="tabbar">
+      <button data-tab="library" class="active">
+        <svg viewBox="0 0 24 24"><path d="M4 3h2v18H4zm5 0h2v18H9zm5.5.6 1.9-.6 5.6 17.4-1.9.6z"/></svg>
+        <span>Library</span>
+      </button>
+      <button data-tab="add" class="add-tab">
+        <svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+        <span>Add sound</span>
+      </button>
+      <button data-tab="search">
+        <svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+        <span>Search</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Full screen player -->
+  <section class="player" id="player" hidden>
+    <div class="player-bg" id="playerBg"></div>
+    <div class="player-inner">
+      <div class="player-top">
+        <button class="icon-btn" id="playerClose" aria-label="Close player">
+          <svg viewBox="0 0 24 24"><path d="M4.6 8.6 12 16l7.4-7.4 1.4 1.4-8.8 8.8L3.2 10z"/></svg>
+        </button>
+        <div class="player-context" id="playerContext">Playing</div>
+        <button class="icon-btn" id="playerMore" aria-label="More">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+        </button>
+      </div>
+      <img class="player-cover" id="playerCover" alt="">
+      <div class="player-meta">
+        <div class="player-title" id="playerTitle"></div>
+        <div class="player-artist" id="playerArtist"></div>
+      </div>
+      <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek">
+      <div class="times"><span id="curTime">0:00</span><span id="durTime">0:00</span></div>
+      <div class="controls">
+        <button class="icon-btn" id="shuffleBtn" aria-label="Shuffle">
+          <svg viewBox="0 0 24 24"><path d="M17 3l4 4-4 4V8h-2.2l-3.1 4 3.1 4H17v-3l4 4-4 4v-3h-3.2l-3.4-4.4L7 18H3v-2h3l3.1-4L6 8H3V6h4l3.4 4.4L13.8 6H17z"/></svg>
+        </button>
+        <button class="icon-btn big" id="prevBtn" aria-label="Previous">
+          <svg viewBox="0 0 24 24"><path d="M18 6v12l-8.5-6zM6 6h2v12H6z"/></svg>
+        </button>
+        <button class="play-btn" id="playBtn" aria-label="Play/Pause"></button>
+        <button class="icon-btn big" id="nextBtn" aria-label="Next">
+          <svg viewBox="0 0 24 24"><path d="M6 6v12l8.5-6zM16 6h2v12h-2z"/></svg>
+        </button>
+        <button class="icon-btn" id="repeatBtn" aria-label="Repeat">
+          <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2z"/></svg>
+          <span class="repeat-one" id="repeatOne">1</span>
+        </button>
+      </div>
+      <a class="open-tiktok" id="openTiktok" target="_blank" rel="noopener">Open original TikTok</a>
+    </div>
+  </section>
+
+  <!-- Bottom sheet / modal -->
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <audio id="audio" preload="auto"></audio>
+
+  <script src="db.js"></script>
+  <script src="tiktok.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

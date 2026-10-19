@@ -36,8 +36,6 @@ app's identity on Android, and a different one makes Chrome stop updating instal
 - **iPhone (Safari)**: Share → *Add to Home Screen* (on iOS 26, tap ⋯ first, then Share).
   Install **before** saving sounds: the Home Screen app has its own storage, separate from Safari.
   Sounds saved in Safari can be moved over with **Export backup** in Safari and **Import backup** in the app.
-  Installed it before version 1.2? On iOS 26 that copy's tab bar stops above the bottom of the screen (a WebKit bug
-  with the translucent status bar it used). Export a backup, remove Tikify from the Home Screen, add it again, and import.
 - **Android (Chrome)**: menu ⋮ → *Install app*.
   Installed it while Tikify still had a black icon? That copy keeps the old icon and doesn't get the home screen
   shortcuts, because the app's identity changed once. To fix it, export a backup (in case uninstalling

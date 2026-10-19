@@ -1554,12 +1554,12 @@ async function settingsMenu() {
 }
 
 // Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 function aboutTech() {
   const v = measureViewport();
   const where = isStandalone() ? 'Home Screen app' : 'browser';
   return `Version ${VERSION} · ${where} · screen ${v.screenW}×${v.screenH} · window ${v.innerW}×${v.innerH} · ` +
-    `bottom ${v.edge} · top inset ${v.safeTop}`;
+    `bottom ${v.edge} · top inset ${v.safeTop} · ${document.documentElement.classList.contains('short-bottom') ? 'fitted to iOS short screen' : 'full screen'}`;
 }
 
 function showAbout() {
@@ -2439,10 +2439,9 @@ const isInAppBrowser = () =>
 const otherIOSBrowser = () => /crios|fxios|edgios|opios/i.test(UA); // Chrome, Firefox, … on iOS
 const isMacSafari = () => !isIOS() && /macintosh/i.test(UA) && /version\/[\d.]+.*safari/i.test(UA);
 
-// iOS 26 bug in Home Screen apps installed with the old translucent status bar: the page is drawn
-// from the top of the screen but laid out one status bar shorter, and nothing can paint the strip
-// left under the tab bar. The opaque "black" status bar (index.html) avoids it, but iOS only reads
-// that when the app is added to the Home Screen, so older installs are told to re-add it once.
+// iOS 26 Home Screen apps are laid out one status bar shorter than the screen but drawn from its top,
+// so the page ends above the home indicator and nothing can be drawn below that (see .short-bottom in
+// styles.css). Measured rather than assumed: older iOS, Android and browser tabs fill the screen.
 let viewportProbe = null;
 function measureViewport() {
   if (!viewportProbe) {
@@ -2457,23 +2456,14 @@ function measureViewport() {
   const edge = Math.round(r.bottom); // where "bottom: 0" really is
   return { screenW: screen.width, screenH, innerW: window.innerWidth, innerH: window.innerHeight, edge, gap: Math.round(screenH - edge), safeTop: Math.round(r.height), portrait };
 }
-function maybeShowReinstallHint() {
-  if (!/iphone|ipod/i.test(UA) || !isStandalone() || localStorageGet('reinstallHintShown', false)) return;
+function fitShortBottom() {
+  if (!/iphone|ipod/i.test(UA) || !isStandalone()) return;
+  // The on-screen keyboard skews the measurement: keep the last one until it closes.
+  if (document.activeElement && document.activeElement.matches('input, textarea, [contenteditable]')) return;
   const v = measureViewport();
-  // Translucent bar (content under it) and a page that stops short of the screen bottom.
-  if (!v.portrait || v.safeTop < 20 || v.gap < 20 || v.gap > 100) return;
-  setTimeout(async () => {
-    if (!$('#sheetBackdrop').hidden || playerOpen) return;
-    localStorageSet('reinstallHintShown', true);
-    const backup = state.sounds.size > 0;
-    const choice = await sheetMenu('Re-add Tikify to fit your screen', [
-      ...(backup ? [{ label: 'Export backup first', value: 'export' }] : []),
-      { label: 'Got it', value: null },
-    ], 'This copy of Tikify was installed before a fix for newer iPhones, so the tab bar stops above the bottom of the screen. ' +
-      'Remove Tikify from your Home Screen and add it again from Safari to fix it.' +
-      (backup ? ' Removing it deletes your sounds: export a backup first, then use Import backup in the new copy.' : ''));
-    if (choice === 'export') exportBackup();
-  }, 1500);
+  // Content under the status bar, yet the page stops short of the screen's bottom.
+  const short = v.portrait && v.safeTop >= 20 && v.gap >= 20 && v.gap <= 100;
+  document.documentElement.classList.toggle('short-bottom', short);
 }
 
 // A phone puts an installed Tikify on its home screen; a computer has none.
@@ -2666,6 +2656,14 @@ let storageFailure = null; // why the library couldn't be opened; the Library vi
 let booted = false;
 
 (async function boot() {
+  // iOS can settle a Home Screen app's viewport after launch or on resume without a resize event.
+  fitShortBottom();
+  [300, 1000, 3000].forEach((ms) => setTimeout(fitShortBottom, ms));
+  window.addEventListener('resize', fitShortBottom);
+  window.addEventListener('pageshow', fitShortBottom);
+  window.addEventListener('orientationchange', () => setTimeout(fitShortBottom, 300));
+  document.addEventListener('focusout', () => setTimeout(fitShortBottom, 300));
+  document.addEventListener('visibilitychange', () => document.hidden || setTimeout(fitShortBottom, 300));
   // First, so the shell gets cached for offline use even if storage or rendering fails below.
   startServiceWorker();
   receiveLaunches();
@@ -2691,5 +2689,4 @@ let booted = false;
   keepStorage();
   booted = true;
   maybeShowInstallPrompt();
-  maybeShowReinstallHint();
 })();

@@ -1553,6 +1553,15 @@ async function settingsMenu() {
   if (v === 'about') showAbout();
 }
 
+// Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
+const VERSION = '1.1.1';
+function aboutTech() {
+  const v = measureViewport();
+  const where = isStandalone() ? 'Home Screen app' : 'browser';
+  return `Version ${VERSION} · ${where} · screen ${v.screenW}×${v.screenH} · window ${v.innerW}×${v.innerH} · ` +
+    `bottom ${v.edge} · gap ${getComputedStyle(document.documentElement).getPropertyValue('--ios-gap').trim() || '0px'}`;
+}
+
 function showAbout() {
   openSheet(`
     <div class="sheet-title">About Tikify</div>
@@ -1565,6 +1574,7 @@ function showAbout() {
         made, endorsed or sponsored by TikTok, ByteDance or Spotify. TikTok is a trademark of
         ByteDance Ltd. and Spotify a trademark of Spotify AB.</p>
       <p>Save sounds for your own listening only, and respect the rights of their creators.</p>
+      <p class="about-tech">${aboutTech()}</p>
     </div>
     <button class="btn ghost wide" data-cancel>Close</button>`, (sheet, close) => {
     $('[data-cancel]', sheet).onclick = () => close(null);
@@ -2433,10 +2443,7 @@ const isMacSafari = () => !isIOS() && /macintosh/i.test(UA) && /version\/[\d.]+.
 // drawn from the top of the screen, so everything pinned to the bottom stops short of the screen's
 // edge. Measure the shortfall (0 where the bug isn't) and let the bottom bars reach past it.
 let gapProbe = null;
-function fitIOSViewport() {
-  if (!/iphone|ipod/i.test(UA) || !isStandalone()) return;
-  // The on-screen keyboard skews the measurement: keep the last one until it closes.
-  if (document.activeElement && document.activeElement.matches('input, textarea, [contenteditable]')) return;
+function measureViewport() {
   if (!gapProbe) {
     gapProbe = document.createElement('div');
     gapProbe.setAttribute('aria-hidden', 'true');
@@ -2445,7 +2452,14 @@ function fitIOSViewport() {
   }
   const portrait = window.innerHeight > window.innerWidth;
   const screenH = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
-  const gap = Math.round(screenH - gapProbe.getBoundingClientRect().top);
+  const edge = Math.round(gapProbe.getBoundingClientRect().top); // where "bottom: 0" really is
+  return { screenW: screen.width, screenH, innerW: window.innerWidth, innerH: window.innerHeight, edge, gap: Math.round(screenH - edge) };
+}
+function fitIOSViewport() {
+  if (!/iphone|ipod/i.test(UA) || !isStandalone()) return;
+  // The on-screen keyboard skews the measurement: keep the last one until it closes.
+  if (document.activeElement && document.activeElement.matches('input, textarea, [contenteditable]')) return;
+  const { gap } = measureViewport();
   document.documentElement.style.setProperty('--ios-gap', (gap > 0 && gap <= 100 ? gap : 0) + 'px');
 }
 
@@ -2639,10 +2653,14 @@ let storageFailure = null; // why the library couldn't be opened; the Library vi
 let booted = false;
 
 (async function boot() {
+  // iOS can settle the Home Screen app's viewport after launch or on resume, without a resize event.
   fitIOSViewport();
+  [300, 1000, 3000].forEach((ms) => setTimeout(fitIOSViewport, ms));
   window.addEventListener('resize', fitIOSViewport);
+  window.addEventListener('pageshow', fitIOSViewport);
   window.addEventListener('orientationchange', () => setTimeout(fitIOSViewport, 300));
   document.addEventListener('focusout', () => setTimeout(fitIOSViewport, 300));
+  document.addEventListener('visibilitychange', () => document.hidden || setTimeout(fitIOSViewport, 300));
   // First, so the shell gets cached for offline use even if storage or rendering fails below.
   startServiceWorker();
   receiveLaunches();

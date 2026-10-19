@@ -24,6 +24,8 @@
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+/* Anything the page doesn't cover (like the strip iOS 26 can leave under the tab bar) matches the black tab bar. */
+html { background: #000; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
@@ -495,3 +497,5 @@ body.sheet-open .toast, body.sheet-open.has-update.has-mini .toast { top: calc(v
   .play-btn:active, .btn:active, .play-btn:not(:disabled):hover { transform: none; }
   .spinner { animation-duration: 1.6s; }
 }
+
+.about-tech { color: var(--muted); font-size: 12px; margin-top: 16px; font-variant-numeric: tabular-nums; }

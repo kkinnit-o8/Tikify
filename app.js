@@ -2429,6 +2429,26 @@ const isInAppBrowser = () =>
 const otherIOSBrowser = () => /crios|fxios|edgios|opios/i.test(UA); // Chrome, Firefox, … on iOS
 const isMacSafari = () => !isIOS() && /macintosh/i.test(UA) && /version\/[\d.]+.*safari/i.test(UA);
 
+// iOS 26 bug in Home Screen apps: the page is laid out as if the status bar took up space, but is
+// drawn from the top of the screen, so everything pinned to the bottom stops short of the screen's
+// edge. Measure the shortfall (0 where the bug isn't) and let the bottom bars reach past it.
+let gapProbe = null;
+function fitIOSViewport() {
+  if (!/iphone|ipod/i.test(UA) || !isStandalone()) return;
+  // The on-screen keyboard skews the measurement: keep the last one until it closes.
+  if (document.activeElement && document.activeElement.matches('input, textarea, [contenteditable]')) return;
+  if (!gapProbe) {
+    gapProbe = document.createElement('div');
+    gapProbe.setAttribute('aria-hidden', 'true');
+    gapProbe.style.cssText = 'position:fixed;left:0;bottom:0;width:0;height:0;visibility:hidden;pointer-events:none';
+    document.body.append(gapProbe);
+  }
+  const portrait = window.innerHeight > window.innerWidth;
+  const screenH = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+  const gap = Math.round(screenH - gapProbe.getBoundingClientRect().top);
+  document.documentElement.style.setProperty('--ios-gap', (gap > 0 && gap <= 100 ? gap : 0) + 'px');
+}
+
 // A phone puts an installed Tikify on its home screen; a computer has none.
 function installWords() {
   if (isIOS() || isAndroid() || isInAppBrowser()) {
@@ -2619,6 +2639,10 @@ let storageFailure = null; // why the library couldn't be opened; the Library vi
 let booted = false;
 
 (async function boot() {
+  fitIOSViewport();
+  window.addEventListener('resize', fitIOSViewport);
+  window.addEventListener('orientationchange', () => setTimeout(fitIOSViewport, 300));
+  document.addEventListener('focusout', () => setTimeout(fitIOSViewport, 300));
   // First, so the shell gets cached for offline use even if storage or rendering fails below.
   startServiceWorker();
   receiveLaunches();

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121212">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex">
+  <title>Tikify</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #121212; color: #fff; }
+    body { display: grid; place-items: center; text-align: center; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    a { display: inline-block; margin-top: 12px; padding: 12px 22px; border-radius: 999px; background: #fff; color: #000; font-weight: 700; text-decoration: none; }
+  </style>
+  <script>
+    // GitHub Pages shows this page for any path it doesn't have, like /Tikify/add or an old
+    // bookmark. Tikify routes with #/…, so send the visitor into the app, on the same route.
+    (function () {
+      var parts = location.pathname.split('/').filter(Boolean);
+      // A project site lives under /<repo>/; a custom domain serves the app from the root.
+      var base = /\.github\.io$/.test(location.hostname) && parts.length ? '/' + parts.shift() + '/' : '/';
+      var routes = { library: 1, all: 1, playlist: 1, add: 1, search: 1 };
+      var route = routes[parts[0]] ? '#/' + parts.join('/') : '';
+      window.tikifyHome = base;
+      location.replace(base + location.search + (location.hash || route));
+    })();
+  </script>
+</head>
+<body>
+  <main>
+    <p>This page doesn’t exist.</p>
+    <a id="home" href="/">Open Tikify</a>
+  </main>
+  <script>document.getElementById('home').href = window.tikifyHome || '/';</script>
+</body>
+</html>

@@ -6,12 +6,15 @@
   --text: #ffffff;
   --muted: #a7a7a7;
   --accent: #1ed760;
-  --accent-2: #fe2c55;   /* TikTok pink */
-  --accent-3: #25f4ee;   /* TikTok cyan */
+  --accent-2: #fe2c55;   /* brand pink */
+  --accent-3: #25f4ee;   /* brand cyan */
+  /* Tikify's own mark: the app icon, the "All sounds" tile and the Add tab */
+  --brand: linear-gradient(135deg, var(--accent-2), #7b2cbf 55%, var(--accent-3));
   --danger: #f15e6c;
   --radius: 8px;
   --tabbar-h: 64px;
   --mini-h: 60px;
+  --update-h: 56px;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   color-scheme: dark;
@@ -30,15 +33,27 @@ button:disabled { opacity: .5; cursor: default; }
 svg { width: 24px; height: 24px; fill: currentColor; display: block; }
 [hidden] { display: none !important; }
 
-#app { height: 100%; display: flex; flex-direction: column; max-width: 720px; margin: 0 auto; }
+/* App, not web page: a long press on a control doesn't select its text or offer to save a cover,
+   and a quick double tap (Next, Next) doesn't zoom. Text in messages and forms stays selectable. */
+button, a, label, summary, .row, .tabbar, .mini-player, .player, .sheet-item, .sheet-handle { -webkit-user-select: none; user-select: none; }
+img { -webkit-touch-callout: none; -webkit-user-drag: none; }
+html, body, #view, .player, .sheet, button, a, label, summary, .row { touch-action: manipulation; }
+
+/* Full width, so the page scrolls (and shows its scrollbar) wherever the mouse is; the content
+   stays in a 720px column through the side padding. */
+#app { height: 100%; display: flex; flex-direction: column; --gutter: max(16px, env(safe-area-inset-left), env(safe-area-inset-right), calc(50% - 344px)); }
 
 /* ---------- top bar ---------- */
 .topbar {
-  display: flex; align-items: center; gap: 8px;
-  padding: calc(12px + var(--safe-t)) 16px 8px;
-  min-height: calc(56px + var(--safe-t));
+  display: flex; align-items: center; gap: 8px; flex: none;
+  /* one height on every view (the 44px buttons fit exactly), so titles don't jump between tabs */
+  height: calc(60px + var(--safe-t));
+  padding: calc(8px + var(--safe-t)) var(--gutter) 8px;
 }
-.topbar h1 { font-size: 24px; font-weight: 800; margin: 0; flex: 1; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar h1 { font-size: 24px; font-weight: 800; margin: 0; flex: 1; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity .15s; }
+/* A playlist's name shows in the bar once its own heading has scrolled away. */
+.topbar.scroll-title h1 { font-size: 18px; letter-spacing: -.2px; }
+.topbar.title-hidden h1 { opacity: 0; }
 .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--text); flex: none; position: relative; }
 .icon-btn:active { background: var(--bg-3); }
 .icon-btn.on { color: var(--accent); }
@@ -48,7 +63,7 @@ svg { width: 24px; height: 24px; fill: currentColor; display: block; }
 
 main#view {
   flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding: 0 16px calc(var(--tabbar-h) + var(--safe-b) + 24px);
+  padding: 0 var(--gutter) calc(var(--tabbar-h) + var(--safe-b) + 24px);
   /* keeps keyboard focus from landing behind the fixed tab bar and mini player */
   scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
 }
@@ -68,6 +83,9 @@ body.has-mini main#view {
   display: flex; align-items: center; gap: 12px;
   padding: 8px 0; text-align: left; width: 100%; border-radius: 6px;
 }
+/* List rows reach 8px past the column on both sides, so their highlight doesn't end flush with the cover. */
+.list > .row { padding: 8px; margin: 0 -8px; width: calc(100% + 16px); }
+.row.track { cursor: pointer; }
 .row:active { background: var(--bg-2); }
 .row .meta { flex: 1; min-width: 0; }
 .row .t { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -89,18 +107,20 @@ body.has-mini main#view {
   background: var(--bg-3); display: block;
 }
 .cover.empty { display: grid; place-items: center; color: var(--muted); }
-.cover.grid { display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-.cover.grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cover.all-sounds {
-  display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--accent-2), #7b2cbf 55%, var(--accent-3));
-}
+/* Four equal quarters, whatever the covers' own shapes (TikTok thumbnails are portrait). */
+.cover.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); overflow: hidden; }
+.cover.grid img { width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: cover; display: block; }
+.cover.all-sounds { display: grid; place-items: center; background: var(--brand); }
 .cover.lg { width: 200px; height: 200px; border-radius: 6px; }
 .cover.xl { width: 200px; height: 200px; border-radius: 4px; box-shadow: 0 8px 40px rgba(0,0,0,.6); }
 .cover.xl svg, .cover.lg svg { width: 72px; height: 72px; }
 .track .cover { width: 48px; height: 48px; }
 
 .lib-actions { display: flex; gap: 8px; margin: 4px 0 12px; }
+.backup-nudge { background: var(--bg-2); border: 1px solid var(--bg-4); border-radius: 12px; padding: 14px 16px; margin: 4px 0 14px; }
+.backup-nudge p { color: var(--muted); font-size: 14px; line-height: 1.45; margin: 4px 0 0; }
+.backup-nudge .row-btns { margin-top: 12px; }
+.backup-nudge .btn { min-height: 44px; padding: 8px 18px; font-size: 14px; }
 .chip {
   display: inline-flex; align-items: center; gap: 6px;
   min-height: 40px; padding: 7px 14px 7px 10px; border-radius: 999px;
@@ -111,7 +131,10 @@ body.has-mini main#view {
 
 /* ---------- playlist header ---------- */
 .pl-header { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
-.pl-header h1 { align-self: stretch; font-size: 26px; margin: 20px 0 4px; font-weight: 800; letter-spacing: -.4px; word-break: break-word; }
+.pl-header h1 {
+  align-self: stretch; font-size: 26px; margin: 20px 0 4px; font-weight: 800; letter-spacing: -.4px; word-break: break-word;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
 .pl-header .s { align-self: stretch; color: var(--muted); font-size: 13px; }
 .pl-actions { align-self: stretch; display: flex; align-items: center; gap: 8px; margin: 12px 0 8px; }
 .pl-actions .grow { flex: 1; }
@@ -167,9 +190,13 @@ body.has-mini main#view {
 .error { background: #f15e6c22; border: 1px solid #f15e6c55; color: #ffb3ba; padding: 14px; border-radius: var(--radius); margin-top: 16px; line-height: 1.5; }
 .error .btn { display: block; margin-top: 12px; color: var(--text); }
 .note { background: var(--bg-3); color: var(--muted); padding: 10px 12px; border-radius: 6px; margin-top: 12px; font-size: 13px; }
-.preview { margin-top: 20px; padding: 16px; background: var(--bg-2); border-radius: 12px; }
+.note.warn { background: #4a3a1a; color: #eee; line-height: 1.45; margin: 4px 0 12px; font-size: 14px; }
+.empty-state .from-safari { margin: 28px 0 12px; font-size: 14px; }
+.preview { position: relative; margin-top: 20px; padding: 16px; background: var(--bg-2); border-radius: 12px; }
 .preview-top { position: relative; display: flex; justify-content: center; }
 .preview-top .play-btn { position: absolute; bottom: -12px; right: calc(50% - 112px); box-shadow: 0 4px 16px rgba(0,0,0,.5); }
+/* clear of the play button, which hangs 12px below the cover */
+.preview-top + .note { margin-top: 24px; }
 .pl-fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 /* floated so the legend lays out like the other .lbl captions instead of sitting in the border */
 .pl-fieldset legend { float: left; width: 100%; padding: 0; }
@@ -177,7 +204,7 @@ body.has-mini main#view {
 .pl-checks { display: flex; flex-wrap: wrap; gap: 8px; }
 .pl-check { position: relative; }
 .pl-check input { position: absolute; opacity: 0; pointer-events: none; }
-.pl-check span { display: inline-block; padding: 10px 14px; border-radius: 999px; background: var(--bg-3); font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+.pl-check span { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 999px; background: var(--bg-3); font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
 .pl-check input:checked + span { background: var(--accent); color: #000; }
 .pl-check input:focus-visible + span { border-color: #fff; }
 .saved { text-align: center; padding: 28px 0; display: flex; flex-direction: column; gap: 14px; align-items: center; }
@@ -210,14 +237,24 @@ body.has-mini main#view {
 /* ---------- tab bar ---------- */
 .tabbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 9;
-  height: calc(var(--tabbar-h) + var(--safe-b)); padding-bottom: var(--safe-b);
+  height: calc(var(--tabbar-h) + var(--safe-b));
+  /* the tabs sit under the content column on a wide screen */
+  padding: 0 max(0px, calc(50% - 360px)) var(--safe-b);
   display: flex; justify-content: space-around; align-items: center;
-  background: linear-gradient(to top, #000 55%, #000c 80%, transparent);
+  /* opaque, so list text doesn't run behind the icons; the fade above it eases the edge */
+  background: #000;
 }
+/* Black behind the bars floating above it too (mini player, update bar), so no list text shows in the
+   gaps between them; --above: how much of them there is. */
+.tabbar { --above: 0px; }
+body.has-mini .tabbar { --above: calc(var(--mini-h) + 6px); }
+body.has-update .tabbar { --above: calc(var(--update-h) + 6px); }
+body.has-update.has-mini .tabbar { --above: calc(var(--mini-h) + var(--update-h) + 12px); }
+.tabbar::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: calc(var(--above) + 24px); background: linear-gradient(to top, #000 var(--above), #0000); pointer-events: none; }
 .tabbar button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); padding: 6px 18px; }
 .tabbar button.active { color: var(--text); font-weight: 700; }
 .tabbar button.active::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: currentColor; }
-.tabbar .add-tab svg { background: linear-gradient(90deg, var(--accent-3), #fff 30%, #fff 70%, var(--accent-2)); color: #000; border-radius: 8px; width: 40px; height: 26px; padding: 2px 9px; }
+.tabbar .add-tab svg { background: var(--brand); color: #fff; border-radius: 8px; width: 40px; padding: 1px 9px; }
 
 /* ---------- full screen player ---------- */
 .player {
@@ -238,23 +275,39 @@ body.has-mini main#view {
 }
 .player-top { display: flex; align-items: center; justify-content: space-between; }
 .player-context { font-size: 12px; font-weight: 700; text-align: center; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 8px; }
+.player-inner > * { flex: none; }
+/* Square, and only as big as the height leaves room for (--rest: the rest of the player), so a short
+   screen doesn't push the controls off the bottom. svh: the height while Safari shows its toolbars. */
+.player-inner { --rest: 340px; }
 .player-cover {
-  width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px;
-  margin: auto 0; max-height: 50vh; box-shadow: 0 16px 60px rgba(0,0,0,.6); background: var(--bg-3);
+  width: max(120px, min(100%, calc(100vh - var(--rest) - var(--safe-t) - var(--safe-b))));
+  height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 8px;
+  align-self: center; margin: auto 0; box-shadow: 0 16px 60px rgba(0,0,0,.6); background: var(--bg-3);
+}
+@supports (height: 100svh) {
+  .player-cover { width: max(120px, min(100%, calc(100svh - var(--rest) - var(--safe-t) - var(--safe-b)))); }
 }
 .player-meta { margin-top: 24px; }
 .player-title { font-size: 22px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .player-artist { color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* A 44px tall touch target around the 4px track; the negative bottom margin keeps the layout as it
+   was, and z-index keeps the time labels from taking taps on its lower part. */
 #seek {
-  -webkit-appearance: none; appearance: none; width: 100%; height: 20px; margin: 18px 0 0; background: transparent; cursor: pointer;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 6px 0 -12px; background: transparent; cursor: pointer;
+  position: relative; z-index: 1;
   --fill: 0%;
 }
 #seek::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, #fff var(--fill), #ffffff44 var(--fill)); }
-#seek::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; margin-top: -5px; }
+#seek::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; margin-top: -5px; transition: transform .1s; }
+#seek:active::-webkit-slider-thumb { transform: scale(1.3); }
 #seek::-moz-range-track { height: 4px; border-radius: 2px; background: #ffffff44; }
 #seek::-moz-range-progress { height: 4px; border-radius: 2px; background: #fff; }
 #seek::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: #fff; }
+/* Keyboard focus rings the thumb: an outline would frame the whole 44px box and cut through the times. */
+#seek:focus-visible { outline: none; }
+#seek:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; }
+#seek:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; }
 .times { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 2px; font-variant-numeric: tabular-nums; }
 .controls { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
 .controls .play-btn { width: 66px; height: 66px; }
@@ -262,6 +315,28 @@ body.has-mini main#view {
 .repeat-one { position: absolute; top: 8px; right: 6px; font-size: 9px; font-weight: 800; background: var(--accent); color: #000; border-radius: 50%; width: 13px; height: 13px; display: grid; place-items: center; }
 .open-tiktok { display: block; align-self: center; padding: 14px 16px; text-align: center; color: var(--muted); font-size: 13px; margin-top: 10px; text-decoration: none; }
 .open-tiktok:active { color: var(--text); }
+/* A small phone, or Safari's toolbars: tighter spacing leaves more room for the cover. */
+@media (max-height: 640px) {
+  .player-inner { --rest: 310px; padding-bottom: calc(16px + var(--safe-b)); }
+  .player-meta { margin-top: 16px; }
+  .controls { margin-top: 8px; }
+  .open-tiktok { margin-top: 2px; padding: 10px 16px; }
+}
+/* A phone on its side (iOS ignores the manifest's orientation): cover on the left, controls on the right. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .player-inner {
+    max-width: 820px; display: grid; grid-template-columns: auto 1fr; column-gap: 32px; align-content: center;
+    grid-template-areas: "top top" "cover meta" "cover seek" "cover times" "cover controls" "cover link";
+    padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right));
+  }
+  .player-top { grid-area: top; }
+  .player-cover { grid-area: cover; width: auto; height: min(62vh, 280px); max-height: none; margin: 0; align-self: center; }
+  .player-meta { grid-area: meta; margin-top: 0; align-self: end; min-width: 0; }
+  #seek { grid-area: seek; }
+  .times { grid-area: times; }
+  .controls { grid-area: controls; margin-top: 4px; }
+  .open-tiktok { grid-area: link; margin-top: 0; padding: 8px 16px; }
+}
 
 /* ---------- sheet ---------- */
 .sheet-backdrop {
@@ -270,25 +345,32 @@ body.has-mini main#view {
 }
 .sheet-backdrop.open { background: rgba(0,0,0,.6); }
 .sheet {
-  width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
+  width: 100%; max-width: 560px; max-height: 85vh; max-height: 85dvh; overflow-y: auto;
   background: #282828; border-radius: 14px 14px 0 0;
   padding: 8px 16px calc(16px + var(--safe-b));
   transform: translateY(100%); transition: transform .2s ease;
 }
 .sheet-backdrop.open .sheet { transform: none; }
+/* being dragged down by its handle (or anywhere, once scrolled to the top) */
+.sheet-backdrop.open .sheet.dragging { transition: none; }
 .sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: #555; margin: 4px auto 12px; }
 .sheet-title { font-weight: 800; font-size: 17px; margin-bottom: 4px; word-break: break-word; }
 .sheet-sub { color: var(--muted); font-size: 14px; margin-bottom: 8px; line-height: 1.45; }
 .sheet-list { display: flex; flex-direction: column; margin-top: 8px; }
-.sheet-item { display: flex; align-items: center; gap: 14px; padding: 14px 4px; text-align: left; font-size: 16px; border-radius: 6px; }
+.sheet-item { display: flex; align-items: center; gap: 14px; padding: 14px 8px; text-align: left; font-size: 16px; border-radius: 6px; }
 .sheet-item:active { background: #3a3a3a; }
 .sheet-item.danger { color: var(--danger); }
 .sheet-item.sheet-cancel { justify-content: center; color: var(--muted); font-weight: 600; margin-top: 4px; }
-.sheet-item svg { width: 22px; height: 22px; color: var(--muted); }
+/* every item has one, so the labels line up */
+.sheet-ic { width: 22px; height: 22px; flex: none; color: var(--muted); }
+.sheet-item.danger .sheet-ic { color: inherit; }
+.sheet-item svg { width: 22px; height: 22px; }
+/* a toggle item that is on (a playlist that already holds the sound) */
+.sheet-check { margin-left: auto; color: var(--accent); flex: none; }
 .sheet-form .input { margin-top: 8px; }
 .row-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
 .saved .row-btns { justify-content: center; }
-.pick { max-height: 55vh; overflow-y: auto; }
+.pick { max-height: 55vh; max-height: 55dvh; overflow-y: auto; }
 .pick-row { position: relative; cursor: pointer; padding: 8px 4px; }
 .pick-row .cover { width: 44px; height: 44px; }
 /* the hidden checkbox covers the row, so a screen reader's focus outline frames the whole row */
@@ -298,19 +380,76 @@ body.has-mini main#view {
 .pick-row .check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #777; flex: none; }
 .pick-row input:checked + .check { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 4px #282828; }
 
+.about p { color: #ddd; line-height: 1.5; margin: 10px 0; font-size: 14px; }
+.about b { color: #fff; }
+
+/* ---------- update bar ---------- */
+.update-bar {
+  position: fixed; left: 8px; right: 8px; z-index: 11; max-width: 704px; margin: 0 auto;
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 6px);
+  display: flex; align-items: center; gap: 6px; padding: 6px 4px 6px 14px; min-height: var(--update-h);
+  background: #3e3e3e; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.5); font-size: 14px; font-weight: 600;
+}
+body.has-mini .update-bar { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 12px); }
+.update-bar span { flex: 1; min-width: 0; }
+.update-bar .btn { padding: 8px 16px; min-height: 40px; font-size: 14px; }
+body.has-update .toast { bottom: calc(var(--tabbar-h) + var(--safe-b) + 66px); }
+body.has-update.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 76px); }
+
 /* ---------- toast ---------- */
 .toast {
-  position: fixed; left: 50%; transform: translateX(-50%); z-index: 40;
-  bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 20px);
+  /* centred by its margins, not left: 50%, which would cap its width at half the screen */
+  position: fixed; left: 16px; right: 16px; margin: 0 auto; z-index: 40;
+  width: -webkit-fit-content; width: fit-content; max-width: 480px;
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
   background: #fff; color: #000; padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 14px;
-  max-width: calc(100% - 32px); box-shadow: 0 6px 20px rgba(0,0,0,.4); text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.4); text-align: center;
   pointer-events: none; opacity: 0; transition: opacity .2s;
 }
+/* Clear of whatever sits above the tab bar; in the full player, at the top, off the controls. */
+body.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 18px); }
+body.player-open .toast, body.player-open.has-update.has-mini .toast { top: calc(var(--safe-t) + 64px); bottom: auto; }
+/* A phone on its side centres the player's content, so its top row isn't at the top: below it instead. */
+@media (orientation: landscape) and (max-height: 520px) {
+  body.player-open .toast, body.player-open.has-update.has-mini .toast { top: auto; bottom: calc(8px + var(--safe-b)); }
+}
+/* An open sheet covers the bottom of the screen (and the player's top bar): the toast goes above it. */
+body.sheet-open .toast, body.sheet-open.has-update.has-mini .toast { top: calc(var(--safe-t) + 12px); bottom: auto; }
 .toast.show { opacity: 1; }
 .toast.error { box-shadow: inset 4px 0 0 var(--danger), 0 6px 20px rgba(0,0,0,.4); }
 
 @media (min-width: 760px) {
   .cover.xl { width: 232px; height: 232px; }
+}
+/* a phone on its side: the playlist cover mustn't fill the whole screen */
+@media (max-height: 520px) {
+  .cover.xl { width: 140px; height: 140px; }
+}
+/* A wide screen: sheets open as dialogs in the middle instead of hanging off the bottom edge. */
+@media (min-width: 760px) and (min-height: 560px) {
+  .sheet-backdrop { align-items: center; padding: 24px; }
+  .sheet { border-radius: 14px; padding-top: 20px; opacity: 0; transform: translateY(24px); transition: transform .2s ease, opacity .2s ease; }
+  .sheet-backdrop.open .sheet { opacity: 1; }
+  .sheet-handle { display: none; }
+}
+
+/* ---------- mouse ---------- */
+/* Hover only where there is a real pointer: on a touch screen it would stick after a tap. */
+@media (hover: hover) {
+  .row:hover, .pick-row:hover { background: #ffffff0d; }
+  .icon-btn:hover { background: #ffffff17; }
+  .chip:hover, .pl-check span:hover { background: var(--bg-4); }
+  .pl-check input:checked + span:hover { background: #3be477; }
+  .sheet-item:hover { background: #333; }
+  .tabbar button:hover { color: var(--text); }
+  .btn.primary:not(:disabled):hover { background: #f0f0f0; }
+  .btn.ghost:not(:disabled):hover { border-color: #fff; }
+  .btn.danger:not(:disabled):hover { filter: brightness(1.1); }
+  .play-btn:not(:disabled):hover { transform: scale(1.05); }
+  .play-btn.green:not(:disabled):hover { background: #3be477; }
+  .link-btn:hover, .open-tiktok:hover { color: var(--text); text-decoration: underline; }
+  .tips summary:hover { color: var(--text); }
+  .mini-open:hover .mini-title { text-decoration: underline; }
 }
 
 /* ---------- install prompt ---------- */
@@ -325,11 +464,32 @@ body.has-mini main#view {
 .install-steps li { margin: 6px 0; }
 .inline-ic { display: inline-block; width: 18px; height: 18px; vertical-align: -3px; color: #4ea1ff; }
 .install .btn.wide { margin-top: 12px; }
-.install .btn.ghost { border: 0; color: var(--muted); }
+.install .btn.ghost.wide { border: 0; color: var(--muted); }
+.install-none { color: var(--muted); line-height: 1.5; margin: 12px 0 0; }
+.install-warn { align-self: stretch; text-align: left; margin: 12px 0 0; padding: 12px 14px; border-radius: 10px; line-height: 1.45; font-size: 14px; color: #ddd; background: #4a3a1a; border: 1px solid #8a6a2a; }
+.install-warn b { color: #fff; }
+.install-warn .btn { display: flex; margin-top: 10px; min-height: 44px; padding: 8px 18px; font-size: 14px; }
+/* The buttons stay in view while the rest scrolls on a short screen (iPhone SE, Safari's toolbars). */
+.install-actions {
+  align-self: stretch; position: sticky; bottom: calc(-16px - var(--safe-b)); z-index: 1;
+  margin: 4px -16px calc(-16px - var(--safe-b)); padding: 0 16px calc(12px + var(--safe-b));
+  background: linear-gradient(to bottom, #28282800, #282828 16px);
+}
+@media (max-height: 700px) {
+  .install-icon { width: 56px; height: 56px; border-radius: 14px; }
+  .install-badge { display: none; }
+  .install .sheet-title.center { margin-top: 10px; font-size: 18px; }
+  .install-perks { margin-top: 6px; }
+  .install-perks li { padding: 4px 0 4px 30px; font-size: 14px; }
+  .install-perks li:nth-child(n+3) { display: none; }
+}
+@media (max-height: 600px) {
+  .install-perks { display: none; }
+}
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .player, .sheet, .sheet-backdrop, .play-btn, .btn, .toast { transition: none !important; }
-  .play-btn:active, .btn:active { transform: none; }
+  .player, .sheet, .sheet-backdrop, .play-btn, .btn, .toast, .topbar h1 { transition: none !important; }
+  .play-btn:active, .btn:active, .play-btn:not(:disabled):hover { transform: none; }
   .spinner { animation-duration: 1.6s; }
 }

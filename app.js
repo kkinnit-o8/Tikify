@@ -20,7 +20,28 @@ const ICON = {
   heart: '<svg viewBox="0 0 24 24"><path d="M12 21 10.6 19.7C5.4 15 2 11.9 2 8.1 2 5 4.4 2.6 7.5 2.6c1.7 0 3.4.8 4.5 2.1a6 6 0 0 1 4.5-2.1C19.6 2.6 22 5 22 8.1c0 3.8-3.4 6.9-8.6 11.6z"/></svg>',
   paste: '<svg viewBox="0 0 24 24"><path d="M16 3h-2.2a2 2 0 0 0-3.6 0H8a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4 17H8V5h1v2h6V5h1z"/></svg>',
   gear: '<svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.3 2.9a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1L11 21h4l.3-2.9a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg>',
+  // menu items
+  next: '<svg viewBox="0 0 24 24"><path d="M3 5h13v2H3zm0 5h13v2H3zm0 5h8v2H3zm11-1v6l5-3z"/></svg>',
+  playlist: '<svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 4h12v2H3zm0 4h8v2H3zm14-8h4v2h-2v8a3 3 0 1 1-2-2.8z"/></svg>',
+  playlistAdd: '<svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 4h12v2H3zm0 4h8v2H3zm14 0v-3h2v3h3v2h-3v3h-2v-3h-3v-2z"/></svg>',
+  edit: '<svg viewBox="0 0 24 24"><path d="M3 17.3V21h3.7L17.8 9.9l-3.7-3.7zM20.7 7a1 1 0 0 0 0-1.4l-2.3-2.3a1 1 0 0 0-1.4 0l-1.8 1.8 3.7 3.7z"/></svg>',
+  up: '<svg viewBox="0 0 24 24"><path d="M11 20V7.8l-5.6 5.6L4 12l8-8 8 8-1.4 1.4L13 7.8V20z"/></svg>',
+  down: '<svg viewBox="0 0 24 24"><path d="M13 4v12.2l5.6-5.6L20 12l-8 8-8-8 1.4-1.4 5.6 5.6V4z"/></svg>',
+  remove: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zM7 11h10v2H7z"/></svg>',
+  open: '<svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3z"/></svg>',
+  trash: '<svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"/></svg>',
+  download: '<svg viewBox="0 0 24 24"><path d="M11 4h2v8.2l3.6-3.6L18 10l-6 6-6-6 1.4-1.4 3.6 3.6zM5 18h14v2H5z"/></svg>',
+  upload: '<svg viewBox="0 0 24 24"><path d="M11 16h2V7.8l3.6 3.6L18 10l-6-6-6 6 1.4 1.4L11 7.8zM5 18h14v2H5z"/></svg>',
+  info: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm-1 3h2v2h-2zm0 4h2v6h-2z"/></svg>',
+  install: '<svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h10V4zm4 2h2v6.2l2.1-2.1 1.4 1.4-4.5 4.5-4.5-4.5 1.4-1.4 2.1 2.1z"/></svg>',
+  check: '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>',
 };
+// Decoration only: whatever shows an icon has a text or label of its own, so screen readers skip it.
+for (const k in ICON) ICON[k] = ICON[k].replace('<svg ', '<svg aria-hidden="true" ');
+
+// Mobile Safari applies :active (the press feedback on every button and row) only to elements under a
+// touch listener. This one does nothing else.
+document.addEventListener('touchstart', () => {}, { passive: true });
 
 // ---------- state ----------
 const state = {
@@ -28,6 +49,7 @@ const state = {
   playlists: [],       // [{ id, name, soundIds, createdAt }]
   queue: [],           // sound ids in play order
   baseQueue: [],       // queue before shuffling
+  upNext: [],          // put up next with 'Play next' and not played yet: they stay next when shuffle changes
   index: -1,
   contextId: '',       // what is playing: 'all', 'pl:<playlist id>', 'search', 'queue' or 'added'
   context: '',         // its name when playback started ("Gym"); see contextLabel()
@@ -36,13 +58,76 @@ const state = {
 };
 
 const coverUrls = new Map(); // sound id -> object URL
+// Stands in for a missing cover: the app's own art, full bleed, so it fills a square like a cover does.
+const NO_COVER = 'icons/maskable-512.png';
+// A cover that can't load (an expired TikTok link, offline) shows NO_COVER instead of a broken image.
+document.addEventListener('error', (e) => {
+  const img = e.target;
+  if (img.tagName === 'IMG' && !img.src.endsWith(NO_COVER)) img.src = NO_COVER;
+}, true);
 function coverSrc(sound) {
-  if (!sound) return 'icons/icon-192.png';
+  if (!sound) return NO_COVER;
   if (sound.coverBlob) {
     if (!coverUrls.has(sound.id)) coverUrls.set(sound.id, URL.createObjectURL(sound.coverBlob));
     return coverUrls.get(sound.id);
   }
-  return sound.coverUrl || 'icons/icon-192.png';
+  return sound.coverUrl || NO_COVER;
+}
+
+// Artwork for the full player and the lock screen, which show it square. A TikTok video thumbnail
+// (3:4 or 9:16) is shown whole on a blurred copy of itself, not cropped to its middle (which often
+// cuts off a head) and blown up; a cover that can't load is replaced by NO_COVER. Made once per
+// sound and session; null while it is being made.
+const artworks = new Map(); // sound id -> { src, sizes?, type? } | null, least recently used first
+function artwork(sound) {
+  const art = artworks.get(sound.id);
+  if (art) { artworks.delete(sound.id); artworks.set(sound.id, art); return art; }
+  if (art === undefined) {
+    artworks.set(sound.id, null);
+    squareArt(coverSrc(sound), sound.coverBlob && sound.coverBlob.type).then((made) => {
+      // Deleted meanwhile.
+      if (artworks.get(sound.id) !== null) return made.made && URL.revokeObjectURL(made.src);
+      artworks.set(sound.id, made);
+      while (artworks.size > 30) dropArtwork(artworks.keys().next().value); // a day on shuffle
+      if (currentId() === sound.id) updateNowPlaying();
+    });
+  }
+  return null;
+}
+function dropArtwork(id) {
+  const art = artworks.get(id);
+  if (art && art.made) URL.revokeObjectURL(art.src);
+  artworks.delete(id);
+}
+async function squareArt(src, type) {
+  const img = new Image();
+  img.src = src;
+  try { await img.decode(); } catch { return { src: NO_COVER, sizes: '512x512', type: 'image/png' }; }
+  try {
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+    if (Math.abs(w - h) <= Math.max(w, h) * 0.05) return { src, sizes: `${w}x${h}`, type };
+    const side = Math.min(1024, Math.max(w, h)); // the picture itself is never enlarged
+    const c = document.createElement('canvas');
+    c.width = c.height = side;
+    const g = c.getContext('2d');
+    // The background: the picture shrunk to a few pixels and stretched to the square, i.e. blurred
+    // (canvas filters aren't in every Safari), so its edges seem to carry on to the sides.
+    const tiny = document.createElement('canvas');
+    tiny.width = tiny.height = 10;
+    tiny.getContext('2d').drawImage(img, 0, 0, 10, 10);
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(tiny, 0, 0, side, side);
+    g.fillStyle = 'rgba(0, 0, 0, .25)';
+    g.fillRect(0, 0, side, side);
+    const k = side / Math.max(w, h);
+    g.drawImage(img, (side - w * k) / 2, (side - h * k) / 2, w * k, h * k);
+    const blob = await new Promise((res) => c.toBlob(res, 'image/jpeg', 0.9));
+    if (!blob) throw new Error('toBlob');
+    return { src: URL.createObjectURL(blob), sizes: `${side}x${side}`, type: 'image/jpeg', made: true };
+  } catch {
+    return { src, type }; // as it is (a cover still on TikTok's servers can't be drawn on)
+  }
 }
 
 // ---------- record validation ----------
@@ -74,6 +159,7 @@ function cleanSound(s) {
     audioUrl: webUrl(s.audioUrl),
     sourceUrl: webUrl(s.sourceUrl, TIKTOK_HOST),
     tiktokId: clipText(s.tiktokId, 40) || null,
+    musicId: clipText(s.musicId, 40) || null,
     duration: Number.isFinite(s.duration) && s.duration > 0 ? s.duration : 0,
     addedAt: Number.isFinite(s.addedAt) ? s.addedAt : Date.now(),
   };
@@ -102,7 +188,16 @@ async function loadAll() {
   for (const raw of rawSounds) {
     const id = idOf(raw.id);
     if (!id) continue;
-    const s = { ...raw, id, coverUrl: webUrl(raw.coverUrl), audioUrl: webUrl(raw.audioUrl), sourceUrl: webUrl(raw.sourceUrl, TIKTOK_HOST) };
+    const s = {
+      ...raw,
+      id,
+      title: typeof raw.title === 'string' ? raw.title : clipText(raw.title, 150) || 'TikTok sound',
+      artist: typeof raw.artist === 'string' ? raw.artist : clipText(raw.artist, 150) || 'Unknown',
+      coverUrl: webUrl(raw.coverUrl),
+      audioUrl: webUrl(raw.audioUrl),
+      sourceUrl: webUrl(raw.sourceUrl, TIKTOK_HOST),
+      addedAt: Number.isFinite(raw.addedAt) ? raw.addedAt : 0,
+    };
     if (id !== raw.id) rekeyed.push([raw.id, s]);
     sounds.set(id, s);
   }
@@ -202,9 +297,16 @@ function focusRef(el) {
 function restoreFocus(ref) {
   if (!ref) return false;
   const el = ref.el.isConnected ? ref.el : ref.sel && document.querySelector(ref.sel);
-  if (!el || el.closest('[inert]') || !el.getClientRects().length) return false;
+  // A closing player stays on screen while it slides away: its controls don't count.
+  if (!el || el.closest('[inert]') || !el.getClientRects().length || (!playerOpen && el.closest('#player'))) return false;
   el.focus();
   return document.activeElement === el;
+}
+// Where focus goes when the control it should return to is gone (e.g. its row was deleted).
+function focusFallback() {
+  const el = playerOpen ? $('#playerClose') : $('#view .pl-header h1') || $('#viewTitle');
+  el.tabIndex = -1;
+  el.focus({ preventScroll: true });
 }
 
 // Open overlays that own a history entry, bottom to top ('player' | 'sheet'). The entry lets the
@@ -253,6 +355,7 @@ function releaseDone() {
 function syncInert() {
   $('#app').inert = sheetActive || playerOpen;
   $('#player').inert = sheetActive;
+  document.body.classList.toggle('sheet-open', sheetActive); // moves the toast off the sheet
 }
 
 let sheetResolve = null;
@@ -270,6 +373,9 @@ function openSheet(html, onMount) {
   if (title) { title.id = 'sheetTitle'; sheet.setAttribute('aria-labelledby', 'sheetTitle'); }
   else sheet.removeAttribute('aria-labelledby');
   backdrop.hidden = false;
+  // The element is shared: a new sheet mustn't open scrolled to where the last one was left. (Once
+  // shown: a hidden element ignores this and gets its old offset back.)
+  sheet.scrollTop = 0;
   requestAnimationFrame(() => backdrop.classList.add('open'));
   sheetActive = true;
   holdOverlay('sheet');
@@ -294,7 +400,7 @@ function closeSheet(value) {
   // After the caller had its turn: it may open another sheet or a new view that takes focus.
   setTimeout(() => {
     const a = document.activeElement;
-    if (!sheetActive && (!a || a === document.body || backdrop.contains(a))) restoreFocus(sheetReturn);
+    if (!sheetActive && (!a || a === document.body || backdrop.contains(a))) restoreFocus(sheetReturn) || focusFallback();
   }, 0);
   const r = sheetResolve;
   sheetResolve = null;
@@ -304,15 +410,60 @@ $('#sheetBackdrop').addEventListener('click', (e) => {
   if (e.target.id === 'sheetBackdrop') closeSheet(null);
 });
 
-// Menu: items = [{ label, value, danger?, icon? }]. A Cancel item is added unless one item already
-// dismisses (value null): screen reader and switch users can't tap the backdrop.
+// Drag a sheet down to close it, by its handle or anywhere while its content is scrolled to the top.
+// It follows the finger; let go a third of the way down (or flick it) and it closes, else it springs back.
+(() => {
+  const sheet = $('#sheet');
+  let drag = null;
+  sheet.addEventListener('touchstart', (e) => {
+    drag = null;
+    const list = e.target.closest('.pick');
+    if (e.touches.length !== 1 || e.target.closest('input, textarea') || sheet.scrollTop > 0 || (list && list.scrollTop > 0)) return;
+    drag = { x: e.touches[0].clientX, y: e.touches[0].clientY, on: false, dy: 0, at: 0, v: 0 };
+  }, { passive: true });
+  sheet.addEventListener('touchmove', (e) => {
+    if (!drag) return;
+    const t = e.touches[0];
+    const dy = t.clientY - drag.y;
+    if (!drag.on) {
+      // Not before it is clearly a downward drag: until then it may be a tap or a scroll.
+      if (dy < -4 || Math.abs(t.clientX - drag.x) > Math.max(10, dy)) { drag = null; return; }
+      if (dy < 10) return;
+      drag.on = true;
+      sheet.classList.add('dragging');
+    }
+    const now = Date.now();
+    const to = Math.max(0, dy - 10);
+    if (drag.at) drag.v = (to - drag.dy) / Math.max(1, now - drag.at); // px/ms, of the latest move
+    drag.dy = to;
+    drag.at = now;
+    sheet.style.transform = `translateY(${to}px)`;
+    if (e.cancelable) e.preventDefault(); // the sheet moves, not its content
+  }, { passive: false });
+  const end = (e) => {
+    const d = drag;
+    drag = null;
+    if (!d || !d.on) return;
+    sheet.classList.remove('dragging');
+    sheet.style.transform = '';
+    const flick = d.dy > 30 && d.v > 0.5 && Date.now() - d.at < 100; // still moving when let go
+    if (e.type === 'touchend' && (d.dy > sheet.offsetHeight / 3 || flick)) closeSheet(null);
+  };
+  sheet.addEventListener('touchend', end);
+  sheet.addEventListener('touchcancel', end);
+})();
+
+// Menu: items = [{ label, value, danger?, icon?, pressed? }]; `pressed` makes an item a toggle,
+// ticked when true. A Cancel item is added unless one item already dismisses (value null): screen
+// reader and switch users can't tap the backdrop.
 function sheetMenu(title, items, sub = '') {
   const cancel = items.some((it) => it.value == null) ? '' : '<button class="sheet-item sheet-cancel" data-cancel>Cancel</button>';
+  const toggle = (it) => (it.pressed == null ? '' : ` aria-pressed="${!!it.pressed}"`);
   const html = `
     ${title ? `<div class="sheet-title">${esc(title)}</div>` : ''}
     ${sub ? `<div class="sheet-sub">${esc(sub)}</div>` : ''}
     <div class="sheet-list">
-      ${items.map((it, i) => `<button class="sheet-item ${it.danger ? 'danger' : ''}" data-i="${i}">${it.icon || ''}<span>${esc(it.label)}</span></button>`).join('')}
+      ${items.map((it, i) => `<button class="sheet-item ${it.danger ? 'danger' : ''}" data-i="${i}"${toggle(it)}><span class="sheet-ic">${it.icon || ''}</span><span>${esc(it.label)}</span>${it.pressed ? `<span class="sheet-check">${ICON.check}</span>` : ''}</button>`).join('')}
       ${cancel}
     </div>`;
   return openSheet(html, (sheet, close) => {
@@ -395,8 +546,9 @@ async function deleteSound(id) {
   });
   state.sounds.delete(id);
   if (coverUrls.has(id)) { URL.revokeObjectURL(coverUrls.get(id)); coverUrls.delete(id); }
+  dropArtwork(id);
   for (const [p, soundIds] of touched) p.soundIds = soundIds;
-  if (ahead && ahead.id === id) dropAhead();
+  if (aheadId === id) dropAhead();
   if (!state.queue.includes(id)) return;
   // Every copy leaves the queue. If it was playing, the sound after it takes its place.
   const wasCurrent = currentId() === id;
@@ -404,20 +556,25 @@ async function deleteSound(id) {
   state.index -= state.queue.slice(0, state.index).filter((x) => x === id).length;
   state.queue = state.queue.filter((x) => x !== id);
   state.baseQueue = state.baseQueue.filter((x) => x !== id);
+  state.upNext = state.upNext.filter((x) => x !== id);
   if (!state.queue.length) stopPlayer();
-  else if (!wasCurrent) saveSession();
+  else if (!wasCurrent) { saveSession(); readAhead(); }
   else if (state.index < state.queue.length) loadIndex(state.index, wasPlaying);
   else loadIndex(0, wasPlaying && state.repeat === 'all'); // it was the last one: back to the top
 }
 
-// Save a looked-up TikTok sound into the library.
-async function saveSound(info, { title, artist }, audioBlob) {
+// Save a looked-up TikTok sound into the library. The audio has to download (it is the offline
+// copy), unless `stream` is set: then nothing is downloaded and the sound plays from its link until
+// fillIn() gets it. `cover`: the cover's download, if one is already under way.
+async function saveSound(info, { title, artist }, { stream = false, cover, onProgress } = {}) {
   const id = uid();
-  let coverBlob = null;
-  try { coverBlob = await TikTok.downloadBlob(info.coverUrl); } catch { /* fall back to URL */ }
-  if (!audioBlob) {
-    try { audioBlob = await TikTok.downloadBlob(info.audioUrl); } catch { /* stream from URL instead */ }
-  }
+  cover = cover || downloadCover(info.coverUrls || [info.coverUrl]);
+  // Both at once. A missing cover never stops the save, and a stream save only takes it if it's
+  // (nearly) there: that save comes after a download that failed, and the cover's may hang too.
+  const [coverBlob, audioBlob] = await Promise.all([
+    stream ? Promise.race([cover, new Promise((r) => setTimeout(r, 1500, null))]) : cover,
+    stream ? null : downloadAudio(info.audioUrl, onProgress),
+  ]);
   const sound = {
     id,
     title: title || info.title,
@@ -427,6 +584,7 @@ async function saveSound(info, { title, artist }, audioBlob) {
     audioUrl: audioBlob ? null : webUrl(info.audioUrl),
     sourceUrl: webUrl(info.sourceUrl, TIKTOK_HOST),
     tiktokId: info.tiktokId,
+    musicId: info.musicId || null,
     duration: info.duration,
     addedAt: Date.now(),
   };
@@ -437,7 +595,80 @@ async function saveSound(info, { title, artist }, audioBlob) {
     if (audioBlob) t.objectStore('audio').put({ id, blob: audioBlob });
   });
   state.sounds.set(id, sound);
+  if (state.sounds.size === 1) keepStorage();
   return sound;
+}
+
+// One retry: a phone switching between Wi-Fi and mobile data often drops the first attempt.
+async function downloadAudio(url, onProgress) {
+  try {
+    return await TikTok.downloadBlob(url, { onProgress });
+  } catch {
+    await new Promise((r) => setTimeout(r, 1000));
+    return TikTok.downloadBlob(url, { onProgress });
+  }
+}
+
+// Tries each cover link in turn (signed CDN links fail now and then); null if none works.
+async function downloadCover(urls) {
+  for (const url of urls) {
+    if (!webUrl(url)) continue;
+    try { return await TikTok.downloadBlob(url, { kind: 'image' }); } catch { /* the next one */ }
+  }
+  return null;
+}
+
+// A sound saved without its cover, or without its audio (by choice), gets them the first time it
+// plays online: TikTok's links expire within days, and the stored copies are what work offline.
+const filledIn = new Set(); // tried this session
+async function fillIn(sound) {
+  const needAudio = !!sound.audioUrl;
+  const needCover = !sound.coverBlob;
+  if ((!needAudio && !needCover) || filledIn.has(sound.id) || repairing.has(sound.id)) return;
+  filledIn.add(sound.id);
+  let audioBlob = null;
+  let coverBlob = null;
+  try {
+    [audioBlob, coverBlob] = await Promise.all([
+      needAudio ? TikTok.downloadBlob(sound.audioUrl).catch(() => null) : null,
+      needCover ? downloadCover([sound.coverUrl]) : null,
+    ]);
+    // The cover link has expired (the audio one may have too): a new lookup has fresh ones.
+    if (needCover && !coverBlob && sound.sourceUrl) {
+      const info = await TikTok.lookup(sound.sourceUrl);
+      coverBlob = await downloadCover(info.coverUrls);
+      if (needAudio && !audioBlob) audioBlob = await TikTok.downloadBlob(info.audioUrl).catch(() => null);
+    }
+  } catch { /* offline, or the TikTok is gone: the sound stays as it is */ }
+  if ((!audioBlob && !coverBlob) || state.sounds.get(sound.id) !== sound) return;
+  const changes = {};
+  if (coverBlob) changes.coverBlob = coverBlob;
+  if (audioBlob) changes.audioUrl = null;
+  // Only if the sound is still stored, in the same transaction: a delete meanwhile must win.
+  let stored = false;
+  await DB.tx(['sounds', 'audio'], 'readwrite', (t) => {
+    const ss = t.objectStore('sounds');
+    ss.get(sound.id).onsuccess = (e) => {
+      if (!e.target.result) return;
+      stored = true;
+      ss.put({ ...sound, ...changes });
+      if (audioBlob) t.objectStore('audio').put({ id: sound.id, blob: audioBlob });
+    };
+  }).catch(() => {});
+  if (!stored || state.sounds.get(sound.id) !== sound) return;
+  Object.assign(sound, changes);
+  if (!coverBlob) return;
+  dropArtwork(sound.id);
+  if (currentId() === sound.id) updateNowPlaying();
+  render();
+}
+
+// Asks the browser not to clear the library when the device runs low on space. Only once there
+// is something to keep (by then the browser is also more likely to agree; Firefox asks the user).
+function keepStorage() {
+  const st = navigator.storage;
+  if (!st || !st.persist || !state.sounds.size) return;
+  st.persisted().then((kept) => kept || st.persist()).catch(() => {});
 }
 
 // A friendly explanation for a storage error (see db.js), for toasts.
@@ -452,7 +683,9 @@ function storageMessage(err) {
 DB.onblocked = () => toast('Close other Tikify tabs or windows to finish updating', { error: true });
 // Safety net: a storage failure no code path handled still gets explained instead of vanishing.
 window.addEventListener('unhandledrejection', (e) => {
-  if (e.reason && e.reason.storage) toast(storageMessage(e.reason), { error: true });
+  if (!e.reason || !e.reason.storage) return;
+  toast(storageMessage(e.reason), { error: true });
+  e.preventDefault(); // explained, so not an uncaught error
 });
 
 // ---------- routing ----------
@@ -509,11 +742,19 @@ window.addEventListener('hashchange', () => {
   if (location.hash !== lastRoute) render();
 });
 
-function setTop(title, { back = false, menu = null } = {}) {
+// `scrollTitle`: the view names itself in a heading of its own (a playlist); the bar shows the title
+// only once that heading has scrolled out of sight (see watchHeading), and screen readers skip it.
+let headingWatch = null;
+function setTop(title, { back = false, menu = null, scrollTitle = false } = {}) {
   const h1 = $('#viewTitle');
+  const bar = $('.topbar');
+  // A refresh of the same view keeps the title as it is, so it doesn't blink.
+  const same = scrollTitle && bar.classList.contains('scroll-title') && h1.textContent === title;
   h1.textContent = title;
-  // Playlist views name themselves in their own <h2>; an empty <h1> would be read as a blank heading.
-  if (title) h1.removeAttribute('aria-hidden'); else h1.setAttribute('aria-hidden', 'true');
+  if (scrollTitle) h1.setAttribute('aria-hidden', 'true'); else h1.removeAttribute('aria-hidden');
+  bar.classList.toggle('scroll-title', scrollTitle);
+  if (!same) bar.classList.toggle('title-hidden', scrollTitle);
+  if (headingWatch) { headingWatch.disconnect(); headingWatch = null; }
   $('#backBtn').hidden = !back;
   const mb = $('#menuBtn');
   mb.hidden = !menu;
@@ -524,6 +765,16 @@ function setTop(title, { back = false, menu = null } = {}) {
     b.classList.toggle('active', on);
     if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
   });
+}
+function watchHeading(heading) {
+  const bar = $('.topbar');
+  if (!('IntersectionObserver' in window)) return bar.classList.remove('title-hidden');
+  const io = new IntersectionObserver((entries) => {
+    // (not a late call for a view that has since been left)
+    if (headingWatch === io) bar.classList.toggle('title-hidden', entries[entries.length - 1].isIntersecting);
+  }, { root: $('#view') });
+  headingWatch = io;
+  io.observe(heading);
 }
 $('#backBtn').onclick = () => {
   const to = currentRoute().params.get('to');
@@ -562,15 +813,16 @@ function render() {
   if (r.name === 'playlist') renderPlaylist(view, r.id);
   else if (r.name === 'all') renderPlaylist(view, null);
   else if (r.name === 'add') renderAdd(view);
-  else if (r.name === 'search') renderSearch(view);
+  else if (r.name === 'search') renderSearch(view, !changed);
   else renderLibrary(view);
   view.scrollTop = y;
 
   const heading = view.querySelector('.pl-header h1') || $('#viewTitle');
   const name = heading.textContent.trim();
   document.title = name ? name + ' · Tikify' : 'Tikify';
-  if (keep) { restoreFocus(keep); return; }
-  if (!changed) return;
+  if (keep && restoreFocus(keep)) return;
+  // A refresh leaves focus alone, unless the focused control is gone (its row was deleted).
+  if (!changed && !keep) return;
   // On a new view, move focus to its heading (or the empty search box) so screen readers announce
   // it, unless the user is busy in an overlay.
   const a = document.activeElement;
@@ -588,9 +840,20 @@ function mosaic(ids, cls = '') {
   return `<div class="cover ${cls} grid">${covers.map((c) => `<img src="${esc(c)}" alt="">`).join('')}</div>`;
 }
 
+// The library lives only in this browser, which may clear it (Safari does after 7 days without a
+// visit, unless Tikify is on the home screen). Once 10 sounds have been added since the last
+// backup (or since "Not now"), the Library suggests making one.
+function unbackedSounds() {
+  const since = Math.max(localStorageGet('lastBackupAt', 0), localStorageGet('backupNudgeAt', 0));
+  let n = 0;
+  for (const s of state.sounds.values()) if (s.addedAt > since) n++;
+  return n >= 10 ? n : 0;
+}
+
 function renderLibrary(view) {
   setTop('Your Library', { menu: settingsMenu });
   const count = state.sounds.size;
+  const unbacked = storageFailure ? 0 : unbackedSounds();
   view.innerHTML = `
     ${storageFailure ? `
       <div class="error" role="alert">
@@ -598,16 +861,28 @@ function renderLibrary(view) {
         ${esc(storageFailure.opening ? storageMessage(storageFailure) : 'Something went wrong while reading it. Try again, or close Tikify completely and open it again.')}
         <button class="btn ghost" id="retryLoad">Try again</button>
       </div>` : ''}
+    ${unbacked ? `
+      <div class="backup-nudge" id="backupNudge">
+        <b>Back up your sounds</b>
+        <p>${unbacked} sounds are only on this device. A backup file brings them back if your browser data is cleared, or moves them to a new phone.</p>
+        <div class="row-btns">
+          <button class="btn ghost" id="nudgeLater">Not now</button>
+          <button class="btn primary" id="nudgeExport">Export backup</button>
+        </div>
+      </div>` : ''}
+    ${isInAppBrowser() ? `
+      <div class="note warn">You’re in an app’s built-in browser, which may throw away what you save here.
+        Open Tikify in ${isIOS() ? 'Safari' : 'Chrome'} instead: tap <b>⋯</b> or <b>⋮</b> and choose <b>Open in browser</b>.</div>` : ''}
     <div class="lib-actions">
       <button class="chip" id="newPl">${ICON.plus}<span>New playlist</span></button>
     </div>
     <div class="list">
-      <button class="row" data-go="#/all">
+      <button class="row" data-go="#/all" aria-label="All sounds, playlist, ${plural(count, 'sound')}">
         <div class="cover all-sounds">${ICON.heart}</div>
         <div class="meta"><div class="t">All sounds</div><div class="s">Playlist · ${count} sound${count === 1 ? '' : 's'}</div></div>
       </button>
       ${state.playlists.map((p) => `
-        <button class="row" data-go="#/playlist/${encodeURIComponent(p.id)}">
+        <button class="row" data-go="#/playlist/${encodeURIComponent(p.id)}" aria-label="${esc(p.name)}, playlist, ${plural(p.soundIds.length, 'sound')}">
           ${mosaic(p.soundIds)}
           <div class="meta"><div class="t">${esc(p.name)}</div><div class="s">Playlist · ${p.soundIds.length} sound${p.soundIds.length === 1 ? '' : 's'}</div></div>
         </button>`).join('')}
@@ -616,8 +891,12 @@ function renderLibrary(view) {
       <div class="empty-state">
         <div class="big-icon">${ICON.note}</div>
         <h2>Start your collection</h2>
-        <p>Copy a TikTok link, then tap <b>Add sound</b> to save the song.</p>
+        <p>Copy a TikTok link, then tap <b>Add sound</b> to save the sound.</p>
         <button class="btn primary" data-go="#/add">Add your first sound</button>
+        ${isIOS() && isStandalone() ? `
+          <p class="from-safari">Saved sounds in Safari before installing? They stay in Safari: export a backup
+            there (Your Library → ⋮), then import it here.</p>
+          <button class="btn ghost" id="emptyImport">Import backup</button>` : ''}
       </div>` : ''}
   `;
   view.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', () => go(el.dataset.go)));
@@ -625,7 +904,13 @@ function renderLibrary(view) {
     $('#retryLoad').onclick = async () => {
       try { await loadAll(); storageFailure = null; } catch (err) { storageFailure = err; toast('Still can’t open your library', { error: true }); }
       render();
+      if (!storageFailure) restoreSession();
     };
+  }
+  if ($('#emptyImport')) $('#emptyImport').onclick = () => importInput.click();
+  if (unbacked) {
+    $('#nudgeExport').onclick = exportBackup;
+    $('#nudgeLater').onclick = () => { localStorageSet('backupNudgeAt', Date.now()); render(); };
   }
   $('#newPl').onclick = async () => {
     const name = await sheetPrompt('Name your playlist', '', 'My playlist', 'Create');
@@ -638,7 +923,7 @@ function renderLibrary(view) {
 function trackRow(sound, i, { playing }) {
   return `
     <div class="row track ${playing ? 'playing' : ''}" data-i="${i}" data-id="${esc(sound.id)}">
-      <button class="track-main" ${playing ? 'aria-current="true"' : ''}>
+      <button class="track-main" aria-label="${esc(sound.title)}, ${esc(sound.artist)}" ${playing ? 'aria-current="true"' : ''}>
         <img class="cover" src="${esc(coverSrc(sound))}" alt="" loading="lazy">
         <div class="meta"><div class="t">${esc(sound.title)}</div><div class="s">${esc(sound.artist)}</div></div>
       </button>
@@ -659,7 +944,7 @@ function renderPlaylist(view, playlistId) {
   // By id, not name: playlists can share a name or be renamed while playing.
   const ctx = { id: isAll ? 'all' : 'pl:' + p.id, label: name };
 
-  setTop('', { back: true, menu: isAll ? null : () => playlistMenu(p) });
+  setTop(name, { back: true, menu: isAll ? null : () => playlistMenu(p), scrollTitle: true });
 
   view.innerHTML = `
     <div class="pl-header ${isAll ? 'is-all' : ''}">
@@ -682,6 +967,7 @@ function renderPlaylist(view, playlistId) {
         <button class="btn primary" id="emptyAdd">${isAll ? 'Add a sound' : 'Add sounds'}</button>
       </div>` : ''}
   `;
+  watchHeading($('.pl-header h1', view));
 
   const isThisContext = () => state.contextId === ctx.id && state.queue.length;
   const syncPlayIcon = () => {
@@ -718,10 +1004,10 @@ function renderPlaylist(view, playlistId) {
 
 async function playlistMenu(p) {
   const v = await sheetMenu(p.name, [
-    { label: 'Add sounds from library', value: 'add', icon: ICON.plus },
-    { label: 'Add new TikTok sound', value: 'new', icon: ICON.note },
-    { label: 'Rename playlist', value: 'rename' },
-    { label: 'Delete playlist', value: 'delete', danger: true },
+    { label: 'Add sounds from library', value: 'add', icon: ICON.playlistAdd },
+    { label: 'Add new TikTok sound', value: 'new', icon: ICON.plus },
+    { label: 'Rename playlist', value: 'rename', icon: ICON.edit },
+    { label: 'Delete playlist', value: 'delete', danger: true, icon: ICON.trash },
   ]);
   if (v === 'add') pickSoundsFor(p);
   if (v === 'new') go('#/add?to=' + encodeURIComponent(p.id));
@@ -730,7 +1016,7 @@ async function playlistMenu(p) {
     if (name) { await updatePlaylist(p, { name }); render(); updateNowPlaying(); } // "Playing from <new name>"
   }
   if (v === 'delete') {
-    if (await sheetConfirm('Delete playlist?', `"${p.name}" will be removed. The sounds stay in your library.`)) {
+    if (await sheetConfirm('Delete playlist?', `“${p.name}” will be removed. The sounds stay in your library.`)) {
       await DB.del('playlists', p.id);
       state.playlists = state.playlists.filter((x) => x.id !== p.id);
       // Step back rather than push, so Back doesn't return to the deleted playlist.
@@ -743,20 +1029,20 @@ async function playlistMenu(p) {
 async function soundMenu(sound, playlist) {
   if (!sound) return;
   const items = [
-    ...(sound.id === currentId() ? [] : [{ label: 'Play next', value: 'next' }]),
-    { label: 'Add to playlist', value: 'add', icon: ICON.plus },
-    { label: 'Edit title & artist', value: 'edit' },
+    ...(sound.id === currentId() ? [] : [{ label: 'Play next', value: 'next', icon: ICON.next }]),
+    { label: 'Add to playlist', value: 'add', icon: ICON.playlistAdd },
+    { label: 'Edit title & artist', value: 'edit', icon: ICON.edit },
   ];
   // Position among the rows the playlist actually shows, not in the raw soundIds array.
   const shown = playlist ? playlist.soundIds.filter((id) => state.sounds.has(id)) : [];
   const pos = shown.indexOf(sound.id);
   if (playlist) {
-    if (pos > 0) items.push({ label: 'Move up', value: 'up' });
-    if (pos !== -1 && pos < shown.length - 1) items.push({ label: 'Move down', value: 'down' });
-    items.push({ label: 'Remove from this playlist', value: 'remove' });
+    if (pos > 0) items.push({ label: 'Move up', value: 'up', icon: ICON.up });
+    if (pos !== -1 && pos < shown.length - 1) items.push({ label: 'Move down', value: 'down', icon: ICON.down });
+    items.push({ label: 'Remove from this playlist', value: 'remove', icon: ICON.remove });
   }
-  if (sound.sourceUrl) items.push({ label: 'Open on TikTok', value: 'open' });
-  items.push({ label: 'Delete from library', value: 'delete', danger: true });
+  if (sound.sourceUrl) items.push({ label: 'Open on TikTok', value: 'open', icon: ICON.open });
+  items.push({ label: 'Delete from library', value: 'delete', danger: true, icon: ICON.trash });
 
   const v = await sheetMenu(sound.title, items, sound.artist);
   if (v === 'next') {
@@ -771,8 +1057,10 @@ async function soundMenu(sound, playlist) {
     };
     state.queue = putNext(state.queue);
     state.baseQueue = putNext(state.baseQueue);
+    state.upNext = [sound.id, ...state.upNext.filter((x) => x !== sound.id)];
     state.index = state.queue.indexOf(cur);
     saveSession();
+    readAhead();
     toast('Playing next');
   }
   if (v === 'add') addToPlaylistSheet(sound);
@@ -792,7 +1080,7 @@ async function soundMenu(sound, playlist) {
   }
   if (v === 'open') window.open(sound.sourceUrl, '_blank', 'noopener');
   if (v === 'delete') {
-    if (await sheetConfirm('Delete sound?', `"${sound.title}" will be removed from your library and all playlists.`)) {
+    if (await sheetConfirm('Delete sound?', `“${sound.title}” will be removed from your library and all playlists.`)) {
       await deleteSound(sound.id);
       render();
       toast('Sound deleted');
@@ -829,12 +1117,10 @@ async function editSound(sound) {
   if (currentId() === sound.id) updateNowPlaying();
 }
 
+// The playlists that hold the sound are ticked; tapping one of those takes it out again.
 async function addToPlaylistSheet(sound) {
   const items = [{ label: 'New playlist', value: '__new', icon: ICON.plus }]
-    .concat(state.playlists.map((p) => ({
-      label: p.name + (p.soundIds.includes(sound.id) ? '  ✓' : ''),
-      value: p.id,
-    })));
+    .concat(state.playlists.map((p) => ({ label: p.name, value: p.id, icon: ICON.playlist, pressed: p.soundIds.includes(sound.id) })));
   const v = await sheetMenu('Add to playlist', items);
   if (!v) return;
   let p;
@@ -844,9 +1130,15 @@ async function addToPlaylistSheet(sound) {
     p = await createPlaylist(name);
   } else {
     p = getPlaylist(v);
+    if (!p) return; // deleted meanwhile (in another tab)
   }
-  const added = await addToPlaylist(p, sound.id);
-  toast(added ? 'Added to ' + p.name : 'Already in ' + p.name);
+  if (p.soundIds.includes(sound.id)) {
+    await updatePlaylist(p, { soundIds: p.soundIds.filter((x) => x !== sound.id) });
+    toast('Removed from ' + p.name);
+  } else {
+    await addToPlaylist(p, sound.id);
+    toast('Added to ' + p.name);
+  }
   render();
 }
 
@@ -867,7 +1159,7 @@ async function pickSoundsFor(p) {
         return `<label class="row pick-row">
           <img class="cover" src="${esc(coverSrc(s))}" alt="">
           <div class="meta"><div class="t">${esc(s.title)}</div><div class="s">${esc(s.artist)}</div></div>
-          <input type="checkbox" value="${esc(id)}"><span class="check"></span>
+          <input type="checkbox" value="${esc(id)}" aria-label="${esc(s.title)}, ${esc(s.artist)}"><span class="check"></span>
         </label>`;
       }).join('')}
     </div>
@@ -889,18 +1181,33 @@ async function pickSoundsFor(p) {
 // ----- Add sound view -----
 let pendingShare = null; // link shared into the app via the share sheet
 let shareHadNoLink = false; // something was shared to Tikify, but it held no TikTok link
+// Bumped by every lookup and every new Add view, so an answer that arrives late (tikwm is often
+// slow) is dropped instead of replacing the newer preview.
+let lookupSeq = 0;
+let lookupCtl = null;
+function cancelLookup() {
+  lookupSeq++;
+  if (lookupCtl) lookupCtl.abort();
+  lookupCtl = null;
+}
+window.addEventListener('hashchange', () => stopPreview()); // the preview's button is gone
 
 function renderAdd(view) {
   const params = new URLSearchParams(location.hash.split('?')[1] || '');
   const presetPlaylist = params.get('to');
+  cancelLookup();
+  stopPreview();
   // Opened from a playlist: offer a way back to it (iPhone home screen apps have no back button).
   setTop('Add sound', { back: !!presetPlaylist });
 
+  // type="text", not "url": the browser's URL check would reject share text ("Check out … https://…")
+  // and links without https://, which extractUrl handles.
   view.innerHTML = `
     <div class="add-wrap">
-      <p class="hint">Copy the link of a TikTok video (Share → Copy link) and paste it here.</p>
-      <form id="lookupForm" class="lookup">
-        <input class="input" id="linkInput" type="url" inputmode="url" placeholder="https://www.tiktok.com/@user/video/…" autocomplete="off" enterkeyhint="search">
+      <p class="hint" id="linkHint">Copy the link of a TikTok video (Share → Copy link) and paste it here.</p>
+      <form id="lookupForm" class="lookup" novalidate>
+        <input class="input" id="linkInput" type="text" inputmode="url" aria-label="TikTok video link" aria-describedby="linkHint"
+          placeholder="https://www.tiktok.com/@user/video/…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
         <button type="button" class="icon-btn paste" id="pasteBtn" aria-label="Paste">${ICON.paste}</button>
       </form>
       <button class="btn primary wide" id="findBtn" form="lookupForm" type="submit">Find sound</button>
@@ -908,6 +1215,7 @@ function renderAdd(view) {
       <details class="tips">
         <summary>Tips</summary>
         <ul>
+          <li>Use the link of a <b>video</b>. A sound’s own page or a profile won’t work: open a video that uses the sound and copy that video’s link.</li>
           <li>On Android, after installing Tikify you can share a TikTok straight to it: <b>Share → More → Tikify</b>.</li>
           <li>Sounds are downloaded to this device, so they play offline.</li>
           <li>Short links like <code>vm.tiktok.com/…</code> work too.</li>
@@ -916,67 +1224,103 @@ function renderAdd(view) {
     </div>`;
 
   const input = $('#linkInput');
-  const form = $('#lookupForm');
-  $('#pasteBtn').onclick = async () => {
-    try {
-      const text = await navigator.clipboard.readText();
-      input.value = TikTok.extractUrl(text) || text;
-      if (TikTok.extractUrl(input.value)) form.requestSubmit();
-    } catch {
-      toast('Long-press the box and choose Paste');
-      input.focus();
-    }
-  };
-  form.onsubmit = (e) => {
-    e.preventDefault();
+  // Called directly, not through form.requestSubmit(), which iOS 15 doesn't have.
+  const submitLookup = () => {
     const url = TikTok.extractUrl(input.value);
-    if (!url) { toast("That doesn't look like a TikTok link", { error: true }); return; }
+    if (!url) {
+      toast(input.value.trim() ? 'That doesn’t look like a TikTok link' : 'Paste the link of a TikTok video first', { error: true });
+      return;
+    }
     input.value = url;
     input.blur(); // hide the on-screen keyboard so the preview isn't covered
     lookupAndPreview(url, presetPlaylist);
+  };
+  $('#lookupForm').onsubmit = (e) => {
+    e.preventDefault();
+    submitLookup();
+  };
+  $('#pasteBtn').onclick = async () => {
+    let text;
+    try {
+      text = await navigator.clipboard.readText();
+    } catch {
+      // No clipboard access here (or it was refused): the system paste menu still works.
+      toast('Long-press the box and choose Paste');
+      input.focus();
+      return;
+    }
+    const url = TikTok.extractUrl(text);
+    // Only a TikTok link goes into the box; anything else on the clipboard (a password?) stays there.
+    if (!url) return toast('No TikTok link on your clipboard. In TikTok, tap Share → Copy link.');
+    input.value = url;
+    submitLookup();
   };
 
   if (pendingShare) {
     input.value = pendingShare;
     pendingShare = null;
-    form.requestSubmit();
+    submitLookup();
   } else if (shareHadNoLink) {
     shareHadNoLink = false;
     $('#result').innerHTML = '<div class="error" role="alert">That share didn’t include a TikTok link. In TikTok, tap <b>Share → Copy link</b>, then paste it here.</div>';
   }
 }
 
+// The same sound saved before: from this video, or from another video that uses it.
+function findSaved(info) {
+  for (const s of state.sounds.values()) {
+    if ((info.tiktokId && s.tiktokId === info.tiktokId) || (info.musicId && s.musicId === info.musicId)) return s;
+  }
+  return null;
+}
+
+// A video caption as a title: one line, no hashtags, at most 80 characters (by code point, so
+// an emoji isn't cut in half), shortened at a word where possible.
+function captionTitle(caption) {
+  const s = caption.replace(/#\S+/g, '').replace(/\s+/g, ' ').trim();
+  const chars = Array.from(s);
+  if (chars.length <= 80) return s;
+  const cut = chars.slice(0, 80).join('');
+  const space = cut.lastIndexOf(' ');
+  return (space > 40 ? cut.slice(0, space) : cut).replace(/[\s,.;:–-]+$/, '') + '…';
+}
+
 async function lookupAndPreview(url, presetPlaylist) {
+  cancelLookup(); // the newest lookup wins, whichever answer arrives first
+  const seq = lookupSeq;
+  const ctl = (lookupCtl = new AbortController());
   const result = $('#result');
   const findBtn = $('#findBtn');
+  const stale = () => seq !== lookupSeq || !result.isConnected;
   findBtn.disabled = true;
   stopPreview(); // its button is about to be replaced
   result.innerHTML = '<div class="loading"><div class="spinner"></div>Finding the sound…</div>';
+  announce('Finding the sound…');
   let info;
   try {
-    info = await TikTok.lookup(url);
+    info = await TikTok.lookup(url, { signal: ctl.signal });
   } catch (err) {
-    if (!result.isConnected) return;
-    result.innerHTML = `<div class="error" role="alert">${esc(err.message || 'Something went wrong')}.<br>Check the link and your connection, then try again.</div>`;
+    if (stale()) return;
+    result.innerHTML = `<div class="error" role="alert">${esc(err && err.problem ? err.message : 'Something went wrong. Please try again.')}</div>`;
     findBtn.disabled = false;
     if (document.activeElement === document.body) findBtn.focus();
     return;
   }
-  if (!result.isConnected) return; // the user left the Add view meanwhile
+  if (stale()) return; // a newer lookup, or the user left the Add view
   findBtn.disabled = false;
 
-  const dup = [...state.sounds.values()].find((s) => s.tiktokId && s.tiktokId === info.tiktokId);
-  const isOriginal = /^original sound/i.test(info.title);
+  const dup = findSaved(info);
   // "original sound - user" isn't a great title; suggest the video caption instead.
-  const suggestTitle = isOriginal && info.videoTitle ? info.videoTitle.replace(/#\S+/g, '').trim().slice(0, 80) : '';
+  const suggestTitle = info.isOriginal && info.videoTitle ? captionTitle(info.videoTitle) : '';
 
   result.innerHTML = `
     <div class="preview">
+      <h2 class="sr-only" tabindex="-1">${dup ? 'Already in your library' : 'Found'}: ${esc(info.title)}</h2>
       <div class="preview-top">
-        <img class="cover lg" src="${esc(info.coverUrl)}" alt="" referrerpolicy="no-referrer">
+        <img class="cover lg" src="${esc(webUrl(info.coverUrl) || NO_COVER)}" alt="" referrerpolicy="no-referrer">
         <button class="play-btn green" id="previewPlay" aria-label="Play preview">${ICON.play}</button>
       </div>
-      ${dup ? `<div class="note">You already saved this TikTok as “${esc(dup.title)}”.</div>` : ''}
+      ${dup ? `<div class="note">Already in your library as “${esc(dup.title)}”.</div>` : ''}
       <label class="lbl" for="pTitle">Title</label>
       <input class="input" id="pTitle" value="${esc(info.title)}" maxlength="150" enterkeyhint="next">
       ${suggestTitle ? `<button class="link-btn" id="useCaption">Use caption: “${esc(suggestTitle)}”</button>` : ''}
@@ -990,15 +1334,25 @@ async function lookupAndPreview(url, presetPlaylist) {
           <button class="chip" id="pNewPl">${ICON.plus}<span>New playlist</span></button>
         </div>
       </fieldset>
-      <button class="btn primary wide" id="saveBtn">Save to library</button>
+      <div id="saveError"></div>
+      ${dup ? '<button class="btn primary wide" id="useSaved">Use the saved sound</button>' : ''}
+      <button class="btn ${dup ? 'ghost' : 'primary'} wide" id="saveBtn">${dup ? 'Save another copy' : 'Save to library'}</button>
     </div>`;
 
-  // Preview with a temporary audio element so the queue isn't touched.
-  const el = new Audio(info.audioUrl);
-  const pBtn = $('#previewPlay');
+  // Everything below works on this card only: by the time a tap or a download finishes, a newer
+  // lookup may have replaced it, or the user may be on another view.
+  const card = $('.preview', result);
+  const q = (sel) => $(sel, card);
+
+  // Preview with a temporary audio element so the queue isn't touched. It loads only when played:
+  // most finds are saved without a listen, and saving downloads the sound anyway.
+  const el = new Audio();
+  el.preload = 'none';
+  el.src = info.audioUrl;
+  const pBtn = q('#previewPlay');
   pBtn.onclick = () => {
     if (!el.paused) return el.pause();
-    audio.pause();
+    pausePlayback();
     el.play().catch((err) => {
       if (err.name === 'AbortError') return;
       stopPreview();
@@ -1012,62 +1366,126 @@ async function lookupAndPreview(url, presetPlaylist) {
   el.onplay = () => { icon(); startPreview(el, info); };
   el.onpause = () => { icon(); syncPreviewState(); };
   el.onended = () => { icon(); if (preview && preview.el === el) stopPreview(); };
-  // Screen reader users would otherwise be left on <body>; a button (not the title field) keeps
-  // the on-screen keyboard closed.
-  if (document.activeElement === document.body || $('#lookupForm')?.contains(document.activeElement)) pBtn.focus();
-  announce(`Found ${info.title}`);
-  window.addEventListener('hashchange', stopPreview, { once: true });
+  // Screen reader users would otherwise be left on <body>. The card's hidden heading, not a control:
+  // it keeps the on-screen keyboard closed, and gets no focus ring (a launch from the share sheet
+  // has had no tap yet, so a focused button would show one).
+  const heading = q('h2');
+  if (document.activeElement === document.body || $('#lookupForm')?.contains(document.activeElement)) heading.focus();
+  else announce(heading.textContent);
 
-  $('#useCaption') && ($('#useCaption').onclick = () => ($('#pTitle').value = suggestTitle));
+  if (suggestTitle) q('#useCaption').onclick = () => (q('#pTitle').value = suggestTitle);
 
-  $('#pNewPl').onclick = async () => {
+  q('#pNewPl').onclick = async () => {
     const name = await sheetPrompt('Name your playlist', '', 'My playlist', 'Create');
     if (!name) return;
     const p = await createPlaylist(name);
     const lbl = document.createElement('label');
     lbl.className = 'pl-check';
     lbl.innerHTML = `<input type="checkbox" value="${esc(p.id)}" checked><span>${esc(p.name)}</span>`;
-    $('#pNewPl').before(lbl);
+    q('#pNewPl').before(lbl);
   };
 
-  $('#saveBtn').onclick = async () => {
-    const btn = $('#saveBtn');
-    btn.disabled = true;
-    btn.textContent = 'Downloading…';
-    stopPreview();
-    try {
-      const sound = await saveSound(info, { title: $('#pTitle').value.trim(), artist: $('#pArtist').value.trim() });
-      const chosen = [...document.querySelectorAll('.pl-checks input:checked')].map((c) => c.value);
-      for (const id of chosen) await addToPlaylist(getPlaylist(id), sound.id);
-      if (sound.audioUrl) toast('Saved, but the audio could not be downloaded for offline use', { error: true });
-      else toast(chosen.length ? `Saved to ${chosen.length === 1 ? getPlaylist(chosen[0]).name : chosen.length + ' playlists'}` : 'Saved to your library');
-      const backTo = presetPlaylist && getPlaylist(presetPlaylist);
-      $('#result').innerHTML = `
-        <div class="saved">
-          <div class="big-icon ok">✓</div>
-          <div><b>${esc(sound.title)}</b> saved</div>
-          <div class="row-btns">
-            <button class="btn ghost" id="addAnother">Add another</button>
-            <button class="btn primary" id="playNow">Play now</button>
-          </div>
-          ${backTo ? `<button class="btn ghost" id="backToPl">Back to ${esc(backTo.name)}</button>` : ''}
-        </div>`;
-      $('#linkInput').value = '';
-      $('#addAnother').onclick = () => { $('#result').innerHTML = ''; $('#linkInput').focus(); };
-      $('#playNow').onclick = () => playList([sound.id], 0, { id: 'added', label: 'Just added' });
-      if (backTo) $('#backToPl').onclick = () => goBack('#/playlist/' + encodeURIComponent(backTo.id));
-      if (!document.activeElement || document.activeElement === document.body) $('#playNow').focus();
-    } catch (err) {
-      btn.disabled = false;
-      btn.textContent = 'Save to library';
-      toast(err && err.storage ? storageMessage(err) : 'Could not save: ' + (err.message || err), { error: true });
+  const saveBtn = q('#saveBtn');
+  const useSaved = q('#useSaved');
+  const chosenIds = () => [...card.querySelectorAll('.pl-checks input:checked')].map((c) => c.value);
+  const busy = (on) => { for (const b of card.querySelectorAll('#saveBtn, #useSaved, #saveStream')) b.disabled = on; };
+
+  // From here on the sound is in the library: nothing may offer to save it again.
+  async function finish(sound, chosen, existing) {
+    const added = [];
+    const already = [];
+    const failed = [];
+    for (const id of chosen) {
+      const p = getPlaylist(id);
+      if (!p) continue;
+      try { (await addToPlaylist(p, sound.id) ? added : already).push(p.name); } catch { failed.push(p.name); }
     }
-  };
+    const where = (names) => (names.length === 1 ? names[0] : plural(names.length, 'playlist'));
+    if (failed.length) {
+      toast(`${existing ? 'Couldn’t' : 'Saved, but couldn’t'} add it to ${failed.join(', ')}. Try again from the sound’s menu.`, { error: true });
+    } else if (existing) {
+      toast(added.length ? `Added to ${where(added)}` : `It’s already in ${already.length ? where(already) : 'your library'}`);
+    } else if (sound.audioUrl) {
+      toast('Saved. It needs internet to play until it can be downloaded.');
+    } else {
+      toast(added.length ? `Saved to ${where(added)}` : 'Saved to your library');
+    }
+    // The user went on to another view or lookup meanwhile: refresh what's on screen instead.
+    if (!card.isConnected) return render();
+    const backTo = presetPlaylist && getPlaylist(presetPlaylist);
+    result.innerHTML = `
+      <div class="saved">
+        <div class="big-icon ok" aria-hidden="true">✓</div>
+        <div><b>${esc(sound.title)}</b> ${existing ? 'is in your library' : 'saved'}</div>
+        ${sound.audioUrl ? '<div class="note">It plays only with internet for now. Tikify downloads it the next time it plays online.</div>' : ''}
+        <div class="row-btns">
+          <button class="btn ghost" id="addAnother">Add another</button>
+          <button class="btn primary" id="playNow">Play now</button>
+        </div>
+        ${backTo ? `<button class="btn ghost" id="backToPl">Back to ${esc(backTo.name)}</button>` : ''}
+      </div>`;
+    // Not a next link the user put in the box while this one was saving.
+    const box = $('#linkInput');
+    if (TikTok.extractUrl(box.value) === url) box.value = '';
+    $('#addAnother').onclick = () => { result.innerHTML = ''; $('#linkInput').focus(); };
+    $('#playNow').onclick = () => playList([sound.id], 0, { id: 'added', label: 'Just added' });
+    if (backTo) $('#backToPl').onclick = () => goBack('#/playlist/' + encodeURIComponent(backTo.id));
+    if (!document.activeElement || document.activeElement === document.body) $('#playNow').focus();
+  }
+
+  // One cover download per preview: "Try again" and "Save without downloading" reuse it.
+  let cover = null;
+  async function save(stream) {
+    // Read the form now: the user may leave the Add view while the sound downloads.
+    const fields = { title: q('#pTitle').value.trim(), artist: q('#pArtist').value.trim() };
+    const chosen = chosenIds();
+    busy(true);
+    saveBtn.textContent = stream ? 'Saving…' : 'Downloading…';
+    q('#saveError').innerHTML = '';
+    stopPreview();
+    cover = cover || downloadCover(info.coverUrls || [info.coverUrl]);
+    let sound;
+    try {
+      sound = await saveSound(info, fields, {
+        stream,
+        cover,
+        onProgress: (p) => (saveBtn.textContent = `Downloading… ${Math.round(p * 100)}%`),
+      });
+    } catch (err) {
+      busy(false);
+      const why = err && err.storage ? storageMessage(err) : err && err.problem ? err.message : 'Something went wrong. Please try again.';
+      if (!card.isConnected) return toast(`Couldn’t save “${fields.title || info.title}”. ${why}`, { error: true });
+      saveBtn.textContent = 'Try again';
+      if (err && err.storage) return toast(why, { error: true });
+      // Without the download it can still be kept as a link, which works online (for now).
+      q('#saveError').innerHTML = `<div class="error" role="alert">Couldn’t download the sound. ${esc(why)}
+        <button class="btn ghost" id="saveStream">Save without downloading</button></div>`;
+      q('#saveStream').onclick = () => save(true);
+      return;
+    }
+    finish(sound, chosen, false);
+  }
+
+  saveBtn.onclick = () => save(false);
+  if (useSaved) {
+    useSaved.onclick = () => {
+      if (!state.sounds.has(dup.id)) return save(false); // deleted meanwhile
+      // It's in the library already: without a playlist there is nothing to do.
+      if (!chosenIds().length) return toast('Pick a playlist to add it to');
+      busy(true);
+      stopPreview();
+      finish(dup, chosenIds(), true);
+    };
+  }
 }
 
 // ----- Search view -----
 let lastQuery = '';
-function renderSearch(view) {
+function renderSearch(view, refresh) {
+  // A refresh (a save finishing, a cover arriving) updates only the results: a new search box would
+  // move the caret while the user types and, on iPhone, close the keyboard.
+  const form = refresh && $('#searchForm', view);
+  if (form && form._run) return form._run();
   setTop('Search');
   view.innerHTML = `
     <div class="search-wrap">
@@ -1095,7 +1513,7 @@ function renderSearch(view) {
     out.innerHTML = `
       <div class="list">
         ${pls.map((p) => `
-          <button class="row" data-go="#/playlist/${encodeURIComponent(p.id)}">
+          <button class="row" data-go="#/playlist/${encodeURIComponent(p.id)}" aria-label="${esc(p.name)}, playlist">
             ${mosaic(p.soundIds)}
             <div class="meta"><div class="t">${esc(p.name)}</div><div class="s">Playlist</div></div>
           </button>`).join('')}
@@ -1111,16 +1529,17 @@ function renderSearch(view) {
     }));
   };
   q.addEventListener('input', run);
+  $('#searchForm')._run = run;
   run();
 }
 
 // ----- settings / backup -----
 async function settingsMenu() {
   const pick = sheetMenu('Tikify', [
-    ...(isStandalone() ? [] : [{ label: 'Add to home screen', value: 'install', icon: ICON.plus }]),
-    { label: 'Export backup', value: 'export' },
-    { label: 'Import backup', value: 'import' },
-    { label: 'About', value: 'about' },
+    ...(isStandalone() ? [] : [{ label: installWords().menu, value: 'install', icon: ICON.install }]),
+    { label: 'Export backup', value: 'export', icon: ICON.download },
+    { label: 'Import backup', value: 'import', icon: ICON.upload },
+    { label: 'About', value: 'about', icon: ICON.info },
   ], `${plural(state.sounds.size, 'sound')} · ${plural(state.playlists.length, 'playlist')} · stored on this device`);
   const sub = $('#sheet .sheet-sub');
   const line = (t) => sub.appendChild(Object.assign(document.createElement('div'), { textContent: t }));
@@ -1131,10 +1550,25 @@ async function settingsMenu() {
   if (v === 'install') showInstallPrompt();
   if (v === 'export') exportBackup();
   if (v === 'import') importInput.click();
-  if (v === 'about') {
-    sheetMenu('About Tikify', [{ label: 'Close', value: null }],
-      'Save TikTok sounds and listen like it’s Spotify. Your library is stored only on this device. Sound lookups use the public tikwm.com API.');
-  }
+  if (v === 'about') showAbout();
+}
+
+function showAbout() {
+  openSheet(`
+    <div class="sheet-title">About Tikify</div>
+    <div class="about">
+      <p>Save TikTok sounds and listen to them like music: playlists, shuffle, repeat, offline.</p>
+      <p><b>Privacy.</b> Your library is stored only on this device. A link you look up is sent to
+        tikwm.com, a free third-party service, to find its sound; the audio and cover are then
+        downloaded from TikTok’s servers. No account and no analytics.</p>
+      <p><b>Not affiliated with TikTok or Spotify.</b> Tikify is an independent project. It isn’t
+        made, endorsed or sponsored by TikTok, ByteDance or Spotify. TikTok is a trademark of
+        ByteDance Ltd. and Spotify a trademark of Spotify AB.</p>
+      <p>Save sounds for your own listening only, and respect the rights of their creators.</p>
+    </div>
+    <button class="btn ghost wide" data-cancel>Close</button>`, (sheet, close) => {
+    $('[data-cancel]', sheet).onclick = () => close(null);
+  });
 }
 
 function fmtBytes(n) {
@@ -1187,15 +1621,19 @@ function exportBackup() {
   }).then(() => { if (run === exportRun) exportRun++; }); // closing the sheet stops the export
   const status = $('#backupStatus');
   const okBtn = $('#sheet [data-ok]');
-  buildBackup(run, (i, n) => (status.textContent = `Preparing your backup… ${i} of ${n}`)).then((f) => {
-    if (!f || run !== exportRun) return;
-    file = f;
-    status.textContent = `${plural(state.sounds.size, 'sound')}, ${fmtBytes(f.size)}. Keep the file somewhere safe, like Files, iCloud Drive or Google Drive, to restore your library on any device.`;
+  buildBackup(run, (i, n) => (status.textContent = `Preparing your backup… ${i} of ${n}`)).then((b) => {
+    if (!b || run !== exportRun) return;
+    file = b.file;
+    status.textContent = `${plural(state.sounds.size, 'sound')}, ${fmtBytes(file.size)}. ` + (b.unreadable
+      ? `${plural(b.unreadable, 'sound')} couldn’t be read on this device, so ${b.unreadable === 1 ? 'it is' : 'they are'} saved without audio. `
+      : '') + 'Keep the file somewhere safe, like Files, iCloud Drive or Google Drive, to restore your library on any device.';
     okBtn.disabled = false;
     if (document.activeElement === $('#sheet')) okBtn.focus();
   }, (err) => {
     if (run !== exportRun) return;
-    status.textContent = 'Couldn’t create the backup. ' + (err && err.storage ? storageMessage(err) : 'Close other apps to free up memory, then try again.');
+    status.textContent = 'Couldn’t create the backup. ' + (err && err.storage
+      ? (err.opening ? storageMessage(err) : 'Your library couldn’t be read. Close Tikify completely, open it again and try again.')
+      : 'Close other apps to free up memory, then try again.');
   });
 }
 
@@ -1204,24 +1642,32 @@ async function buildBackup(run, progress) {
   const head = JSON.stringify({ app: 'tikify', version: 2, exportedAt: Date.now(), playlists: state.playlists });
   const parts = [head.slice(0, -1) + ',"sounds":[\n'];
   let shown = 0;
+  let unreadable = 0;
+  // A stored file can become unreadable (WebKit loses them now and then). That sound is backed up
+  // without it, rather than failing the whole backup; once restored, playing it downloads it again.
+  const dataUrl = (blob) => (blob ? blobToDataUrl(blob).catch(() => null) : null);
   for (let i = 0; i < sounds.length; i++) {
     const { coverBlob, ...s } = sounds[i];
     const a = await DB.get('audio', s.id);
-    const line = JSON.stringify({
-      ...s,
-      cover: coverBlob ? await blobToDataUrl(coverBlob) : null,
-      audio: a && a.blob ? await blobToDataUrl(a.blob) : null,
-    });
+    const audioData = await dataUrl(a && a.blob);
+    if (a && a.blob && !audioData) unreadable++;
+    const line = JSON.stringify({ ...s, cover: await dataUrl(coverBlob), audio: audioData });
     if (run !== exportRun) return null;
     parts.push(new Blob([(i ? ',' : '') + line + '\n']));
     if (Date.now() - shown > 800) { shown = Date.now(); progress(i + 1, sounds.length); }
   }
   parts.push(']}\n');
-  return new File(parts, `tikify-backup-${new Date().toISOString().slice(0, 10)}.json`, { type: 'application/json' });
+  const file = new File(parts, `tikify-backup-${new Date().toISOString().slice(0, 10)}.json`, { type: 'application/json' });
+  return { file, unreadable };
 }
 
 function saveBackupFile(file, close) {
-  const done = (msg) => { localStorageSet('lastBackupAt', Date.now()); close(true); toast(msg); };
+  const done = (msg) => {
+    localStorageSet('lastBackupAt', Date.now());
+    $('#backupNudge')?.remove();
+    close(true);
+    toast(msg);
+  };
   // On iPhone the share sheet's "Save to Files" is the dependable way to keep a file.
   if (isIOS() && navigator.canShare && navigator.canShare({ files: [file] })) {
     navigator.share({ files: [file], title: 'Tikify backup' }).then(() => done('Backup saved'), (err) => {
@@ -1302,10 +1748,14 @@ async function blobFromDataUrl(url, safeType) {
   } catch { return null; }
 }
 
-async function importSound(raw, count) {
+async function importSound(raw, count, known, sameAs) {
   const sound = cleanSound(raw);
   if (!sound) { count.invalid++; return; }
   if (state.sounds.has(sound.id)) { count.existing++; return; }
+  // Saved on this device too (from a backup of another phone, say): keep the copy that's here,
+  // and let the backup's playlists point at it.
+  const here = (sound.tiktokId && known.get('v' + sound.tiktokId)) || (sound.musicId && known.get('m' + sound.musicId));
+  if (here) { sameAs.set(sound.id, here); count.existing++; return; }
   const blob = await blobFromDataUrl(raw.audio, /^(audio|video)\//);
   sound.coverBlob = await blobFromDataUrl(raw.cover, /^image\/(?!svg)/);
   if (blob) sound.audioUrl = null;
@@ -1322,17 +1772,27 @@ let importing = false;
 async function importBackup(file) {
   if (importing) return toast('Still importing the previous backup…');
   importing = true;
+  const restoring = !state.sounds.size; // onto an empty library: everything is in that file already
   const count = { added: 0, existing: 0, invalid: 0, playlists: 0 };
+  // The sounds that were here before this import, by TikTok video and by sound. Only those: two
+  // copies kept on purpose in the backup both come back.
+  const known = new Map();
+  for (const s of state.sounds.values()) {
+    if (s.tiktokId) known.set('v' + s.tiktokId, s.id);
+    if (s.musicId) known.set('m' + s.musicId, s.id);
+  }
+  const sameAs = new Map(); // backup sound id -> the id of the same sound already here
   let shown = Date.now();
   toast('Importing backup…');
   try {
     // Every record is checked before it is stored; a storage error (e.g. full) stops the import.
     const data = await readBackup(file, async (raw) => {
-      await importSound(raw, count);
+      await importSound(raw, count, known, sameAs);
       if (Date.now() - shown > 1500) { shown = Date.now(); toast(`Importing backup… ${plural(count.added, 'sound')}`); }
     });
     for (const raw of Array.isArray(data.playlists) ? data.playlists : []) {
-      const p = cleanPlaylist(raw);
+      const soundIds = raw && Array.isArray(raw.soundIds) ? raw.soundIds.map((x) => sameAs.get(idOf(x)) || x) : [];
+      const p = cleanPlaylist(raw && { ...raw, soundIds });
       if (!p) { count.invalid++; continue; }
       const existing = getPlaylist(p.id);
       if (!existing) {
@@ -1348,6 +1808,7 @@ async function importBackup(file) {
     if (count.existing) msg += `. ${count.existing} already in your library`;
     if (count.invalid) msg += `. Skipped ${count.invalid} invalid entr${count.invalid === 1 ? 'y' : 'ies'}`;
     toast(msg + '.');
+    if (restoring && count.added) { localStorageSet('backupNudgeAt', Date.now()); keepStorage(); }
   } catch (err) {
     const why = err && err.storage ? storageMessage(err) : (err && err.message) || 'The file couldn’t be read.';
     toast((count.added ? `Import stopped after ${plural(count.added, 'sound')}. ` : 'Couldn’t import. ') + why, { error: true });
@@ -1360,12 +1821,16 @@ async function importBackup(file) {
 
 // ---------- player ----------
 const audio = $('#audio');
+const seek = $('#seek');
 let currentObjectUrl = null;
 
-function playList(ids, index, context) {
+// ctx = { id, label }: what is being played (see state.contextId).
+function playList(ids, index, ctx) {
   if (!ids.length) return;
-  state.context = context;
+  state.contextId = ctx.id;
+  state.context = ctx.label;
   state.baseQueue = ids.slice();
+  state.upNext = [];
   if (state.shuffle) {
     const first = ids[index];
     const rest = ids.filter((_, i) => i !== index);
@@ -1376,6 +1841,12 @@ function playList(ids, index, context) {
     state.queue = ids.slice();
   }
   loadIndex(index, true);
+}
+
+// The playing playlist's name now: it may have been renamed since playback started.
+function contextLabel() {
+  const p = state.contextId.startsWith('pl:') && getPlaylist(state.contextId.slice(3));
+  return p ? p.name : state.context;
 }
 
 function shuffleArr(a) {
@@ -1391,14 +1862,18 @@ function setShuffle(on) {
   localStorageSet('shuffle', on);
   if (state.queue.length) {
     const cur = currentId();
+    // What the user put up next stays right after the current sound, in either order.
+    const up = state.upNext.filter((id) => id !== cur && state.queue.includes(id));
+    const rest = (on ? state.queue : state.baseQueue).filter((id) => !up.includes(id));
     if (on) {
-      const rest = state.queue.filter((id) => id !== cur);
-      state.queue = [cur, ...shuffleArr(rest)];
-      state.index = 0;
+      state.queue = [cur, ...up, ...shuffleArr(rest.filter((id) => id !== cur))];
     } else {
-      state.queue = state.baseQueue.slice();
-      state.index = Math.max(0, state.queue.indexOf(cur));
+      rest.splice(rest.indexOf(cur) + 1, 0, ...up);
+      state.queue = rest;
     }
+    state.index = Math.max(0, state.queue.indexOf(cur));
+    saveSession();
+    readAhead();
   }
   // Both the full player's and the open playlist's shuffle buttons.
   document.querySelectorAll('#shuffleBtn, #plShuffle').forEach((b) => {
@@ -1410,6 +1885,10 @@ function setShuffle(on) {
 function setRepeat(mode) {
   state.repeat = mode;
   localStorageSet('repeat', mode);
+  // Repeat one loops in the element itself: no script has to run when the sound ends, which a
+  // locked iPhone may not get around to.
+  audio.loop = mode === 'one';
+  if (state.queue.length) readAhead();
   const b = $('#repeatBtn');
   b.classList.toggle('on', mode !== 'off');
   b.setAttribute('aria-pressed', mode !== 'off');
@@ -1420,38 +1899,136 @@ function setRepeat(mode) {
 function localStorageSet(k, v) { try { localStorage.setItem('tikify.' + k, JSON.stringify(v)); } catch { /* ignore */ } }
 function localStorageGet(k, d) { try { const v = localStorage.getItem('tikify.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } }
 
+// Where playback was, so a relaunch (iOS often closes home screen apps in the background) comes
+// back to the same sound and position, paused.
+let sessionSavedAt = 0;
+function saveSession() {
+  sessionSavedAt = Date.now();
+  if (!state.queue.length) return localStorageSet('session', null);
+  localStorageSet('session', {
+    queue: state.queue,
+    baseQueue: state.baseQueue,
+    upNext: state.upNext,
+    index: state.index,
+    contextId: state.contextId,
+    context: state.context,
+    t: Math.floor(resumeAt ?? (audio.currentTime || 0)),
+  });
+}
+
+function restoreSession() {
+  const s = localStorageGet('session', null);
+  if (!s || !Array.isArray(s.queue)) return;
+  const known = (ids) => (Array.isArray(ids) ? ids.filter((id) => state.sounds.has(id)) : []);
+  const queue = known(s.queue);
+  if (!queue.length) return;
+  let index = queue.indexOf(s.queue[s.index]);
+  const at = index === -1 ? 0 : Math.max(0, +s.t || 0);
+  // The sound that was playing has been deleted: continue with the one after it.
+  if (index === -1) index = Math.min(queue.length - 1, known(s.queue.slice(0, s.index)).length);
+  const base = known(s.baseQueue);
+  state.queue = queue;
+  state.baseQueue = base.length ? base : queue.slice();
+  state.upNext = known(s.upNext);
+  state.contextId = typeof s.contextId === 'string' ? s.contextId : '';
+  state.context = typeof s.context === 'string' ? s.context : '';
+  loadIndex(index, false, { at });
+}
+
+// The next sound's audio, read while this one plays, so the switch when it ends doesn't wait for
+// IndexedDB: a locked iPhone may suspend the page during that wait.
+let ahead = null;   // { id, url }
+let aheadId = null; // the sound being read ahead
+function readAhead() {
+  // At the end, repeat all goes back to the top (shuffle deals the queue again, so that can't be known).
+  const wrap = state.repeat === 'all' && !state.shuffle ? state.queue[0] : null;
+  const id = state.queue[state.index + 1] || wrap || null;
+  if (id === aheadId) return;
+  dropAhead();
+  aheadId = id;
+  if (!id) return;
+  DB.get('audio', id).then((rec) => {
+    if (aheadId === id && !ahead && rec && rec.blob) ahead = { id, url: URL.createObjectURL(rec.blob) };
+  }, () => { /* read again when it's needed */ });
+}
+function dropAhead() {
+  if (ahead) URL.revokeObjectURL(ahead.url);
+  ahead = aheadId = null;
+}
+
+function setObjectUrl(url) {
+  if (currentObjectUrl && currentObjectUrl !== url) URL.revokeObjectURL(currentObjectUrl);
+  currentObjectUrl = url;
+}
+// Really unload: without load(), the element keeps the old sound and Play would start it again.
+function unloadAudio() {
+  audio.pause();
+  audio.removeAttribute('src');
+  audio.load();
+}
+
 let loadToken = 0;
-async function loadIndex(i, autoplay) {
+let wantPlay = false;   // playback was asked for, so a source that fails gets repaired
+let advancing = false;  // the queue moved on by itself, so a sound that can't play is skipped
+let resumeAt = null;    // where the sound being loaded starts (a restored session)
+let audioUnlocked = false;
+
+async function loadIndex(i, autoplay, { auto = false, at = 0 } = {}) {
   state.index = i;
   const sound = state.sounds.get(currentId());
   if (!sound) return;
+  state.upNext = state.upNext.filter((id) => id !== sound.id); // it is playing now
   const token = ++loadToken;
+  wantPlay = autoplay;
+  advancing = auto;
+  resumeAt = at;
+  seeking = false;
+  // iOS lets a script start an element only once it has been played inside a tap, and the
+  // IndexedDB read below ends the tap. So start it now, empty: it plays once the source is set.
+  if (autoplay && !audioUnlocked) { unloadAudio(); audio.play().catch(() => {}); }
   updateNowPlaying();
 
   let src = null;
-  const rec = await DB.get('audio', sound.id).catch(() => null); // unreadable: try the stream link
-  if (token !== loadToken) return;
-  if (rec && rec.blob) {
-    if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
-    currentObjectUrl = URL.createObjectURL(rec.blob);
-    src = currentObjectUrl;
+  if (ahead && ahead.id === sound.id) {
+    src = ahead.url;
+    ahead = aheadId = null;
+    setObjectUrl(src);
   } else {
-    src = sound.audioUrl;
+    const rec = await DB.get('audio', sound.id).catch(() => null); // unreadable: try the stream link
+    if (token !== loadToken) return;
+    if (rec && rec.blob) src = URL.createObjectURL(rec.blob);
+    else src = sound.audioUrl;
+    setObjectUrl(rec && rec.blob ? src : null);
   }
-  audio.src = src;
   audio.dataset.id = sound.id;
-  if (autoplay) {
-    try { await audio.play(); } catch (err) {
-      if (err.name !== 'AbortError' && err.name !== 'NotAllowedError') repairAndRetry(sound, token);
+  if (!src) { // nothing stored and no link (e.g. a backup entry without audio)
+    unloadAudio();
+    saveSession();
+    if (wantPlay) repairAndRetry(sound);
+    return;
+  }
+  if (!autoplay && !audio.paused) audio.pause();
+  audio.src = src;
+  saveSession();
+  readAhead();
+  if (!autoplay) return;
+  try { await audio.play(); } catch (err) {
+    // A source that can't be played reports through 'error', and is repaired there.
+    if (err.name === 'NotAllowedError' && token === loadToken) {
+      wantPlay = false;
+      syncPlayState();
+      toast('Tap play to start');
     }
   }
 }
 
 // If a sound was saved without its audio (or the link expired), look it up again and store it.
-let repairing = false;
-async function repairAndRetry(sound, token) {
-  if (repairing || !sound.sourceUrl) { toast("Couldn't play this sound", { error: true }); return; }
-  repairing = true;
+const repairing = new Set(); // sound ids being downloaded again
+const repaired = new Set();  // repaired this session: if one still fails, it isn't tried again
+async function repairAndRetry(sound) {
+  if (repairing.has(sound.id)) return; // the attempt under way reports how it went
+  if (!sound.sourceUrl || repaired.has(sound.id)) return playFailed(sound);
+  repairing.add(sound.id);
   toast('Re-downloading sound…');
   try {
     const info = await TikTok.lookup(sound.sourceUrl);
@@ -1469,55 +2046,112 @@ async function repairAndRetry(sound, token) {
         t.objectStore('audio').put({ id: sound.id, blob });
       };
     });
-    if (!stored || state.sounds.get(sound.id) !== sound) return;
+    // No longer stored (deleted in another tab): reported or skipped like any sound that can't play.
+    if (!stored || state.sounds.get(sound.id) !== sound) return playFailed(sound);
     sound.audioUrl = null;
-    if (token === loadToken) await loadIndex(state.index, true);
+    repaired.add(sound.id);
+    repairing.delete(sound.id); // before playing: if the new copy fails too, that is reported
+    if (currentId() === sound.id && wantPlay) loadIndex(state.index, true, { auto: advancing });
   } catch {
-    toast("Couldn't play this sound", { error: true });
+    playFailed(sound);
   } finally {
-    repairing = false;
+    repairing.delete(sound.id);
   }
+}
+
+// A sound that can't be played: skipped when the queue got to it by itself, otherwise reported.
+let skipped = 0; // in a row, so a queue where nothing plays stops instead of going round
+function playFailed(sound) {
+  if (currentId() !== sound.id || !wantPlay) return; // moved on meanwhile
+  if (advancing && skipped < state.queue.length - 1) {
+    skipped++;
+    toast('Skipped a sound that can’t be played');
+    next(true);
+    return;
+  }
+  skipped = 0;
+  wantPlay = false;
+  audio.pause();
+  syncPlayState();
+  toast("Couldn't play this sound", { error: true });
 }
 
 audio.addEventListener('error', () => {
   const sound = state.sounds.get(audio.dataset.id);
-  if (sound && audio.src) repairAndRetry(sound, loadToken);
+  // A sound loaded paused (a restored session) is repaired once Play is pressed.
+  if (sound && sound.id === currentId() && wantPlay && audio.getAttribute('src')) repairAndRetry(sound);
 });
 
 function next(auto = false) {
   if (!state.queue.length) return;
-  if (auto && state.repeat === 'one') { audio.currentTime = 0; audio.play(); return; }
-  if (state.index < state.queue.length - 1) loadIndex(state.index + 1, true);
-  else if (state.repeat === 'all' || !auto) {
-    if (state.shuffle && state.queue.length > 1) state.queue = shuffleArr(state.queue.slice());
-    loadIndex(0, state.repeat === 'all' || !auto);
-  } else {
-    audio.pause();
-    audio.currentTime = 0;
+  if (state.index < state.queue.length - 1) return loadIndex(state.index + 1, true, { auto });
+  // Past the end: back to the top, and playing on only with repeat all (or a tap on Next).
+  if (state.shuffle && state.queue.length > 1) {
+    const last = currentId();
+    const q = shuffleArr(state.queue.slice());
+    if (q[0] === last) { // not the sound that just ended again
+      const j = 1 + Math.floor(Math.random() * (q.length - 1));
+      [q[0], q[j]] = [q[j], q[0]];
+    }
+    state.queue = q;
   }
+  loadIndex(0, state.repeat === 'all' || !auto, { auto });
 }
 function prev() {
+  if (!state.queue.length) return;
   if (audio.currentTime > 3 || state.index === 0) { audio.currentTime = 0; return; }
   loadIndex(state.index - 1, true);
 }
+// Play, or load again a sound that failed (its link may work now, or it gets repaired).
+function resume() {
+  if (!state.queue.length) return;
+  if (audio.error || !audio.getAttribute('src')) return loadIndex(state.index, true);
+  wantPlay = true;
+  audio.play().catch(() => { /* reported through 'error' */ });
+}
+// A pause the user asked for: a source that fails while paused isn't repaired and restarted.
+function pausePlayback() {
+  wantPlay = false;
+  audio.pause();
+}
 function togglePlay() {
-  if (!audio.src) return;
-  if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+  if (audio.paused || audio.error) resume(); else pausePlayback();
 }
 function stopPlayer() {
-  audio.pause();
-  audio.removeAttribute('src');
-  state.queue = [];
-  state.index = -1;
+  loadToken++; // a load still under way mustn't bring it back
+  wantPlay = false;
+  unloadAudio();
+  delete audio.dataset.id;
+  setObjectUrl(null);
+  dropAhead();
+  Object.assign(state, { queue: [], baseQueue: [], upNext: [], index: -1, contextId: '', context: '' });
   $('#miniPlayer').hidden = true;
+  document.body.classList.remove('has-mini');
+  if ('mediaSession' in navigator && !preview) navigator.mediaSession.metadata = null;
   closePlayer();
+  syncPlayState();
+  syncProgress();
+  saveSession();
 }
 
 audio.addEventListener('ended', () => next(true));
-audio.addEventListener('play', syncPlayState);
-audio.addEventListener('pause', syncPlayState);
-audio.addEventListener('timeupdate', syncProgress);
+audio.addEventListener('play', () => { stopPreview(); syncPlayState(); });
+audio.addEventListener('playing', () => {
+  audioUnlocked = true;
+  skipped = 0;
+  const sound = state.sounds.get(audio.dataset.id);
+  if (sound) fillIn(sound);
+});
+audio.addEventListener('pause', () => { syncPlayState(); saveSession(); });
+audio.addEventListener('timeupdate', () => {
+  syncProgress();
+  if (Date.now() - sessionSavedAt > 5000) saveSession();
+});
 audio.addEventListener('loadedmetadata', async () => {
+  if (resumeAt != null) {
+    if (resumeAt > 0 && resumeAt < audio.duration - 1) audio.currentTime = resumeAt;
+    resumeAt = null;
+  }
   syncProgress();
   const sound = state.sounds.get(audio.dataset.id);
   if (sound && isFinite(audio.duration) && Math.round(audio.duration) !== sound.duration) {
@@ -1525,39 +2159,46 @@ audio.addEventListener('loadedmetadata', async () => {
     DB.put('sounds', sound).catch(() => { /* only a cached duration */ });
   }
 });
+document.addEventListener('visibilitychange', () => document.hidden && saveSession());
+window.addEventListener('pagehide', saveSession);
 
 function updateNowPlaying() {
   const sound = state.sounds.get(currentId());
   if (!sound) return;
   const cover = coverSrc(sound);
+  const art = artwork(sound) || { src: cover };
+  const label = contextLabel();
   $('#miniPlayer').hidden = false;
   document.body.classList.add('has-mini');
   $('#miniCover').src = cover;
   $('#miniTitle').textContent = sound.title;
   $('#miniArtist').textContent = sound.artist;
-  $('#playerCover').src = cover;
-  $('#playerBg').style.backgroundImage = `url(${JSON.stringify(cover)})`; // quotes in a URL can't break out
+  $('#playerCover').src = art.src;
+  $('#playerBg').style.backgroundImage = `url(${JSON.stringify(art.src)})`; // quotes in a URL can't break out
   $('#playerTitle').textContent = sound.title;
   $('#playerArtist').textContent = sound.artist;
-  $('#playerContext').textContent = state.context ? 'Playing from ' + state.context : 'Playing';
+  $('#playerContext').textContent = label ? 'Playing from ' + label : 'Playing';
   const link = $('#openTiktok');
   link.hidden = !sound.sourceUrl;
   link.href = sound.sourceUrl || '#';
 
   $('#miniOpen').setAttribute('aria-label', `${sound.title}, ${sound.artist}. Open player`);
+  // In a playlist view only the rows of the playlist that is playing; in search results by sound.
   document.querySelectorAll('.track').forEach((r) => {
-    const on = r.dataset.id === sound.id;
+    const list = r.closest('[data-ctx]');
+    const on = r.dataset.id === sound.id && (!list || list.dataset.ctx === state.contextId);
     r.classList.toggle('playing', on);
     const b = $('.track-main', r);
     if (b) { if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); }
   });
 
-  if ('mediaSession' in navigator) {
+  if ('mediaSession' in navigator && !preview) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: sound.title,
       artist: sound.artist,
-      album: state.context || 'Tikify',
-      artwork: [{ src: cover, sizes: '512x512' }],
+      album: label || 'Tikify',
+      // Its real size and type: Android picks artwork by them.
+      artwork: [art.sizes ? { src: art.src, sizes: art.sizes, type: art.type || '' } : { src: art.src }],
     });
   }
 }
@@ -1568,41 +2209,106 @@ function syncPlayState() {
     b.innerHTML = playing ? ICON.pause : ICON.play;
     b.setAttribute('aria-label', playing ? 'Pause' : 'Play');
   }
-  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+  if ('mediaSession' in navigator && !preview) {
+    navigator.mediaSession.playbackState = !state.queue.length ? 'none' : playing ? 'playing' : 'paused';
+  }
   const view = $('#view');
   view._sync && view._sync();
 }
 
-let seeking = false;
+// The Add view's preview plays in its own element. While it plays it owns the lock screen,
+// notification and headphone controls, so those never act on a library sound nobody hears.
+let preview = null; // { el, info }
+function startPreview(el, info) {
+  if (preview && preview.el !== el) preview.el.pause();
+  preview = { el, info };
+  pausePlayback();
+  if (!('mediaSession' in navigator)) return;
+  const ms = navigator.mediaSession;
+  ms.metadata = new MediaMetadata({
+    title: info.title,
+    artist: info.artist,
+    album: 'Preview',
+    artwork: info.coverUrl ? [{ src: info.coverUrl }] : [],
+  });
+  try { ms.setPositionState(); } catch { /* the library sound's position would show otherwise */ }
+  syncPreviewState();
+}
+function syncPreviewState() {
+  if (preview && 'mediaSession' in navigator) navigator.mediaSession.playbackState = preview.el.paused ? 'paused' : 'playing';
+}
+// Ends the preview and hands the controls back to the library player.
+function stopPreview() {
+  if (!preview) return;
+  const { el } = preview;
+  preview = null;
+  el.pause();
+  if (!('mediaSession' in navigator)) return;
+  if (currentId()) updateNowPlaying(); else navigator.mediaSession.metadata = null;
+  syncPlayState();
+  syncProgress();
+}
+
+let seeking = false; // the seek bar is being dragged: it shows the finger, not the playback position
 function syncProgress() {
   const d = audio.duration || 0;
   const t = audio.currentTime || 0;
   $('#miniProgressBar').style.width = d ? (t / d) * 100 + '%' : '0';
-  if (!seeking) $('#seek').value = d ? Math.round((t / d) * 1000) : 0;
-  $('#curTime').textContent = fmtTime(t);
   $('#durTime').textContent = fmtTime(d);
-  if (!seeking) $('#seek').setAttribute('aria-valuetext', `${fmtTime(t)} of ${fmtTime(d)}`);
+  if (!seeking) {
+    seek.value = d ? Math.round((t / d) * 1000) : 0;
+    $('#curTime').textContent = fmtTime(t);
+    seek.setAttribute('aria-valuetext', `${fmtTime(t)} of ${fmtTime(d)}`);
+  }
   updateSeekFill();
-  if ('mediaSession' in navigator && d && navigator.mediaSession.setPositionState) {
+  if ('mediaSession' in navigator && d && !preview && navigator.mediaSession.setPositionState) {
     try { navigator.mediaSession.setPositionState({ duration: d, position: Math.min(t, d), playbackRate: audio.playbackRate }); } catch { /* ignore */ }
   }
 }
 function updateSeekFill() {
-  const s = $('#seek');
-  s.style.setProperty('--fill', (s.value / 10) + '%');
+  seek.style.setProperty('--fill', (seek.value / 10) + '%');
 }
 
-const seek = $('#seek');
-seek.addEventListener('input', () => {
+function seekInput() {
   seeking = true;
   updateSeekFill();
   const t = fmtTime((seek.value / 1000) * (audio.duration || 0));
   $('#curTime').textContent = t;
   seek.setAttribute('aria-valuetext', `${t} of ${fmtTime(audio.duration)}`);
-});
-seek.addEventListener('change', () => {
-  if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration;
+}
+seek.addEventListener('input', seekInput);
+// A drag released where it started fires no 'change', so every way a drag can end commits it.
+let seekPointer = null;
+const seekCommit = () => {
+  seekPointer = null;
+  if (!seeking) return;
   seeking = false;
+  if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration;
+  syncProgress();
+};
+for (const type of ['change', 'pointerup', 'pointercancel', 'touchend', 'touchcancel', 'blur']) seek.addEventListener(type, seekCommit);
+// On iPhone a range input only follows a drag that starts on its small thumb: make a tap or a
+// drag anywhere on the bar seek too. (Android's own slider already does.)
+const seekToPointer = (e) => {
+  const r = seek.getBoundingClientRect();
+  const thumb = 14; // as in styles.css: the thumb's centre runs from thumb/2 to width - thumb/2
+  seek.value = Math.round(Math.min(1, Math.max(0, (e.clientX - r.left - thumb / 2) / (r.width - thumb))) * 1000);
+  seekInput();
+};
+seek.addEventListener('pointerdown', (e) => {
+  if (e.pointerType !== 'touch' || !isIOS() || !audio.duration) return;
+  seekPointer = e.pointerId;
+  seekToPointer(e);
+});
+seek.addEventListener('pointermove', (e) => { if (e.pointerId === seekPointer) seekToPointer(e); });
+// The slider's own step is 1/1000 of the sound: arrow keys skip 5 s instead, Page Up/Down a tenth.
+seek.addEventListener('keydown', (e) => {
+  const d = audio.duration;
+  const by = { ArrowRight: 5, ArrowUp: 5, ArrowLeft: -5, ArrowDown: -5, PageUp: d / 10, PageDown: -d / 10 }[e.key];
+  if (!d || by == null) return;
+  e.preventDefault();
+  audio.currentTime = Math.min(d, Math.max(0, audio.currentTime + by));
+  syncProgress();
 });
 
 // The full player is a modal dialog: the page behind it is inert and focus moves in and back out.
@@ -1614,6 +2320,7 @@ function openPlayer() {
   clearTimeout(playerHideTimer); // reopened while still sliding down
   playerReturn = focusRef(invoker());
   playerOpen = true;
+  document.body.classList.add('player-open'); // moves the toast off the controls
   p.hidden = false;
   requestAnimationFrame(() => p.classList.add('open'));
   holdOverlay('player');
@@ -1623,6 +2330,7 @@ function openPlayer() {
 function closePlayer() {
   if (!playerOpen) return;
   playerOpen = false;
+  document.body.classList.remove('player-open');
   const p = $('#player');
   p.classList.remove('open');
   clearTimeout(playerHideTimer);
@@ -1630,7 +2338,7 @@ function closePlayer() {
   syncInert();
   releaseOverlays();
   const a = document.activeElement;
-  if (!a || a === document.body || p.contains(a)) restoreFocus(playerReturn) || restoreFocus(focusRef($('#miniOpen')));
+  if (!a || a === document.body || p.contains(a)) restoreFocus(playerReturn) || restoreFocus(focusRef($('#miniOpen'))) || focusFallback();
 }
 
 $('#miniPlayer').addEventListener('click', (e) => {
@@ -1649,30 +2357,37 @@ $('#playerMore').onclick = () => {
   if (s) soundMenu(s, null);
 };
 
-// swipe down to close full player
+// Swipe down to close the full player: one finger, mostly downward, not starting on the seek bar.
+// Each touch starts afresh, so a cancelled one can't leave a stale start point behind.
 (() => {
-  let startY = null;
+  let start = null;
   const p = $('#player');
   p.addEventListener('touchstart', (e) => {
-    if (e.target.closest('input')) return;
-    startY = e.touches[0].clientY;
+    const t = e.touches[0];
+    start = e.touches.length === 1 && !e.target.closest('input') ? { x: t.clientX, y: t.clientY } : null;
   }, { passive: true });
+  p.addEventListener('touchcancel', () => (start = null));
   p.addEventListener('touchend', (e) => {
-    if (startY !== null && e.changedTouches[0].clientY - startY > 90) closePlayer();
-    startY = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dy = t.clientY - start.y;
+    const dx = Math.abs(t.clientX - start.x);
+    start = null;
+    if (dy > 90 && dy > 2 * dx) closePlayer();
   });
 })();
 
 if ('mediaSession' in navigator) {
   const ms = navigator.mediaSession;
   const set = (a, h) => { try { ms.setActionHandler(a, h); } catch { /* unsupported */ } };
-  set('play', () => audio.play());
-  set('pause', () => audio.pause());
-  set('previoustrack', prev);
-  set('nexttrack', () => next());
-  set('seekto', (d) => { audio.currentTime = d.seekTime; });
-  set('seekbackward', (d) => { audio.currentTime = Math.max(0, audio.currentTime - (d.seekOffset || 10)); });
-  set('seekforward', (d) => { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + (d.seekOffset || 10)); });
+  // While an Add view preview plays, play, pause and seeking act on it; changing track ends it.
+  set('play', () => (preview ? preview.el.play().catch(() => {}) : resume()));
+  set('pause', () => (preview ? preview.el.pause() : pausePlayback()));
+  set('previoustrack', () => { stopPreview(); prev(); });
+  set('nexttrack', () => { stopPreview(); next(); });
+  set('seekto', (d) => { (preview ? preview.el : audio).currentTime = d.seekTime; });
+  // No seekbackward/seekforward: with those, iOS shows ±10 s buttons in place of previous and
+  // next on the lock screen, and 10 s is most of a TikTok sound.
 }
 
 document.addEventListener('keydown', (e) => {
@@ -1692,99 +2407,221 @@ let deferredInstall = null; // Chrome/Edge/Android hand us this so we can show t
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstall = e;
+  // Chrome offers it only after the user has been here a little while: that's when to ask.
+  maybeShowInstallPrompt();
 });
 window.addEventListener('appinstalled', () => {
   deferredInstall = null;
   localStorageSet('installed', true);
-  toast('Tikify was added to your home screen');
+  toast(installWords().done);
 });
 
+const UA = navigator.userAgent;
 const isStandalone = () =>
   window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const isIOS = () =>
-  /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-// In-app browsers (TikTok, Instagram, …) can't install web apps.
-const isInAppBrowser = () => /tiktok|musical_ly|bytedance|instagram|fban|fbav|snapchat|line\//i.test(navigator.userAgent);
+  /iphone|ipad|ipod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = () => /android/i.test(UA);
+// In-app browsers (TikTok, Instagram, the Google app, Android app web views, …) can't install web
+// apps, and what they store may be thrown away.
+const isInAppBrowser = () =>
+  /tiktok|musical_ly|bytedance|trill|instagram|fban|fbav|fb_iab|snapchat|line\/|micromessenger|pinterest|linkedinapp|gsa\/|; wv\)/i.test(UA);
+const otherIOSBrowser = () => /crios|fxios|edgios|opios/i.test(UA); // Chrome, Firefox, … on iOS
+const isMacSafari = () => !isIOS() && /macintosh/i.test(UA) && /version\/[\d.]+.*safari/i.test(UA);
 
-const IOS_SHARE = '<svg class="inline-ic" viewBox="0 0 24 24"><path d="M12 2l4 4-1.4 1.4L13 5.8V15h-2V5.8L9.4 7.4 8 6zM5 10h3v2H6v8h12v-8h-2v-2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1z"/></svg>';
-const ADD_BOX = '<svg class="inline-ic" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v14h14V5zm6 3h2v3h3v2h-3v3h-2v-3H8v-2h3z"/></svg>';
+// A phone puts an installed Tikify on its home screen; a computer has none.
+function installWords() {
+  if (isIOS() || isAndroid() || isInAppBrowser()) {
+    return { menu: 'Add to home screen', title: 'Add Tikify to your home screen', opens: 'Opens full screen, just like a real app', done: 'Tikify was added to your home screen' };
+  }
+  const where = isMacSafari() ? { menu: 'Add to Dock', title: 'Add Tikify to your Dock' } : { menu: 'Install Tikify', title: 'Install Tikify as an app' };
+  return { ...where, opens: 'Opens in its own window, like a real app', done: 'Tikify is installed' };
+}
+
+const IOS_SHARE = '<svg class="inline-ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2l4 4-1.4 1.4L13 5.8V15h-2V5.8L9.4 7.4 8 6zM5 10h3v2H6v8h12v-8h-2v-2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1z"/></svg>';
+const ADD_BOX = '<svg class="inline-ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 2v14h14V5zm6 3h2v3h3v2h-3v3h-2v-3H8v-2h3z"/></svg>';
+
+// How to install from this browser. `auto`: worth offering without being asked (there is a way to
+// install here, and it isn't the one-tap dialog Chrome/Edge hand over later via beforeinstallprompt).
+function installHow() {
+  const steps = (...li) => `<ol class="install-steps">${li.map((l) => `<li>${l}</li>`).join('')}</ol>`;
+  if (isInAppBrowser()) {
+    return { auto: true, steps: steps(
+      `Tap <b>⋯</b> or <b>⋮</b> and choose <b>Open in ${isIOS() ? 'Safari' : 'Chrome'}</b> or <b>Open in browser</b>.`,
+      'Then add Tikify to your home screen from there.') };
+  }
+  if (isIOS()) {
+    return { auto: true, steps: steps(
+      otherIOSBrowser()
+        ? `Tap <b>Share</b> ${IOS_SHARE} in the address bar or the <b>⋯</b> menu.`
+        : `Tap <b>Share</b> ${IOS_SHARE} in Safari’s toolbar. On iOS 26, tap <b>⋯</b> first.`,
+      `Tap <b>Add to Home Screen</b> ${ADD_BOX}. Scroll down or tap <b>View More</b> if you don’t see it.`,
+      'Tap <b>Add</b>. Then open Tikify from your home screen.') };
+  }
+  const chromium = 'onbeforeinstallprompt' in window;
+  if (isAndroid()) {
+    return { auto: !chromium, steps: steps('Tap <b>⋮</b> to open the browser menu.', 'Choose <b>Install app</b> or <b>Add to Home screen</b>.') };
+  }
+  // Desktop: not where Tikify is meant to be used, so only when asked (or Chrome/Edge's own dialog).
+  if (chromium) return { auto: false, steps: steps('Click the install icon in the address bar, or open the browser menu and choose <b>Install Tikify</b>.') };
+  if (isMacSafari()) return { auto: false, steps: steps('In the menu bar, choose <b>File → Add to Dock</b>.') };
+  return { auto: false, steps: '<p class="install-none">This browser can’t install web apps. Open Tikify in Chrome, Edge or Safari to install it.</p>' };
+}
+
+// iOS gives a Home Screen app its own storage: nothing saved in Safari carries over.
+function iosStorageWarning() {
+  if (!isIOS() || isInAppBrowser()) return '';
+  const here = otherIOSBrowser() ? 'this browser' : 'Safari';
+  const n = state.sounds.size;
+  if (!n) return `<div class="install-warn"><b>Install first, then add sounds:</b> the Home Screen app has its own storage, so sounds saved in ${here} won’t be in it.</div>`;
+  return `<div class="install-warn"><b>Your ${plural(n, 'sound')} won’t come along:</b> the Home Screen app has its own storage. Export a backup now, then use <b>Import backup</b> in the installed app.
+    <button class="btn ghost" data-export>Export backup</button></div>`;
+}
 
 async function showInstallPrompt() {
-  let steps = '';
-  let action = '';
-  if (isInAppBrowser()) {
-    steps = `<ol class="install-steps">
-      <li>Tap <b>⋯</b> (top right) and choose <b>Open in browser</b>.</li>
-      <li>Then add Tikify to your home screen from there.</li></ol>`;
-  } else if (deferredInstall) {
-    action = '<button class="btn primary wide" data-install>Install Tikify</button>';
-  } else if (isIOS()) {
-    steps = `<ol class="install-steps">
-      <li>Tap the <b>Share</b> button ${IOS_SHARE} in Safari's toolbar.</li>
-      <li>Scroll down and tap <b>Add to Home Screen</b> ${ADD_BOX}.</li>
-      <li>Tap <b>Add</b>. Then open Tikify from your home screen.</li></ol>`;
-  } else {
-    steps = `<ol class="install-steps">
-      <li>Open your browser menu <b>⋮</b>.</li>
-      <li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>`;
-  }
+  const install = deferredInstall;
+  const words = installWords();
   const html = `
     <div class="install">
       <img class="install-icon" src="icons/icon-192.png" alt="">
       <div class="install-badge">Recommended</div>
-      <div class="sheet-title center">Add Tikify to your home screen</div>
+      <div class="sheet-title center">${words.title}</div>
       <ul class="install-perks">
-        <li>Opens full screen, just like a real app</li>
+        <li>${words.opens}</li>
         <li>Your sounds play offline</li>
         <li>Keeps your library safer from being cleared by the browser</li>
-        ${isIOS() ? '' : '<li>Share TikToks straight to Tikify</li>'}
+        ${isAndroid() && !isInAppBrowser() ? '<li>Share TikToks straight to Tikify</li>' : ''}
       </ul>
-      ${steps}
-      ${action}
-      <button class="btn ghost wide" data-later>${action ? 'Not now' : 'Got it'}</button>
+      ${iosStorageWarning()}
+      ${install ? '' : installHow().steps}
+      <div class="install-actions">
+        ${install ? '<button class="btn primary wide" data-install>Install Tikify</button>' : ''}
+        <button class="btn ghost wide" data-later>${install ? 'Not now' : 'Got it'}</button>
+      </div>
     </div>`;
   const choice = await openSheet(html, (sheet, close) => {
     $('[data-later]', sheet).onclick = () => close('later');
     const btn = $('[data-install]', sheet);
     if (btn) btn.onclick = () => close('install');
+    const exp = $('[data-export]', sheet);
+    if (exp) exp.onclick = () => close('export');
   });
-  if (choice === 'install' && deferredInstall) {
-    deferredInstall.prompt();
-    const { outcome } = await deferredInstall.userChoice;
-    deferredInstall = null;
-    if (outcome !== 'accepted') localStorageSet('installDismissedAt', Date.now());
-  } else {
-    localStorageSet('installDismissedAt', Date.now());
+  if (choice === 'install' && install) {
+    deferredInstall = null; // it can only be used once
+    install.prompt();
+    const { outcome } = await install.userChoice;
+    if (outcome !== 'accepted') installDismissed();
+    return;
   }
+  installDismissed();
+  if (choice === 'export') exportBackup();
+}
+function installDismissed() {
+  localStorageSet('installDismissedAt', Date.now());
+  localStorageSet('installDismissals', localStorageGet('installDismissals', 0) + 1);
 }
 
-// Ask on first visit, then again at most every 3 days until installed.
+// Ask on first visit (on Chrome/Edge: once they offer their one-tap install), then again at most
+// every 3 days, and only three times: it stays in the Library menu (⋮ → Add to home screen).
+let installAsked = false;
 function maybeShowInstallPrompt() {
-  if (isStandalone() || localStorageGet('installed', false)) return;
-  const last = localStorageGet('installDismissedAt', 0);
-  if (Date.now() - last < 3 * 24 * 60 * 60 * 1000) return;
+  if (!booted || installAsked || isStandalone() || localStorageGet('installed', false)) return;
+  if (localStorageGet('installDismissals', 0) >= 3) return;
+  if (Date.now() - localStorageGet('installDismissedAt', 0) < 3 * 864e5) return;
+  if (!deferredInstall && !installHow().auto) return;
+  installAsked = true;
   setTimeout(() => {
-    if ($('#sheetBackdrop').hidden && !isStandalone()) showInstallPrompt();
+    // Not over a sound the user is busy adding (a lookup, preview or save) or the full player:
+    // it is asked again next launch.
+    const busy = playerOpen || (currentRoute().name === 'add' && $('#result').childElementCount > 0);
+    if ($('#sheetBackdrop').hidden && !isStandalone() && !busy) showInstallPrompt();
   }, 2500);
 }
 
+// ---------- offline shell & updates ----------
+// sw.js serves the app from its cache and, when asked, checks the server for a new release. A new
+// one is used from the next launch; the bar offers to switch to it now.
+let swReg = null;
+let updateCheckedAt = 0;
+function startServiceWorker() {
+  const sw = navigator.serviceWorker;
+  if (!sw) return;
+  const hadController = !!sw.controller;
+  sw.register('sw.js').then((reg) => { swReg = reg; }).catch(() => {});
+  sw.addEventListener('message', (e) => e.data === 'updated' && showUpdateBar());
+  // A new sw.js took over (it comes with a freshly downloaded shell).
+  sw.addEventListener('controllerchange', () => hadController && showUpdateBar());
+  checkForUpdate();
+  // Home Screen apps can stay open for days: check again when Tikify comes back to the front.
+  document.addEventListener('visibilitychange', () => document.hidden || checkForUpdate());
+}
+function checkForUpdate() {
+  if (Date.now() - updateCheckedAt < 15 * 60e3) return;
+  updateCheckedAt = Date.now();
+  const ctl = navigator.serviceWorker.controller;
+  if (ctl) ctl.postMessage('check');
+  if (swReg) swReg.update().catch(() => {});
+}
+let updateOffered = false;
+function showUpdateBar() {
+  // Once per launch: a release can announce itself twice (new files, then a new sw.js).
+  if (updateOffered) return;
+  updateOffered = true;
+  const bar = $('#updateBar');
+  bar.hidden = false;
+  document.body.classList.add('has-update');
+  announce('A new version of Tikify is ready. Reload to use it.');
+}
+$('#updateReload').onclick = () => location.reload(); // pagehide saves what's playing, and it comes back paused
+$('#updateLater').onclick = () => {
+  const bar = $('#updateBar');
+  const hadFocus = bar.contains(document.activeElement);
+  bar.hidden = true;
+  document.body.classList.remove('has-update');
+  if (hadFocus) focusFallback();
+};
+
 // ---------- boot ----------
-function readShareTarget() {
-  const params = new URLSearchParams(location.search);
+// Something shared to Tikify (Android share sheet → manifest share_target): its TikTok link goes
+// to the Add view.
+function readShare(params) {
   const shared = ['url', 'text', 'title'].map((k) => params.get(k)).filter(Boolean).join(' ');
-  if (!shared) return;
+  if (!shared) return false;
   const url = TikTok.extractUrl(shared);
-  history.replaceState(null, '', location.pathname + '#/add');
   if (url) pendingShare = url; else shareHadNoLink = true;
+  return true;
+}
+function readShareTarget() {
+  if (readShare(new URLSearchParams(location.search))) history.replaceState(null, '', location.pathname + '#/add');
+}
+
+// With the manifest's launch_handler "focus-existing", Chrome hands a share or a shortcut to the
+// window that is already open instead of reloading it, so what's playing keeps playing.
+function receiveLaunches() {
+  if (!('launchQueue' in window)) return;
+  let own = location.href; // this page's own launch: readShareTarget handles it
+  window.launchQueue.setConsumer(({ targetURL }) => {
+    const mine = targetURL === own;
+    own = null;
+    if (!targetURL || mine) return;
+    const u = new URL(targetURL);
+    const share = readShare(u.searchParams);
+    if (!share && (!u.hash || u.hash === location.hash)) return;
+    if (sheetActive) closeSheet(null);
+    closePlayer();
+    if (!share) go(u.hash);
+    else if (currentRoute().name === 'add') renderAdd($('#view')); // a new Add view for the new link
+    else go('#/add');
+  });
 }
 
 let storageFailure = null; // why the library couldn't be opened; the Library view explains it
+let booted = false;
 
 (async function boot() {
   // First, so the shell gets cached for offline use even if storage or rendering fails below.
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
+  startServiceWorker();
+  receiveLaunches();
   readShareTarget();
   // Start from a plain route entry: after a reload, an overlay's entry has no open overlay.
   const { ov, ...navState } = history.state || {};
@@ -1802,7 +2639,9 @@ let storageFailure = null; // why the library couldn't be opened; the Library vi
       <button class="btn primary" id="reloadBtn">Reload</button></div>`;
     $('#reloadBtn').onclick = () => location.reload();
   }
+  if (!storageFailure) restoreSession(); // paused, where it was when the app was last closed
 
-  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  keepStorage();
+  booted = true;
   maybeShowInstallPrompt();
 })();

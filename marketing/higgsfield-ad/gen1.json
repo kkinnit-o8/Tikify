@@ -1,0 +1,37 @@
+{
+ "about": "Gen 1 INK (covers 0.00-10.49 of the ad). Only for a Higgsfield MCP client that can generate (SCRIPT.md 2.5). Upload the files in request.medias in this order (they become @image1, @image2, ...) and send every other value in request unchanged.",
+ "expected_credits": 18,
+ "budget_rule": "Credits spent so far + expected_credits must be 90 or less. The whole ad (Gen 1 + 2 + 3) costs 49.5.",
+ "request": {
+  "model_id": "kling_o3_image_reference",
+  "aspect_ratio": "9:16",
+  "mode": "pro",
+  "sound": "off",
+  "duration": 12,
+  "multi_shots": true,
+  "multi_prompt": [
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, strictly black and white, bold ink, heavy film grain, screentone. @image1 is texture only (rain, grain, contrast); never show it. Original girl, not any existing anime character: black wolf-cut hair, white fringe tips, silver hoop earring, black hoodie, white earbuds. Extreme close-up of her eyes lit from below by a cold phone glow, rain on her lashes, white speed lines rushing to the centre. Fast push-in. No text, letters, logos or colour.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, strictly black and white, bold ink, heavy film grain, screentone. @image1 is texture only (rain, grain, contrast); never show it. Original girl, not any existing anime character: black wolf-cut hair, white fringe tips, silver hoop earring, black hoodie, white earbuds. Rainy night rooftop above a grey city. Wide shot: she sits hunched on the ledge, lit by a plain black phone whose screen faces away, thumb scrolling. Slow push-in. No text, letters, logos or colour.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, strictly black and white, bold ink, heavy film grain, screentone. @image1 is texture only (rain, grain, contrast); never show it. Original girl, not any existing anime character: black wolf-cut hair, white fringe tips, silver hoop earring, black hoodie, white earbuds. Close-up: she yanks one earbud out and glares at the phone, jaw clenched, sweat drop, diagonal rain, harsh screentone shadows; the screen faces away. Slight shake. No text, letters, logos or colour.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, strictly black and white, bold ink, heavy film grain, screentone. @image1 is texture only (rain, grain, contrast); never show it. Original girl, not any existing anime character: black wolf-cut hair, white fringe tips, silver hoop earring, black hoodie, white earbuds. Low angle: she slowly stands up on the rooftop ledge, phone hand dropping, fringe hiding her eyes, wind whipping the hoodie, lightning behind her. Slow tilt up. No text, letters, logos or colour.",
+    "duration": 3
+   }
+  ],
+  "medias": [
+   {
+    "role": "image_references",
+    "file": "refs/08-ink-mood.png"
+   }
+  ]
+ }
+}

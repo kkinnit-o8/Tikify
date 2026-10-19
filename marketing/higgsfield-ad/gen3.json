@@ -1,0 +1,53 @@
+{
+ "about": "Gen 3 POWER (covers 14.83-28.05; char-ref-colour.png is your still from Gen 2 (SCRIPT.md section 1)). Only for a Higgsfield MCP client that can generate (SCRIPT.md 2.5). Upload the files in request.medias in this order (they become @image1, @image2, ...) and send every other value in request unchanged.",
+ "expected_credits": 22.5,
+ "budget_rule": "Credits spent so far + expected_credits must be 90 or less. The whole ad (Gen 1 + 2 + 3) costs 49.5.",
+ "request": {
+  "model_id": "kling_o3_image_reference",
+  "aspect_ratio": "9:16",
+  "mode": "pro",
+  "sound": "off",
+  "duration": 15,
+  "multi_shots": true,
+  "multi_prompt": [
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, neon night in hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee. Same original girl as @image1 (black wolf-cut hair, glowing tips, black hoodie) with a pink-purple-cyan aura; not any existing anime character. On the rooftop she lifts her phone to camera; her aura spirals into it and the screen blazes on, showing exactly the screen in @image3, unchanged. Fast push-in until the phone fills the centre. No new text or other logos.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, neon night in hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee. Same original girl as @image1 (black wolf-cut hair, glowing tips, black hoodie) with a pink-purple-cyan aura; not any existing anime character. Medium shot: she spins on the rooftop as square album-cover cards with the bubble art from @image4 fly out of her phone and orbit her in a glowing ring. Fast orbit. The phone screen is only a soft glow. No text or logos.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, neon night in hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee. Same original girl as @image1 (black wolf-cut hair, glowing tips, black hoodie) with a pink-purple-cyan aura; not any existing anime character. Side tracking shot: she rides an empty underground subway car at night, earbuds in, phone screen only a soft glow, calm aura, confident smile, tunnel lights streaking past the windows. No text or logos.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, neon night in hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee. Same original girl as @image1 (black wolf-cut hair, glowing tips, black hoodie) with a pink-purple-cyan aura; not any existing anime character. Extreme low angle on the rainy rooftop, same pose and framing as the scream shot, but now calm: she looks down into the camera with a confident smirk, eyes glowing pink and cyan, hair floating in the aura, sparks drifting past. Slow push-in. No text or logos.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, neon night in hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee. Same original girl as @image1 (black wolf-cut hair, glowing tips, black hoodie) with a pink-purple-cyan aura; not any existing anime character. Back on the rooftop she raises her phone to the sky; a giant glowing app icon like @image2 (rounded square, pink-purple-cyan gradient, white music note) forms in the clouds above the city. Camera cranes up. No text or other logos.",
+    "duration": 3
+   }
+  ],
+  "medias": [
+   {
+    "role": "image_references",
+    "file": "char-ref-colour.png"
+   },
+   {
+    "role": "image_references",
+    "file": "refs/01-tikify-logo.png"
+   },
+   {
+    "role": "image_references",
+    "file": "refs/05-phone-add-sound.png"
+   },
+   {
+    "role": "image_references",
+    "file": "refs/09-cover-art.png"
+   }
+  ]
+ }
+}

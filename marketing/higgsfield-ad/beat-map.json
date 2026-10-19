@@ -1,0 +1,673 @@
+{
+ "duration": 30.257,
+ "audio_file": "tikify-ad-audio.mp3 (44.1 kHz stereo; all times in seconds on the decoded timeline; MP3 encoder delay already removed)",
+ "tempo_bpm": 108.8,
+ "beat_period": 0.5514,
+ "bar_period": 2.2056,
+ "sixteenth": 0.1379,
+ "meter": "4/4, half-time clap on beat 3 after the drop; intro uses 3-3-2 syncopation",
+ "drop": 12.6,
+ "drop_frame": {
+  "30fps": 378,
+  "24fps": 302,
+  "note": "12.600 s is exactly frame 378 at 30 fps"
+ },
+ "pre_drop_pickup": 12.33,
+ "scream": {
+  "start": 10.49,
+  "end": 12.06,
+  "tail_end": 12.33,
+  "bursts": [
+   [
+    10.49,
+    10.72
+   ],
+   [
+    10.86,
+    11.0
+   ],
+   [
+    11.05,
+    12.06
+   ]
+  ]
+ },
+ "second_impact": 21.43,
+ "grid": {
+  "downbeat_of_drop_bar_grid": 12.619,
+  "audible_drop_onset": 12.6,
+  "intro_fit": {
+   "anchor": 12.607,
+   "beat": 0.55121,
+   "rms_resid_ms": 4.1
+  },
+  "post_drop_fit": {
+   "anchor": 12.6188,
+   "beat": 0.55139,
+   "rms_resid_ms": 0.8
+  }
+ },
+ "downbeats": [
+  1.583,
+  3.788,
+  5.992,
+  8.197,
+  10.402,
+  12.619,
+  14.824,
+  17.03,
+  19.236,
+  21.441,
+  23.647,
+  25.852,
+  28.058
+ ],
+ "beats": [
+  {
+   "t": 0.48,
+   "bar": -6,
+   "beat": 3
+  },
+  {
+   "t": 1.032,
+   "bar": -6,
+   "beat": 4
+  },
+  {
+   "t": 1.583,
+   "bar": -5,
+   "beat": 1
+  },
+  {
+   "t": 2.134,
+   "bar": -5,
+   "beat": 2
+  },
+  {
+   "t": 2.685,
+   "bar": -5,
+   "beat": 3
+  },
+  {
+   "t": 3.236,
+   "bar": -5,
+   "beat": 4
+  },
+  {
+   "t": 3.788,
+   "bar": -4,
+   "beat": 1
+  },
+  {
+   "t": 4.339,
+   "bar": -4,
+   "beat": 2
+  },
+  {
+   "t": 4.89,
+   "bar": -4,
+   "beat": 3
+  },
+  {
+   "t": 5.441,
+   "bar": -4,
+   "beat": 4
+  },
+  {
+   "t": 5.992,
+   "bar": -3,
+   "beat": 1
+  },
+  {
+   "t": 6.544,
+   "bar": -3,
+   "beat": 2
+  },
+  {
+   "t": 7.095,
+   "bar": -3,
+   "beat": 3
+  },
+  {
+   "t": 7.646,
+   "bar": -3,
+   "beat": 4
+  },
+  {
+   "t": 8.197,
+   "bar": -2,
+   "beat": 1
+  },
+  {
+   "t": 8.749,
+   "bar": -2,
+   "beat": 2
+  },
+  {
+   "t": 9.3,
+   "bar": -2,
+   "beat": 3
+  },
+  {
+   "t": 9.851,
+   "bar": -2,
+   "beat": 4
+  },
+  {
+   "t": 10.402,
+   "bar": -1,
+   "beat": 1
+  },
+  {
+   "t": 10.953,
+   "bar": -1,
+   "beat": 2
+  },
+  {
+   "t": 11.505,
+   "bar": -1,
+   "beat": 3
+  },
+  {
+   "t": 12.056,
+   "bar": -1,
+   "beat": 4
+  },
+  {
+   "t": 12.619,
+   "bar": 0,
+   "beat": 1
+  },
+  {
+   "t": 13.17,
+   "bar": 0,
+   "beat": 2
+  },
+  {
+   "t": 13.722,
+   "bar": 0,
+   "beat": 3
+  },
+  {
+   "t": 14.273,
+   "bar": 0,
+   "beat": 4
+  },
+  {
+   "t": 14.824,
+   "bar": 1,
+   "beat": 1
+  },
+  {
+   "t": 15.376,
+   "bar": 1,
+   "beat": 2
+  },
+  {
+   "t": 15.927,
+   "bar": 1,
+   "beat": 3
+  },
+  {
+   "t": 16.479,
+   "bar": 1,
+   "beat": 4
+  },
+  {
+   "t": 17.03,
+   "bar": 2,
+   "beat": 1
+  },
+  {
+   "t": 17.581,
+   "bar": 2,
+   "beat": 2
+  },
+  {
+   "t": 18.133,
+   "bar": 2,
+   "beat": 3
+  },
+  {
+   "t": 18.684,
+   "bar": 2,
+   "beat": 4
+  },
+  {
+   "t": 19.236,
+   "bar": 3,
+   "beat": 1
+  },
+  {
+   "t": 19.787,
+   "bar": 3,
+   "beat": 2
+  },
+  {
+   "t": 20.338,
+   "bar": 3,
+   "beat": 3
+  },
+  {
+   "t": 20.89,
+   "bar": 3,
+   "beat": 4
+  },
+  {
+   "t": 21.441,
+   "bar": 4,
+   "beat": 1
+  },
+  {
+   "t": 21.992,
+   "bar": 4,
+   "beat": 2
+  },
+  {
+   "t": 22.544,
+   "bar": 4,
+   "beat": 3
+  },
+  {
+   "t": 23.095,
+   "bar": 4,
+   "beat": 4
+  },
+  {
+   "t": 23.647,
+   "bar": 5,
+   "beat": 1
+  },
+  {
+   "t": 24.198,
+   "bar": 5,
+   "beat": 2
+  },
+  {
+   "t": 24.749,
+   "bar": 5,
+   "beat": 3
+  },
+  {
+   "t": 25.301,
+   "bar": 5,
+   "beat": 4
+  },
+  {
+   "t": 25.852,
+   "bar": 6,
+   "beat": 1
+  },
+  {
+   "t": 26.404,
+   "bar": 6,
+   "beat": 2
+  },
+  {
+   "t": 26.955,
+   "bar": 6,
+   "beat": 3
+  },
+  {
+   "t": 27.506,
+   "bar": 6,
+   "beat": 4
+  },
+  {
+   "t": 28.058,
+   "bar": 7,
+   "beat": 1
+  },
+  {
+   "t": 28.609,
+   "bar": 7,
+   "beat": 2
+  },
+  {
+   "t": 29.161,
+   "bar": 7,
+   "beat": 3
+  },
+  {
+   "t": 29.712,
+   "bar": 7,
+   "beat": 4
+  }
+ ],
+ "sections": [
+  {
+   "start": 0.0,
+   "end": 1.584,
+   "label": "Intro pickup: track starts mid-bar (accent hit at 0.21)"
+  },
+  {
+   "start": 1.584,
+   "end": 9.3,
+   "label": "Intro groove: 3.5 bars, downbeats 1.58 / 3.78 / 5.99 / 8.20; syncopated 3-3-2 hits on 16ths 1-4-7 (1.58 1.99 2.41 | 3.78 4.20 4.62 | 5.99 6.40 6.82 | 8.20 8.61 9.03)"
+  },
+  {
+   "start": 9.3,
+   "end": 10.49,
+   "label": "Breath: drums + 808 stop after the 9.03 hit; only a thin pad remains (about 3-7 dB quieter than the groove, sub band down 10-20 dB; quieter, not silent). Quietest 10.0-10.49"
+  },
+  {
+   "start": 10.49,
+   "end": 12.06,
+   "label": "SCREAM: burst 10.49-10.72, burst 10.86-11.00, sustained 11.05-12.06; zero bass 10.6-12.3"
+  },
+  {
+   "start": 12.06,
+   "end": 12.327,
+   "label": "Scream tail: top end fades, vocal/riser continues"
+  },
+  {
+   "start": 12.327,
+   "end": 12.6,
+   "label": "Pre-drop 808 pickup (sub swell two 16ths before the drop)"
+  },
+  {
+   "start": 12.6,
+   "end": 17.03,
+   "label": "DROP phrase bars 0-1: 808 slam 12.60; half-time clap on beat 3 (13.72, 15.93); 808 accents 14.14, 16.34"
+  },
+  {
+   "start": 17.03,
+   "end": 21.43,
+   "label": "Drop phrase bars 2-3: claps 18.13, 20.34; 808 accent 20.76 = pickup into next phrase (source video light burst 18.43-21.53)"
+  },
+  {
+   "start": 21.43,
+   "end": 23.647,
+   "label": "808 HOLD / second impact: one sustained F#1 808 for a full bar, fewest onsets (the 20.7-22.5 'gap'); clap 22.54 = brightest transient in the track"
+  },
+  {
+   "start": 23.647,
+   "end": 28.05,
+   "label": "Drop phrase B bars 5-6: groove returns; claps 24.75, 26.96; 808 accents 25.17, 27.40"
+  },
+  {
+   "start": 28.05,
+   "end": 30.165,
+   "label": "Final bar + outro fill: 808 rolls 29.43 / 29.62, click 29.99; music hard-stops at 30.165"
+  },
+  {
+   "start": 30.165,
+   "end": 30.257,
+   "label": "Silence (end of source file)"
+  }
+ ],
+ "cut_points": [
+  12.6,
+  13.72,
+  14.83,
+  15.93,
+  16.34,
+  17.03,
+  18.13,
+  19.24,
+  20.34,
+  21.43,
+  22.54,
+  24.75,
+  25.17,
+  25.85,
+  26.96,
+  28.05
+ ],
+ "cut_points_detail": [
+  {
+   "t": 12.6,
+   "what": "DROP - 808 slam (strongest event)",
+   "frame30": 378
+  },
+  {
+   "t": 13.72,
+   "what": "clap, bar 0 beat 3",
+   "frame30": 412
+  },
+  {
+   "t": 14.83,
+   "what": "bar 1 downbeat 808 + click (2-part split point)",
+   "frame30": 445
+  },
+  {
+   "t": 15.93,
+   "what": "clap, bar 1 beat 3",
+   "frame30": 478
+  },
+  {
+   "t": 16.34,
+   "what": "808 accent",
+   "frame30": 490
+  },
+  {
+   "t": 17.03,
+   "what": "bar 2 downbeat 808",
+   "frame30": 511
+  },
+  {
+   "t": 18.13,
+   "what": "clap, bar 2 beat 3 (strong click)",
+   "frame30": 544
+  },
+  {
+   "t": 19.24,
+   "what": "bar 3 downbeat 808",
+   "frame30": 577
+  },
+  {
+   "t": 20.34,
+   "what": "clap, bar 3 beat 3",
+   "frame30": 610
+  },
+  {
+   "t": 21.43,
+   "what": "phrase B downbeat - 808 HOLD second impact",
+   "frame30": 643
+  },
+  {
+   "t": 22.54,
+   "what": "clap, bar 4 beat 3 (brightest click)",
+   "frame30": 676
+  },
+  {
+   "t": 24.75,
+   "what": "clap, bar 5 beat 3",
+   "frame30": 742
+  },
+  {
+   "t": 25.17,
+   "what": "808 accent (strong sub)",
+   "frame30": 755
+  },
+  {
+   "t": 25.85,
+   "what": "bar 6 downbeat 808",
+   "frame30": 776
+  },
+  {
+   "t": 26.96,
+   "what": "clap, bar 6 beat 3",
+   "frame30": 809
+  },
+  {
+   "t": 28.05,
+   "what": "bar 7 downbeat 808 (last bar / outro)",
+   "frame30": 842
+  }
+ ],
+ "optional_accents": [
+  14.14,
+  20.76,
+  23.65,
+  27.4,
+  29.15,
+  29.43,
+  29.99
+ ],
+ "split_point_two_clip_plan": 14.8333,
+ "files": [
+  {
+   "path": "tikify-ad-audio.mp3",
+   "source_range": [
+    0.0,
+    30.257
+   ],
+   "duration": 30.257,
+   "scream_at": 10.49,
+   "drop_at": 12.6,
+   "note": "original extract (container metadata says ~30.30 s; decoded 30.257 s; music stops 30.165)",
+   "sent_with_kit": true
+  },
+  {
+   "path": "tikify-ad-audio-15s.mp3",
+   "source_range": [
+    6.375,
+    21.335
+   ],
+   "duration": 14.96,
+   "metadata_duration": 14.994,
+   "scream_at": 4.115,
+   "drop_at": 6.225,
+   "fade_in_ms": 25,
+   "fade_out_ms": 200,
+   "starts_on": "6.399 syncopated 808+clap hit (bar -3, 16th #4); 24 ms pre-roll",
+   "ends": "just before the phrase-B downbeat 21.43 = exactly the 4-bar drop phrase; 200 ms fade",
+   "cut_points": [
+    6.225,
+    7.345,
+    7.765,
+    8.455,
+    9.555,
+    9.965,
+    10.655,
+    11.755,
+    12.865,
+    13.965,
+    14.385
+   ],
+   "hook_text_windows": {
+    "T1": [
+     0.02,
+     1.82
+    ],
+    "T2": [
+     1.82,
+     2.66
+    ],
+    "T3": [
+     2.66,
+     4.115
+    ],
+    "T4_scream": [
+     4.115,
+     6.225
+    ]
+   },
+   "sent_with_kit": false
+  },
+  {
+   "path": "tikify-ad-audio-part1.mp3",
+   "source_range": [
+    0.0,
+    14.8333
+   ],
+   "duration": 14.8333,
+   "metadata_duration": 14.864,
+   "scream_at": 10.49,
+   "drop_at": 12.6,
+   "fade_in_ms": 20,
+   "fade_out_ms": 0,
+   "cut_points": [
+    12.6,
+    13.72,
+    14.14
+   ],
+   "sent_with_kit": true
+  },
+  {
+   "path": "tikify-ad-audio-part2.mp3",
+   "source_range": [
+    14.8333,
+    29.7933
+   ],
+   "duration": 14.96,
+   "metadata_duration": 14.994,
+   "scream_at": null,
+   "drop_at": null,
+   "second_impact_at": 6.597,
+   "fade_in_ms": 0,
+   "fade_out_ms": 200,
+   "cut_points": [
+    1.097,
+    1.507,
+    2.197,
+    3.297,
+    4.407,
+    5.507,
+    5.927,
+    6.597,
+    7.707,
+    9.917,
+    10.337,
+    11.017,
+    12.127,
+    13.217,
+    14.597
+   ],
+   "sent_with_kit": false
+  },
+  {
+   "path": "tikify-ad-audio-30s.mp3",
+   "source_range": [
+    0.0,
+    29.96
+   ],
+   "duration": 29.96,
+   "metadata_duration": 29.989,
+   "scream_at": 10.49,
+   "drop_at": 12.6,
+   "fade_in_ms": 20,
+   "fade_out_ms": 200,
+   "cut_points": [
+    12.6,
+    13.72,
+    14.83,
+    15.93,
+    16.34,
+    17.03,
+    18.13,
+    19.24,
+    20.34,
+    21.43,
+    22.54,
+    24.75,
+    25.17,
+    25.85,
+    26.96,
+    28.05
+   ],
+   "sent_with_kit": false
+  }
+ ],
+ "video_cross_check": [
+  "9.80-10.13 s: source cuts to dark frames with huge 'TELL' letters; 10.10-10.70 frame-alternating strobe as the scream starts (10.49)",
+  "11.0-12.0 s: giant 'WHY' letters over the screaming figure = sustained scream 11.05-12.06",
+  "12.25-12.70 s: warm aura + strobe build; white flash at 12.733 (frame 382) then hard cut to the dark transformed silhouette at 12.867 - i.e. the source's visual hit trails the audio drop (12.600) by 4 frames",
+  "14.733-14.833 s: flash then cut exactly on the bar-1 downbeat 14.83",
+  "18.40-18.47 s: cut into the white light burst (audio clap 18.13, video ~270 ms late); burst holds to 21.53",
+  "21.633 s: flash, 21.667 cut to dark (audio 808-hold impact 21.43, video ~230 ms late); 22.733 flash (clap 22.54)",
+  "Conclusion: the source editor's flashes land 0-270 ms after the audio events; time OUR cuts to the audio numbers above, not to the source video."
+ ],
+ "notes": [
+  "Tempo test: multi-band (5-band log spectral flux) onset envelope; tatum grid fit gives 137.9 ms everywhere (intro, post-drop, whole). That tatum = a 16th at 108.8 BPM or a triplet-8th at 145.1 BPM. Meter test: onset autocorrelation at 16 tatums (2.206 s) = 0.49 intro / 0.24 post-drop vs 12 tatums (a 145-BPM bar) = 0.13 / 0.06, the intro sub hits repeat every 2.205 s, and post-drop claps repeat every 2.2057 s for 7 bars (+-1 ms). So the music is 108.8 BPM 4/4; '145 BPM' is the dotted-8th pulse (3 x 16th = 0.414 s) of the 3-3-2 syncopation. Straight 16ths at 145 BPM fit worse (score 1.04 vs 1.17).",
+  "Grid: intro and post-drop grids agree on tempo (108.85 vs 108.82 BPM) with a 12 ms phase offset; the drop 808 starts 19 ms before the post-drop grid line (12.600 vs 12.619). Treat 12.60 as THE cut frame.",
+  "The drop lands exactly 2 bars after the last intro downbeat (8.20) and 1 bar after the scream bar starts (10.41); the track then runs 8 bars to the end (bar 8 would be 30.27, music stops 30.165).",
+  "Scream measured on the 1-6 kHz band at 5-10 ms resolution: first rise 10.48, attack 10.49-10.51; main body ends when 3-6 kHz falls 6 dB at 12.03-12.06; low-level tail continues under the riser to the 808 pickup at 12.33.",
+  "Final edit timings (same as SCRIPT.md sections 4 and 5.3; earlier suggestions are superseded): T1 'why use SoundCloud' 0.00-3.79 (f0-113), T2 'or Spotify' 3.79-5.99 (f114-179), T3 'why!?!?' 5.99-9.50 with the fade-out from 9.30 (f180-284), breath 9.03-10.49 = freeze frame with a slow zoom, T4 'WHYYYYYYY' 10.49-12.60 (f315-377, hidden f322-327), white frames on the 12.60 drop (f378-380), transformation 12.70-13.72, first product beat (icon slam + 'just use Tikify') on the 13.72 clap (f412), captions c2-c11 on the post-drop beats 14.83-28.05, end card 28.05-30.17 (f842-904).",
+  "Strongest visual moments to save for the product: 12.60 drop, 14.83 / 17.03 / 19.24 downbeats, 21.43 808-hold (second impact - good for a hero/logo hold), 25.17 808 accent, 28.05 last bar into the end card.",
+  "MP3 metadata durations (ffprobe) include LAME padding (+0.03-0.05 s), so cut files were made 14.96 s / 29.96 s decoded so every reader reports <= 15.0 s / <= 30.0 s.",
+  "Two-clip plan: part1 + part2 butt together sample-exactly at 14.8333 s (frame 445 @30 fps, frame 356 @24 fps; 7 ms after the bar-1 downbeat attack). Null test of part1+part2 vs source: residual -45 dBFS (codec noise only). For the final edit, lay the 30 s file under the whole stitched timeline so any per-clip MP3 padding cannot drift.",
+  "Only tikify-ad-audio.mp3 (the editor track) and tikify-ad-audio-part1.mp3 (Option B audio reference) are sent with the kit; they are attached to the chat reply, not stored in the repo. The other cuts are listed for reference only."
+ ]
+}

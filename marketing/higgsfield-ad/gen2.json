@@ -1,0 +1,29 @@
+{
+ "about": "Gen 2 SCREAM -> DROP (covers 10.49-14.83; char-ref.png is your still from Gen 1 (SCRIPT.md section 1)). Only for a Higgsfield MCP client that can generate (SCRIPT.md 2.5). Upload the files in request.medias in this order (they become @image1, @image2, ...) and send every other value in request unchanged.",
+ "expected_credits": 9,
+ "budget_rule": "Credits spent so far + expected_credits must be 90 or less. The whole ad (Gen 1 + 2 + 3) costs 49.5.",
+ "request": {
+  "model_id": "kling_o3_image_reference",
+  "aspect_ratio": "9:16",
+  "mode": "pro",
+  "sound": "off",
+  "duration": 6,
+  "multi_shots": true,
+  "multi_prompt": [
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, bold ink, heavy film grain. Same original girl as @image1 (black wolf-cut hair, white fringe tips, black hoodie), not any existing anime character. Strictly black and white. Extreme low angle, rainy rooftop at night: she throws her head back and screams at the storm, mouth wide open, white lightning crackling around her, puddles lifting, hair whipping up, shake building; in the last half second everything is sucked into the centre. No text, logos or colour.",
+    "duration": 3
+   },
+   {
+    "prompt": "9:16 2D anime, crisp 1080x1920, bold ink, heavy film grain. Same original girl as @image1 (black wolf-cut hair, white fringe tips, black hoodie), not any existing anime character. Opens on one pure white impact flash, then full colour: a shockwave bursts from her chest into a blazing aura of hot pink #fe2c55, purple #7b2cbf and cyan #25f4ee, hair lifting, eyes glowing; colour floods the grey world and the city below lights up in neon. Fast 180-degree orbit. No text, logos or watermark.",
+    "duration": 3
+   }
+  ],
+  "medias": [
+   {
+    "role": "image_references",
+    "file": "char-ref.png"
+   }
+  ]
+ }
+}

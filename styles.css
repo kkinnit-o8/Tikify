@@ -17,15 +17,11 @@
   --update-h: 56px;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
-  /* set by app.js: how far an iPhone Home Screen app's page stops short of the screen bottom (iOS 26 bug) */
-  --ios-gap: 0px;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
-/* Anything the page doesn't cover (like the strip iOS 26 can leave under the tab bar) matches the black tab bar. */
-html { background: #000; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
@@ -67,13 +63,13 @@ html, body, #view, .player, .sheet, button, a, label, summary, .row { touch-acti
 
 main#view {
   flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding: 0 var(--gutter) calc(var(--tabbar-h) + var(--safe-b) + 24px - var(--ios-gap));
+  padding: 0 var(--gutter) calc(var(--tabbar-h) + var(--safe-b) + 24px);
   /* keeps keyboard focus from landing behind the fixed tab bar and mini player */
-  scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px - var(--ios-gap));
+  scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
 }
 body.has-mini main#view {
-  padding-bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 32px - var(--ios-gap));
-  scroll-padding-bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 24px - var(--ios-gap));
+  padding-bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 32px);
+  scroll-padding-bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 24px);
 }
 
 /* visually hidden, still read by screen readers */
@@ -222,7 +218,7 @@ body.has-mini main#view {
 /* ---------- mini player ---------- */
 .mini-player {
   position: fixed; left: 8px; right: 8px;
-  bottom: calc(var(--tabbar-h) + var(--safe-b) + 6px - var(--ios-gap));
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 6px);
   max-width: 704px; margin: 0 auto;
   height: var(--mini-h); border-radius: 8px;
   background: #3a2a3a; background: linear-gradient(90deg, #2b2b3d, #3a2533);
@@ -240,7 +236,7 @@ body.has-mini main#view {
 
 /* ---------- tab bar ---------- */
 .tabbar {
-  position: fixed; left: 0; right: 0; bottom: calc(0px - var(--ios-gap)); z-index: 9;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 9;
   height: calc(var(--tabbar-h) + var(--safe-b));
   /* the tabs sit under the content column on a wide screen */
   padding: 0 max(0px, calc(50% - 360px)) var(--safe-b);
@@ -262,7 +258,7 @@ body.has-update.has-mini .tabbar { --above: calc(var(--mini-h) + var(--update-h)
 
 /* ---------- full screen player ---------- */
 .player {
-  position: fixed; inset: 0 0 calc(0px - var(--ios-gap)); z-index: 20; background: var(--bg);
+  position: fixed; inset: 0; z-index: 20; background: var(--bg);
   transform: translateY(100%); transition: transform .25s ease;
   overflow: hidden;
 }
@@ -344,7 +340,7 @@ body.has-update.has-mini .tabbar { --above: calc(var(--mini-h) + var(--update-h)
 
 /* ---------- sheet ---------- */
 .sheet-backdrop {
-  position: fixed; inset: 0 0 calc(0px - var(--ios-gap)); z-index: 30; background: rgba(0,0,0,0);
+  position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,0);
   display: flex; align-items: flex-end; justify-content: center; transition: background .2s;
 }
 .sheet-backdrop.open { background: rgba(0,0,0,.6); }
@@ -390,32 +386,32 @@ body.has-update.has-mini .tabbar { --above: calc(var(--mini-h) + var(--update-h)
 /* ---------- update bar ---------- */
 .update-bar {
   position: fixed; left: 8px; right: 8px; z-index: 11; max-width: 704px; margin: 0 auto;
-  bottom: calc(var(--tabbar-h) + var(--safe-b) + 6px - var(--ios-gap));
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 6px);
   display: flex; align-items: center; gap: 6px; padding: 6px 4px 6px 14px; min-height: var(--update-h);
   background: #3e3e3e; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.5); font-size: 14px; font-weight: 600;
 }
-body.has-mini .update-bar { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 12px - var(--ios-gap)); }
+body.has-mini .update-bar { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 12px); }
 .update-bar span { flex: 1; min-width: 0; }
 .update-bar .btn { padding: 8px 16px; min-height: 40px; font-size: 14px; }
-body.has-update .toast { bottom: calc(var(--tabbar-h) + var(--safe-b) + 66px - var(--ios-gap)); }
-body.has-update.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 76px - var(--ios-gap)); }
+body.has-update .toast { bottom: calc(var(--tabbar-h) + var(--safe-b) + 66px); }
+body.has-update.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 76px); }
 
 /* ---------- toast ---------- */
 .toast {
   /* centred by its margins, not left: 50%, which would cap its width at half the screen */
   position: fixed; left: 16px; right: 16px; margin: 0 auto; z-index: 40;
   width: -webkit-fit-content; width: fit-content; max-width: 480px;
-  bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px - var(--ios-gap));
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
   background: #fff; color: #000; padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 14px;
   box-shadow: 0 6px 20px rgba(0,0,0,.4); text-align: center;
   pointer-events: none; opacity: 0; transition: opacity .2s;
 }
 /* Clear of whatever sits above the tab bar; in the full player, at the top, off the controls. */
-body.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 18px - var(--ios-gap)); }
+body.has-mini .toast { bottom: calc(var(--tabbar-h) + var(--mini-h) + var(--safe-b) + 18px); }
 body.player-open .toast, body.player-open.has-update.has-mini .toast { top: calc(var(--safe-t) + 64px); bottom: auto; }
 /* A phone on its side centres the player's content, so its top row isn't at the top: below it instead. */
 @media (orientation: landscape) and (max-height: 520px) {
-  body.player-open .toast, body.player-open.has-update.has-mini .toast { top: auto; bottom: calc(8px + var(--safe-b) - var(--ios-gap)); }
+  body.player-open .toast, body.player-open.has-update.has-mini .toast { top: auto; bottom: calc(8px + var(--safe-b)); }
 }
 /* An open sheet covers the bottom of the screen (and the player's top bar): the toast goes above it. */
 body.sheet-open .toast, body.sheet-open.has-update.has-mini .toast { top: calc(var(--safe-t) + 12px); bottom: auto; }

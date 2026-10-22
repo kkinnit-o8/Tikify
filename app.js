@@ -1554,7 +1554,7 @@ async function settingsMenu() {
 }
 
 // Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 function aboutTech() {
   const v = measureViewport();
   const where = isStandalone() ? 'Home Screen app' : 'browser';
@@ -1957,6 +1957,8 @@ function readAhead() {
   dropAhead();
   aheadId = id;
   if (!id) return;
+  const sound = state.sounds.get(id);
+  if (sound) artwork(sound); // its lock screen artwork too, made now rather than at the switch
   DB.get('audio', id).then((rec) => {
     if (aheadId === id && !ahead && rec && rec.blob) ahead = { id, url: URL.createObjectURL(rec.blob) };
   }, () => { /* read again when it's needed */ });
@@ -2145,7 +2147,7 @@ function stopPlayer() {
 }
 
 audio.addEventListener('ended', () => next(true));
-audio.addEventListener('play', () => { stopPreview(); syncPlayState(); });
+audio.addEventListener('play', () => { stopPreview(); setMediaActions(); syncPlayState(); });
 audio.addEventListener('playing', () => {
   audioUnlocked = true;
   skipped = 0;
@@ -2234,6 +2236,7 @@ function startPreview(el, info) {
   preview = { el, info };
   pausePlayback();
   if (!('mediaSession' in navigator)) return;
+  setMediaActions(); // it may be the first thing played: see setMediaActions
   const ms = navigator.mediaSession;
   ms.metadata = new MediaMetadata({
     title: info.title,
@@ -2257,6 +2260,7 @@ function stopPreview() {
   if (currentId()) updateNowPlaying(); else navigator.mediaSession.metadata = null;
   syncPlayState();
   syncProgress();
+  syncPosition();
 }
 
 let seeking = false; // the seek bar is being dragged: it shows the finger, not the playback position
@@ -2271,10 +2275,17 @@ function syncProgress() {
     seek.setAttribute('aria-valuetext', `${fmtTime(t)} of ${fmtTime(d)}`);
   }
   updateSeekFill();
-  if ('mediaSession' in navigator && d && !preview && navigator.mediaSession.setPositionState) {
-    try { navigator.mediaSession.setPositionState({ duration: d, position: Math.min(t, d), playbackRate: audio.playbackRate }); } catch { /* ignore */ }
-  }
 }
+// The lock screen moves the position along by itself while playing, so it is told only when the
+// position jumps, not at every timeupdate: that would wake it four times a second while locked.
+function syncPosition() {
+  if (!('mediaSession' in navigator) || !navigator.mediaSession.setPositionState || preview) return;
+  const d = audio.duration || 0;
+  // No duration (the next sound is still loading): none, rather than the last sound's.
+  const pos = d ? { duration: d, position: Math.min(audio.currentTime || 0, d), playbackRate: audio.playbackRate } : undefined;
+  try { navigator.mediaSession.setPositionState(pos); } catch { /* ignore */ }
+}
+for (const type of ['durationchange', 'play', 'playing', 'pause', 'seeked', 'ratechange']) audio.addEventListener(type, syncPosition);
 function updateSeekFill() {
   seek.style.setProperty('--fill', (seek.value / 10) + '%');
 }
@@ -2387,17 +2398,36 @@ $('#playerMore').onclick = () => {
   });
 })();
 
-if ('mediaSession' in navigator) {
-  const ms = navigator.mediaSession;
-  const set = (a, h) => { try { ms.setActionHandler(a, h); } catch { /* unsupported */ } };
-  // While an Add view preview plays, play, pause and seeking act on it; changing track ends it.
-  set('play', () => (preview ? preview.el.play().catch(() => {}) : resume()));
-  set('pause', () => (preview ? preview.el.pause() : pausePlayback()));
-  set('previoustrack', () => { stopPreview(); prev(); });
-  set('nexttrack', () => { stopPreview(); next(); });
-  set('seekto', (d) => { (preview ? preview.el : audio).currentTime = d.seekTime; });
-  // No seekbackward/seekforward: with those, iOS shows ±10 s buttons in place of previous and
-  // next on the lock screen, and 10 s is most of a TikTok sound.
+// Lock screen, Control Center, headphone and car controls.
+// While an Add view preview plays, play, pause and seeking act on it; changing track ends it.
+const mediaActions = {
+  play: () => (preview ? preview.el.play().catch(() => {}) : resume()),
+  pause: () => (preview ? preview.el.pause() : pausePlayback()),
+  previoustrack: () => { stopPreview(); prev(); },
+  nexttrack: () => { stopPreview(); next(); },
+  seekto: (d) => { (preview ? preview.el : audio).currentTime = d.seekTime; },
+  // No skipping by 10 s: with it, iOS shows ±10 s buttons in place of previous and next, and
+  // 10 s is most of a TikTok sound.
+  seekbackward: null,
+  seekforward: null,
+};
+// Safari hands the handlers on to iOS only while some sound is loaded: the ones set at launch,
+// before restoreSession has loaded one, are dropped, and all of them are forgotten again when the
+// only loaded sound fails. iOS then shows its own ±10 s buttons in place of previous and next. So
+// they are set again whenever something starts playing (setting one again costs nothing).
+function setMediaActions() {
+  if (!('mediaSession' in navigator)) return;
+  for (const [action, handler] of Object.entries(mediaActions)) {
+    try { navigator.mediaSession.setActionHandler(action, handler); } catch { /* unsupported */ }
+  }
+}
+setMediaActions();
+
+// A music player's audio session, kept from one sound to the next. Left to itself, Safari ends it
+// whenever a sound ends, and a locked iPhone doesn't let a page start a new one: the next sound
+// stayed silent until the app was opened again.
+if ('audioSession' in navigator) {
+  try { navigator.audioSession.type = 'playback'; } catch { /* unsupported */ }
 }
 
 document.addEventListener('keydown', (e) => {

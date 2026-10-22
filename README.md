@@ -7,7 +7,9 @@ Spotify, but for TikTok sounds. Copy a TikTok link, save the sound, and play it 
 ## Features
 - **Add sounds from TikTok links**: paste a link (or use the paste button), preview, rename, and save.
 - **Playlists**: create, rename, delete, reorder, and add sounds to as many playlists as you like.
-- **Spotify-style player**: mini player, full-screen player, shuffle, repeat (all / one), seek, lock-screen controls.
+- **Spotify-style player**: mini player, full-screen player, shuffle, repeat (all / one), seek.
+- **Plays in the background**: keeps going from sound to sound with the screen locked or another app open,
+  and the lock screen's buttons skip to the previous or next sound.
 - **Works offline**: sounds are downloaded and stored on your device (IndexedDB).
 - **Installable PWA**: add it to your home screen. On Android you can share a TikTok straight to Tikify.
 - **Backup**: export/import your whole library as a file (menu ⋮ on the Library page).

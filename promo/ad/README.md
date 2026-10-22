@@ -15,6 +15,18 @@ Not part of the app: nothing here is in `sw.js`'s `SHELL`.
 - `scripts/render.js`: renders the page to MP4 with Playwright and ffmpeg.
 - `scripts/beats.py`: finds a track's tempo, beat grid and drop, to sync the ad to it.
 
+## Phonk cut
+`ad_phonk.html` is a faster, harder version timed to a 154 BPM track (`B` in its script is one
+beat): camera shake, zoom punch and an exposure flash on every kick, an RGB split on the big hits,
+slamming captions, a whip-pan, and a one-word-per-beat montage before the end card. It has two
+parts, picked with the query string: `?part=hook` (5 beats ending in a white-out on the drop) and
+`?part=body` (the app, the montage and the end card, starting on the drop).
+```sh
+node scripts/render_par.js ad_phonk.html "part=hook" hook.mp4 60 0 117
+node scripts/render_par.js ad_phonk.html "part=body" body.mp4 60 0 739     # split the range to render in parallel
+node scripts/render_par.js ad_phonk.html "part=body" stills stills 0.2,4.1  # PNG stills
+```
+
 ## Render
 Needs Node with Playwright (Chromium), ffmpeg, and the Inter font installed.
 ```sh

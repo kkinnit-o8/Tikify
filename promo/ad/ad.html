@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tikify Ad</title>
+<style>
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #09080d; }
+  * { box-sizing: border-box; }
+  #stage { position: absolute; inset: 0; overflow: hidden; font-family: Inter, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+  .abs { position: absolute; }
+
+  /* background */
+  .blob { position: absolute; width: 1500px; height: 1500px; left: -750px; top: -750px; border-radius: 50%; }
+  #b1 { background: radial-gradient(circle, rgba(254, 44, 85, .55) 0%, rgba(254, 44, 85, 0) 62%); }
+  #b2 { background: radial-gradient(circle, rgba(123, 44, 191, .75) 0%, rgba(123, 44, 191, 0) 62%); }
+  #b3 { background: radial-gradient(circle, rgba(37, 244, 238, .38) 0%, rgba(37, 244, 238, 0) 62%); }
+  #vignette { inset: 0; background: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 50%, rgba(0, 0, 0, .6) 100%); }
+  #grain { left: 0; top: 0; width: 1400px; height: 2240px; opacity: .055;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+  /* hook */
+  #hook { left: 0; right: 0; top: 630px; text-align: center; font-family: "Inter Display", Inter, sans-serif; font-weight: 900;
+    font-size: 132px; line-height: 1.04; letter-spacing: -5px; }
+  #hook .ln { display: block; white-space: nowrap; }
+  #hook .w { display: inline-block; margin: 0 .12em; will-change: transform, opacity, filter; }
+  .grad { background: linear-gradient(95deg, #fe2c55 0%, #c03cf0 50%, #25f4ee 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #wave { left: 100px; width: 880px; top: 1250px; height: 240px; display: flex; align-items: center; justify-content: space-between; }
+  #wave i { display: block; width: 11px; border-radius: 6px; }
+
+  /* captions */
+  .cap { left: 60px; right: 60px; top: 236px; text-align: center; }
+  .cap .h { font-family: "Inter Display", Inter, sans-serif; font-weight: 800; font-size: 92px; letter-spacing: -3px; line-height: 1.05; }
+  .cap .h .clip { display: inline-block; overflow: hidden; padding: 0 .06em .12em; margin: 0 -.03em -.12em; vertical-align: top; }
+  .cap .h .w { display: inline-block; }
+  .cap .s { position: relative; height: 60px; margin-top: 22px; font-size: 42px; font-weight: 500; color: #c9c4d6; letter-spacing: -.5px; }
+  .cap .s span { position: absolute; left: 0; right: 0; top: 0; white-space: nowrap; }
+
+  /* phone */
+  #underglow { left: 140px; top: 1300px; width: 800px; height: 520px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(160, 60, 230, .55), rgba(254, 44, 85, .18) 45%, transparent 70%); }
+  #phone { left: -34px; top: -24px; width: 1148px; height: 2208px; border-radius: 172px; transform-origin: 50% 50%;
+    background: linear-gradient(135deg, #5a5a64 0%, #1d1d22 22%, #0d0d10 55%, #26262c 80%, #55555f 100%);
+    box-shadow: 0 120px 220px rgba(0, 0, 0, .7), 0 30px 80px rgba(0, 0, 0, .5); }
+  #phone .btn { position: absolute; width: 12px; border-radius: 4px; background: linear-gradient(90deg, #3a3a42, #17171b); }
+  #bezel { position: absolute; inset: 7px; border-radius: 165px; background: #000; }
+  #screen { position: absolute; left: 34px; top: 34px; width: 1080px; height: 2140px; border-radius: 136px; overflow: hidden; background: #121212; isolation: isolate; }
+  .layer { position: absolute; left: 0; top: 0; width: 1080px; height: 2140px; overflow: hidden; background: #121212; }
+  .layer .shot { position: absolute; left: 0; top: 150px; width: 1080px; height: 1920px; display: block; }
+  .strip { position: absolute; left: 0; width: 1080px; background-repeat: no-repeat; }
+  .strip.top { top: 0; height: 150px; background-size: 1080px 288000px; background-position: top; }
+  .strip.bot { top: 2070px; height: 70px; background-size: 1080px 134400px; background-position: bottom; }
+  .shade { position: absolute; inset: 0; background: #000; opacity: 0; }
+  #tallView { position: absolute; left: 0; top: 150px; width: 1080px; height: 1920px; overflow: hidden; }
+  #tallImg { position: absolute; left: 0; top: 0; width: 1080px; height: 3600px; }
+  #tabFade { position: absolute; left: 0; top: 1800px; width: 1080px; height: 80px; background: linear-gradient(to bottom, rgba(0,0,0,0), #000); }
+  #tabbar { position: absolute; left: 0; top: 1880px; width: 1080px; height: 190px; }
+  #checkWrap { position: absolute; left: 419px; top: 899px; width: 240px; height: 240px; background: #121212; }
+  #check { position: absolute; left: 13px; top: 13px; width: 214px; height: 214px; border-radius: 50%;
+    background: url(assets/add_saved.png) -432px -762px / 1080px 1920px no-repeat; }
+  #art { position: absolute; left: 72px; top: 318px; width: 936px; height: 936px; border-radius: 22px;
+    background: url(assets/player_clean.png) -72px -168px / 1080px 1920px no-repeat; box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+  #track { position: absolute; left: 72px; top: 1532px; width: 936px; height: 12px; border-radius: 6px; background: rgba(255,255,255,.27); }
+  #fill { position: absolute; left: 0; top: 0; height: 12px; border-radius: 6px; background: #fff; }
+  #knob { position: absolute; top: -15px; width: 42px; height: 42px; margin-left: -21px; border-radius: 50%; background: #fff; }
+  .ptime { position: absolute; top: 1559px; font-size: 36px; color: #a7a7a7; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  #tCur { left: 72px; }
+  #tDur { right: 72px; }
+
+  #status { position: absolute; left: 0; top: 0; width: 1080px; height: 150px; z-index: 20; pointer-events: none; }
+  #clock { position: absolute; left: 118px; top: 52px; font-weight: 600; font-size: 52px; letter-spacing: -.5px; }
+  #island { position: absolute; left: 368px; top: 34px; width: 344px; height: 102px; border-radius: 51px; background: #000; }
+  #icons { position: absolute; right: 96px; top: 58px; height: 42px; display: flex; align-items: center; gap: 18px; }
+  #icons svg { fill: #fff; display: block; }
+  #netIcons, #planeIcon { display: flex; align-items: center; gap: 18px; }
+  #planeIcon { position: absolute; right: 108px; top: 0; }
+  #planeRing { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 5px solid #25f4ee; left: -38px; top: -38px; opacity: 0; }
+  #homebar { position: absolute; left: 340px; bottom: 22px; width: 400px; height: 14px; border-radius: 7px; background: #fff; opacity: .92; z-index: 20; }
+  #glare { position: absolute; inset: 0; z-index: 21; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.10) 45%, rgba(255,255,255,0) 60%); background-size: 300% 100%; }
+  #glass { position: absolute; inset: 0; z-index: 21; pointer-events: none; background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,0) 35%); }
+
+  .tap { position: absolute; z-index: 22; width: 0; height: 0; }
+  .tap .dot { position: absolute; width: 96px; height: 96px; left: -48px; top: -48px; border-radius: 50%; background: rgba(255,255,255,.55); box-shadow: 0 0 0 3px rgba(255,255,255,.35); }
+  .tap .ring { position: absolute; width: 100px; height: 100px; left: -50px; top: -50px; border-radius: 50%; border: 5px solid rgba(255,255,255,.9); }
+
+  .float { position: absolute; width: 200px; height: 200px; border-radius: 22px; background-repeat: no-repeat; background-size: 1240px 2203px;
+    box-shadow: 0 30px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+
+  /* end card */
+  #endGlow { left: 40px; top: 70px; width: 1000px; height: 1000px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(192, 60, 240, .55) 0%, rgba(254, 44, 85, .2) 35%, rgba(0,0,0,0) 65%); }
+  #icon { left: 380px; top: 350px; width: 320px; height: 320px; filter: drop-shadow(0 40px 70px rgba(123, 44, 191, .6)); }
+  #icon img { width: 100%; height: 100%; display: block; }
+  #shine { position: absolute; inset: 0; -webkit-mask: url(assets/icon-512.png) center / 100% 100%; mask: url(assets/icon-512.png) center / 100% 100%;
+    background: linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 65%); background-size: 300% 100%; }
+  #word { left: 0; right: 0; top: 710px; text-align: center; font-family: "Inter Display", Inter, sans-serif; font-weight: 900; font-size: 176px; letter-spacing: -6px; line-height: 1; }
+  #word span { display: inline-block; }
+  #tag { left: 0; right: 0; top: 928px; text-align: center; font-family: "Inter Display", Inter, sans-serif; font-weight: 700; font-size: 64px; letter-spacing: -1.5px; line-height: 1.16; }
+  #tag div { display: block; }
+  #pills { left: 0; right: 0; top: 1130px; display: flex; justify-content: center; gap: 18px; }
+  .pill { padding: 16px 32px; border-radius: 100px; font-size: 38px; font-weight: 600; color: #e9e6f0; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
+  #cta { left: 250px; top: 1256px; width: 580px; height: 128px; border-radius: 64px; display: flex; align-items: center; justify-content: center; gap: 18px;
+    font-size: 52px; font-weight: 800; letter-spacing: -1px; overflow: hidden;
+    background: linear-gradient(110deg, #fe2c55, #7b2cbf 55%, #25c8ee); box-shadow: 0 24px 60px rgba(254, 44, 85, .35); }
+  #cta svg { width: 46px; height: 46px; fill: #fff; }
+  #ctaShine { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.45) 50%, rgba(255,255,255,0) 65%); background-size: 300% 100%; }
+  #url { left: 0; right: 0; top: 1410px; text-align: center; font-size: 38px; font-weight: 500; color: #bdb8c9; letter-spacing: -.3px; }
+  #legal { left: 0; right: 0; top: 1472px; text-align: center; font-size: 25px; color: #6f6a7a; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob" id="b1"></div>
+  <div class="blob" id="b2"></div>
+  <div class="blob" id="b3"></div>
+
+  <div class="abs" id="hook">
+    <span class="ln"><span class="w">Found</span><span class="w">a</span><span class="w">sound</span></span>
+    <span class="ln"><span class="w">you</span><span class="w">can’t</span><span class="w">stop</span></span>
+    <span class="ln"><span class="w grad">replaying?</span></span>
+  </div>
+  <div class="abs" id="wave"></div>
+
+  <div id="floaters"></div>
+  <div class="abs" id="underglow"></div>
+
+  <div class="abs" id="phone">
+    <div class="btn" style="left:-7px;top:400px;height:110px"></div>
+    <div class="btn" style="left:-7px;top:580px;height:190px"></div>
+    <div class="btn" style="left:-7px;top:800px;height:190px"></div>
+    <div class="btn" style="right:-7px;top:660px;height:300px"></div>
+    <div id="bezel"></div>
+    <div id="screen">
+      <div class="layer" id="L_empty"></div>
+      <div class="layer" id="L_link"></div>
+      <div class="layer" id="L_tall">
+        <div class="strip top" style="background-image:url(assets/add_tall.png);background-size:1080px 540000px"></div>
+        <div id="tallView"><img id="tallImg" src="assets/add_tall.png" alt=""></div>
+        <div id="tabFade"></div>
+        <img id="tabbar" src="assets/tabbar.png" alt="">
+        <div class="strip bot" style="background:#000"></div>
+      </div>
+      <div class="layer" id="L_saved"></div>
+      <div class="layer" id="L_library"></div>
+      <div class="layer" id="L_playlist"></div>
+      <div class="layer" id="L_player"></div>
+
+      <div id="status">
+        <div id="clock">9:41</div>
+        <div id="island"></div>
+        <div id="icons">
+          <div id="netIcons">
+            <svg width="62" height="38" viewBox="0 0 62 38"><rect x="0" y="24" width="11" height="14" rx="3"/><rect x="17" y="17" width="11" height="21" rx="3"/><rect x="34" y="9" width="11" height="29" rx="3"/><rect x="51" y="0" width="11" height="38" rx="3"/></svg>
+            <svg width="52" height="40" viewBox="2 3 20 16"><path d="M12 18.5 9.2 15.6a4 4 0 0 1 5.6 0zM6.4 12.8l1.4 1.4a6 6 0 0 1 8.4 0l1.4-1.4a8 8 0 0 0-11.2 0zM3.6 10l1.4 1.4a10 10 0 0 1 14 0L20.4 10a12 12 0 0 0-16.8 0z"/></svg>
+          </div>
+          <div id="planeIcon">
+            <div id="planeRing"></div>
+            <svg width="48" height="48" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+          </div>
+          <svg width="80" height="38" viewBox="0 0 80 38"><rect x="2" y="2" width="68" height="34" rx="10" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3"/><rect x="7" y="7" width="52" height="24" rx="6"/><rect x="73" y="13" width="5" height="12" rx="2.5" fill-opacity=".45"/></svg>
+        </div>
+      </div>
+      <div id="homebar"></div>
+      <div id="glass"></div>
+      <div id="glare"></div>
+      <div class="tap" id="tap"><div class="ring"></div><div class="dot"></div></div>
+    </div>
+  </div>
+
+  <div id="caps"></div>
+
+  <div class="abs" id="endGlow"></div>
+  <div class="abs" id="icon"><img src="assets/icon-512.png" alt=""><div id="shine"></div></div>
+  <div class="abs" id="word"></div>
+  <div class="abs" id="tag"><div id="tag1">Save TikTok sounds.</div><div id="tag2" class="grad">Play them like music.</div></div>
+  <div class="abs" id="pills"><div class="pill">Playlists</div><div class="pill">Works offline</div><div class="pill">Free</div></div>
+  <div class="abs" id="cta"><div id="ctaShine"></div><span>Try Tikify free</span><svg viewBox="0 0 24 24"><path d="M13.2 5.2 19.9 12l-6.7 6.8-1.4-1.4 4.3-4.4H4v-2h12.1l-4.3-4.4z"/></svg></div>
+  <div class="abs" id="url">kkinnit-o8.github.io/Tikify</div>
+  <div class="abs" id="legal">Independent app. Not affiliated with TikTok.</div>
+
+  <div class="abs" id="vignette"></div>
+  <div class="abs" id="grain"></div>
+</div>
+
+<script>
+const DURATION = 16;
+const $ = (s) => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const E = {
+  outCubic: (k) => 1 - Math.pow(1 - k, 3),
+  outQuart: (k) => 1 - Math.pow(1 - k, 4),
+  outQuint: (k) => 1 - Math.pow(1 - k, 5),
+  inCubic: (k) => k * k * k,
+  inOutCubic: (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2),
+  inOutQuint: (k) => (k < .5 ? 16 * k ** 5 : 1 - Math.pow(-2 * k + 2, 5) / 2),
+  outBack: (k) => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); },
+};
+// Damped spring from 0 to 1, by seconds since it started.
+const spring = (s, stiff = 8, freq = 13) => (s <= 0 ? 0 : 1 - Math.exp(-s * stiff) * Math.cos(s * freq));
+const set = (el, css) => { for (const k in css) el.style[k] = css[k]; };
+
+// ----- phone screens: the screenshot plus its top and bottom rows stretched under the status bar and home bar
+function fillLayer(id, src) {
+  $(id).innerHTML = `<div class="strip top" style="background-image:url(${src})"></div><img class="shot" src="${src}" alt=""><div class="strip bot" style="background-image:url(${src})"></div><div class="shade"></div>`;
+}
+fillLayer('#L_empty', 'assets/add_empty.png');
+fillLayer('#L_link', 'assets/add_link.png');
+fillLayer('#L_saved', 'assets/add_saved.png');
+fillLayer('#L_library', 'assets/library.jpg');
+fillLayer('#L_playlist', 'assets/playlist.jpg');
+fillLayer('#L_player', 'assets/player_clean.png');
+$('#L_saved').insertAdjacentHTML('beforeend', '<div id="checkWrap"><div id="check"></div></div>');
+$('#L_player').insertAdjacentHTML('beforeend', '<div id="art"></div><div id="track"><div id="fill"></div><div id="knob"></div></div><div class="ptime" id="tCur">0:48</div><div class="ptime" id="tDur">2:34</div>');
+$('#L_library').querySelector('.shade').remove();
+$('#L_library').insertAdjacentHTML('beforeend', '<div class="shade"></div>');
+
+// ----- waveform
+const BARS = 44;
+for (let i = 0; i < BARS; i++) {
+  const k = i / (BARS - 1);
+  const c = k < .5 ? mix([254, 44, 85], [176, 60, 240], k * 2) : mix([176, 60, 240], [37, 244, 238], (k - .5) * 2);
+  $('#wave').insertAdjacentHTML('beforeend', `<i style="background:rgb(${c})"></i>`);
+}
+function mix(a, b, k) { return a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(','); }
+
+// ----- floating playlist covers (crops of the library screenshot)
+const TILES = [
+  { y: 384, x: 150, cy: 640, rot: -11 },
+  { y: 600, x: 940, cy: 800, rot: 9 },
+  { y: 816, x: 132, cy: 1270, rot: 8 },
+  { y: 1032, x: 948, cy: 1400, rot: -7 },
+];
+const S = 200 / 168; // tile size / crop size
+for (const t of TILES) {
+  const d = document.createElement('div');
+  d.className = 'float';
+  d.style.backgroundImage = 'url(assets/library.jpg)';
+  d.style.backgroundPosition = `${-48 * S}px ${-t.y * S}px`;
+  $('#floaters').appendChild(d);
+  t.el = d;
+}
+
+// ----- captions
+const CAPS = [
+  { t0: 2.75, t1: 4.5, h: 'Paste a TikTok link', s: ['Tikify finds the sound for you'] },
+  { t0: 4.62, t1: 6.8, h: 'Save it to a playlist', s: ['Downloaded right to your phone'] },
+  { t0: 6.95, t1: 9.35, h: 'Build your playlists', s: ['Gym, chill, road trip: you name it'] },
+  { t0: 9.5, t1: 12.35, h: 'Play it like music', s: ['Shuffle, repeat, lock-screen controls', 'Even in airplane mode'], swap: 10.95 },
+];
+for (const c of CAPS) {
+  const el = document.createElement('div');
+  el.className = 'abs cap';
+  el.innerHTML = `<div class="h">${c.h.split(' ').map((w) => `<span class="clip"><span class="w">${w}</span></span>`).join(' ')}</div>
+    <div class="s">${c.s.map((s) => `<span>${s}</span>`).join('')}</div>`;
+  $('#caps').appendChild(el);
+  c.el = el;
+  c.words = [...el.querySelectorAll('.h .w')];
+  c.subs = [...el.querySelectorAll('.s span')];
+}
+
+// ----- end card wordmark
+$('#word').innerHTML = [...'Tikify'].map((ch) => `<span>${ch}</span>`).join('');
+
+window.ready = Promise.all([
+  document.fonts.ready,
+  ...[...document.images].map((i) => i.decode().catch(() => {})),
+]);
+
+// ----- tap indicator, in screen coordinates (y measured on the screenshot, below the 150px status bar)
+const TAPS = [
+  { t: 3.45, x: 954, y: 442 },   // paste
+  { t: 4.05, x: 540, y: 613 },   // Find sound
+  { t: 5.95, x: 540, y: 1481 },  // Save to library (after the scroll)
+  { t: 6.95, x: 172, y: 1815 },  // Library tab
+  { t: 8.3, x: 540, y: 684 },    // Gym playlist
+  { t: 9.48, x: 420, y: 1620 },  // mini player
+];
+function tapAt(t) {
+  const tap = $('#tap');
+  const cur = TAPS.find((p) => t >= p.t - .22 && t < p.t + .5);
+  if (!cur) return set(tap, { opacity: 0 });
+  const s = t - cur.t;
+  const appear = E.outCubic(P(s, -.22, -.04));
+  const press = s < 0 ? 1 : lerp(.82, 1, E.outCubic(P(s, 0, .25)));
+  const dotO = (s < 0 ? appear : 1 - P(s, .12, .38)) * 1;
+  const ringK = E.outCubic(P(s, 0, .45));
+  set(tap, { opacity: 1, left: cur.x + 'px', top: 150 + cur.y + 'px' });
+  set(tap.querySelector('.dot'), { opacity: dotO, transform: `scale(${lerp(1.35, 1, appear) * press})` });
+  set(tap.querySelector('.ring'), { opacity: s < 0 ? 0 : (1 - ringK) * .9, transform: `scale(${lerp(.6, 2.3, ringK)})` });
+}
+
+// ----- the timeline
+function seek(t) {
+  const f = Math.round(t * 60);
+
+  // background drift; brighter and centred on the end card
+  const endK = E.inOutCubic(P(t, 12.3, 13.3));
+  set($('#b1'), { transform: `translate(${lerp(180 + 140 * Math.sin(t * .35), 300, endK)}px, ${lerp(380 + 120 * Math.cos(t * .3), 520, endK)}px)`, opacity: lerp(.75, .9, endK) });
+  set($('#b2'), { transform: `translate(${lerp(880 + 120 * Math.cos(t * .28), 560, endK)}px, ${lerp(1120 + 140 * Math.sin(t * .33), 760, endK)}px)`, opacity: lerp(.8, 1, endK) });
+  set($('#b3'), { transform: `translate(${lerp(260 + 160 * Math.sin(t * .25 + 1), 820, endK)}px, ${lerp(1720 + 100 * Math.cos(t * .4), 1300, endK)}px)`, opacity: lerp(.8, .9, endK) });
+  set($('#grain'), { transform: `translate(${-((f * 73) % 256)}px, ${-((f * 151) % 256)}px)` });
+
+  // HOOK (0 - 2.5s): words land on the beat (120 BPM), then blur away
+  const hookOut = E.inCubic(P(t, 2.15, 2.55));
+  const words = [...document.querySelectorAll('#hook .w')];
+  const wT = [0.05, 0.22, 0.39, 0.75, 0.92, 1.09, 1.42];
+  words.forEach((w, i) => {
+    const s = t - wT[i];
+    const last = i === words.length - 1;
+    const k = E.outQuart(P(s, 0, last ? .5 : .38));
+    const sc = last ? lerp(1.35, 1, clamp(spring(s, 7, 12))) : lerp(.92, 1, k);
+    set(w, { opacity: k * (1 - hookOut), transform: `translateY(${(1 - k) * 70 - hookOut * 90}px) scale(${s <= 0 ? .9 : sc * (1 - hookOut * .08)})`,
+      filter: `blur(${(1 - k) * 14 + hookOut * 18}px)` });
+  });
+  set($('#hook'), { display: t > 2.6 ? 'none' : 'block' });
+  // waveform under the hook
+  const waveIn = E.outCubic(P(t, .15, .7));
+  const waveOut = E.inCubic(P(t, 2.1, 2.45));
+  [...$('#wave').children].forEach((b, i) => {
+    const x = (i - (BARS - 1) / 2) / (BARS / 2);
+    const env = Math.exp(-x * x * 1.6);
+    const beat = Math.pow(1 - ((t * 2) % 1), 3);
+    const n = .55 + .45 * Math.sin(i * .61 + t * 6.3) * Math.sin(i * .27 - t * 3.9 + 1);
+    const h = 14 + (160 * n * env + 50 * beat * env) * waveIn * (1 - waveOut);
+    set(b, { height: h + 'px', opacity: (.35 + .65 * env) * (1 - waveOut) });
+  });
+  set($('#wave'), { display: t > 2.6 ? 'none' : 'flex' });
+
+  // PHONE: rises in, floats, punches on key beats, leaves for the end card
+  const inK = E.outQuint(P(t, 2.3, 3.15));
+  const outK = E.inOutCubic(P(t, 12.3, 12.95));
+  const bump = (at) => { const s = t - at; return s < 0 || s > .5 ? 0 : Math.sin(Math.PI * s / .5) * Math.exp(-s * 4); };
+  const punch = .018 * (bump(6.02) + bump(9.6) + bump(8.4));
+  const zoom = lerp(0, .03, E.inOutCubic(P(t, 4.6, 5.4))) * (1 - E.inOutCubic(P(t, 6.4, 6.9)));
+  const sc = lerp(.4, .5, inK) * (1 + punch + zoom) * lerp(1, .82, outK);
+  const ty = lerp(1000, 0, inK) + 12 * Math.sin(t * 1.4) + lerp(0, 260, outK);
+  const rx = lerp(38, 0, inK) + 2.2 * Math.sin(t * .9 + 1);
+  const ry = lerp(-14, 0, inK) + 4 * Math.sin(t * .7) + lerp(0, -8, outK);
+  const rz = lerp(-4, 0, inK) + .6 * Math.sin(t * .5);
+  const phoneVis = t > 2.25 && t < 13;
+  set($('#phone'), { display: phoneVis ? 'block' : 'none', opacity: clamp(P(t, 2.3, 2.6)) * (1 - outK),
+    transform: `translateY(${ty}px) perspective(2600px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`,
+    filter: outK > 0 ? `blur(${outK * 12}px)` : 'none' });
+  set($('#underglow'), { display: phoneVis ? 'block' : 'none', opacity: inK * (1 - outK) * (.85 + .15 * Math.sin(t * 2)),
+    transform: `translateY(${lerp(400, 0, inK) + lerp(0, 200, outK)}px) scale(${1 + punch * 3})` });
+  // a sweep of light across the glass as it lands, and again when the player opens
+  const g1 = P(t, 2.75, 3.55), g2 = P(t, 9.65, 10.45);
+  const gk = g1 > 0 && g1 < 1 ? g1 : g2 > 0 && g2 < 1 ? g2 : null;
+  set($('#glare'), { opacity: gk === null ? 0 : 1, backgroundPosition: `${gk === null ? 0 : lerp(110, -10, E.inOutCubic(gk))}% 0` });
+
+  // SCREENS
+  const show = (id, o, extra = {}) => set($(id), Object.assign({ display: o > 0 ? 'block' : 'none', opacity: o, transform: 'none', zIndex: 1 }, extra));
+  show('#L_empty', t < 3.7 ? 1 : 0);
+  show('#L_link', P(t, 3.53, 3.65) * (t < 4.6 ? 1 : 0), { zIndex: 2 });
+  // the found sound's card, then a smooth scroll down to the Save button
+  const scroll = 890 * E.inOutQuint(P(t, 4.7, 5.6));
+  $('#tallImg').style.transform = `translateY(${-scroll}px)`;
+  show('#L_tall', E.outCubic(P(t, 4.15, 4.45)) * (t < 6.3 ? 1 : 0), { zIndex: 3 });
+  // saved: the check pops in
+  show('#L_saved', P(t, 6.05, 6.17) * (t < 7.4 ? 1 : 0), { zIndex: 4 });
+  const ck = t - 6.08;
+  set($('#check'), { transform: `scale(${ck <= 0 ? 0 : spring(ck, 9, 15)})` });
+  // Library tab
+  const libIn = E.outCubic(P(t, 7.02, 7.32));
+  // Gym: iOS-style push
+  const push = E.outQuint(P(t, 8.36, 8.9));
+  show('#L_library', libIn * (t < 9.2 ? 1 : 0), { zIndex: 5, transform: `translateX(${-330 * push}px) scale(${lerp(1.04, 1, libIn)})` });
+  $('#L_library .shade').style.opacity = push * .45;
+  show('#L_playlist', push > 0 ? 1 : 0, { zIndex: 6, transform: `translateX(${1080 * (1 - push)}px)`, boxShadow: '-30px 0 60px rgba(0,0,0,.5)' });
+  $('#L_playlist .shade').style.opacity = E.outCubic(P(t, 9.55, 10.0)) * .5;
+  // mini player opens into the full player
+  const up = E.outQuint(P(t, 9.55, 10.1));
+  show('#L_player', up > 0 ? 1 : 0, { zIndex: 7, transform: `translateY(${2140 * (1 - up)}px)`, borderRadius: `${(1 - up) * 60}px` });
+  // the player plays: art breathes on the beat, the seek bar and clock run
+  const beat = Math.pow(1 - (((t - 9.5) * 2) % 1 + 1) % 1, 4);
+  set($('#art'), { transform: `scale(${1 + .012 * beat * P(t, 10, 10.3)})` });
+  const sec = 48 + Math.max(0, t - 9.6);
+  const p = sec / 154;
+  $('#fill').style.width = p * 936 + 'px';
+  $('#knob').style.left = p * 936 + 'px';
+  $('#tCur').textContent = `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
+  // airplane mode
+  const air = E.outCubic(P(t, 10.9, 11.15));
+  set($('#netIcons'), { opacity: 1 - air, transform: `scale(${1 - air * .3})` });
+  set($('#planeIcon'), { opacity: air, transform: `scale(${lerp(.4, 1, t >= 10.9 ? spring(t - 10.9, 8, 14) : 0)})` });
+  const ringK = P(t, 11.0, 11.9);
+  set($('#planeRing'), { opacity: ringK > 0 && ringK < 1 ? (1 - ringK) : 0, transform: `scale(${lerp(.5, 2.2, E.outCubic(ringK))})` });
+  tapAt(t);
+
+  // floating playlist covers slide out from behind the phone
+  TILES.forEach((tile, i) => {
+    const a = 7.3 + i * .09;
+    const k = E.outBack(P(t, a, a + .65));
+    const back = E.inCubic(P(t, 9.05 + i * .04, 9.4 + i * .04));
+    const vis = t > a && t < 9.5;
+    const x = lerp(540, tile.x, k * (1 - back)) + 8 * Math.sin(t * 1.1 + i);
+    const y = lerp(1080, tile.cy, k * (1 - back)) + 14 * Math.sin(t * 1.3 + i * 2);
+    set(tile.el, { display: vis ? 'block' : 'none', opacity: clamp(k * 1.5) * (1 - back),
+      transform: `translate(${x - 100}px, ${y - 100}px) rotate(${tile.rot * k + 3 * Math.sin(t + i)}deg) scale(${lerp(.6, 1, clamp(k))})` });
+  });
+
+  // CAPTIONS: words rise out of a mask, sublines slide in, all lift away together
+  for (const c of CAPS) {
+    const vis = t > c.t0 - .05 && t < c.t1 + .35;
+    c.el.style.display = vis ? 'block' : 'none';
+    if (!vis) continue;
+    const out = E.inCubic(P(t, c.t1, c.t1 + .3));
+    set(c.el, { opacity: 1 - out, transform: `translateY(${-40 * out}px)`, filter: out > 0 ? `blur(${out * 8}px)` : 'none' });
+    c.words.forEach((w, i) => {
+      const k = E.outQuart(P(t, c.t0 + i * .055, c.t0 + i * .055 + .5));
+      set(w, { transform: `translateY(${(1 - k) * 110}%)` });
+    });
+    c.subs.forEach((s, i) => {
+      const a = i === 0 ? c.t0 + .3 : c.swap;
+      const inK = E.outCubic(P(t, a, a + .45));
+      const outK = c.swap && i === 0 ? E.inCubic(P(t, c.swap - .05, c.swap + .2)) : 0;
+      set(s, { opacity: inK * (1 - outK), transform: `translateY(${(1 - inK) * 30 - outK * 30}px)`, color: i === 1 ? '#5ff6f1' : '' });
+    });
+  }
+
+  // END CARD
+  const endVis = t > 12.5;
+  for (const id of ['#endGlow', '#icon', '#word', '#tag', '#pills', '#cta', '#url', '#legal']) $(id).style.display = endVis ? 'block' : 'none';
+  $('#pills').style.display = endVis ? 'flex' : 'none';
+  $('#cta').style.display = endVis ? 'flex' : 'none';
+  if (endVis) {
+    const gK = E.outCubic(P(t, 12.55, 13.4));
+    set($('#endGlow'), { opacity: gK * (.85 + .15 * Math.sin(t * 2.2)), transform: `scale(${lerp(.6, 1, gK)})` });
+    const iS = t - 12.62;
+    set($('#icon'), { opacity: clamp(P(t, 12.62, 12.8)), transform: `translateY(${(1 - E.outCubic(P(t, 12.62, 13.1))) * 80 - 8 * Math.sin(Math.max(0, t - 13.5) * 1.6)}px) rotate(${lerp(-14, 0, clamp(spring(iS, 7, 11)))}deg) scale(${lerp(.35, 1, spring(iS, 7, 11))})` });
+    set($('#shine'), { backgroundPosition: `${lerp(110, -10, E.inOutCubic(P(t, 14.55, 15.25)))}% 0` });
+    [...$('#word').children].forEach((ch, i) => {
+      const k = E.outQuart(P(t, 12.92 + i * .04, 13.42 + i * .04));
+      set(ch, { opacity: k, transform: `translateY(${(1 - k) * 90}px)`, filter: `blur(${(1 - k) * 10}px)` });
+    });
+    const t1 = E.outQuart(P(t, 13.25, 13.75)), t2 = E.outQuart(P(t, 13.42, 13.92));
+    set($('#tag1'), { opacity: t1, transform: `translateY(${(1 - t1) * 40}px)` });
+    set($('#tag2'), { opacity: t2, transform: `translateY(${(1 - t2) * 40}px)` });
+    [...$('#pills').children].forEach((pl, i) => {
+      const s = t - (13.75 + i * .1);
+      set(pl, { opacity: clamp(s / .2), transform: `scale(${s <= 0 ? .6 : lerp(.6, 1, spring(s, 9, 14))})` });
+    });
+    const cS = t - 14.1;
+    set($('#cta'), { opacity: clamp(cS / .2), transform: `scale(${(cS <= 0 ? .7 : lerp(.7, 1, spring(cS, 8, 13))) * (1 + .02 * Math.max(0, Math.sin((t - 14.9) * Math.PI * 2)) * (t > 14.9 ? 1 : 0))})` });
+    set($('#ctaShine'), { backgroundPosition: `${lerp(110, -10, E.inOutCubic(P(t, 14.75, 15.4)))}% 0` });
+    const u = E.outCubic(P(t, 14.3, 14.7));
+    set($('#url'), { opacity: u, transform: `translateY(${(1 - u) * 20}px)` });
+    set($('#legal'), { opacity: E.outCubic(P(t, 14.45, 14.85)) });
+  }
+}
+seek(0);
+</script>
+</body>
+</html>

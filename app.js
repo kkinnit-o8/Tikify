@@ -35,6 +35,10 @@ const ICON = {
   info: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm-1 3h2v2h-2zm0 4h2v6h-2z"/></svg>',
   install: '<svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h10V4zm4 2h2v6.2l2.1-2.1 1.4 1.4-4.5 4.5-4.5-4.5 1.4-1.4 2.1 2.1z"/></svg>',
   check: '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>',
+  globe: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6H16a15.6 15.6 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.8 1.9-4zM4.3 14a8.2 8.2 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4zm.8 2H8c.3 1.3.8 2.5 1.4 3.6A8 8 0 0 1 5.1 16zM8 8H5.1a8 8 0 0 1 4.3-3.6C8.8 5.5 8.3 6.8 8 8zm4 12c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 0 1-4.3 3.6zm1.7-5.6a16.5 16.5 0 0 0 0-4h3.4a8.2 8.2 0 0 1 0 4z"/></svg>',
+  share: '<svg viewBox="0 0 24 24"><path d="M18 16a3 3 0 0 0-2 .8l-7.1-4.1a3.2 3.2 0 0 0 0-1.4L16 7.2A3 3 0 1 0 15 5c0 .2 0 .5.1.7L8 9.8a3 3 0 1 0 0 4.4l7.1 4.2-.1.6a3 3 0 1 0 3-3z"/></svg>',
+  lock: '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM9 8V6a3 3 0 1 1 6 0v2z"/></svg>',
+  flag: '<svg viewBox="0 0 24 24"><path d="M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6z"/></svg>',
 };
 // Decoration only: whatever shows an icon has a text or label of its own, so screen readers skip it.
 for (const k in ICON) ICON[k] = ICON[k].replace('<svg ', '<svg aria-hidden="true" ');
@@ -137,6 +141,7 @@ async function squareArt(src, type) {
 const idOf = (v) => (typeof v === 'string' ? v : typeof v === 'number' && isFinite(v) ? String(v) : '');
 const clipText = (v, max) => (typeof v === 'string' || typeof v === 'number' ? String(v).trim().slice(0, max) : '');
 const TIKTOK_HOST = /(^|\.)tiktok\.com$/i;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 // Only http(s) links ever reach an href, window.open, <img> or <audio> (no javascript: or data:).
 function webUrl(u, host) {
   if (typeof u !== 'string') return null;
@@ -170,11 +175,19 @@ function cleanPlaylist(p, sounds = state.sounds) {
   const id = p && typeof p === 'object' ? idOf(p.id) : '';
   if (!id) return null;
   const ids = Array.isArray(p.soundIds) ? p.soundIds.map(idOf).filter((x) => sounds.has(x)) : [];
+  const pub = p.published;
   return {
     id,
     name: clipText(p.name, 120) || 'Untitled playlist',
     soundIds: [...new Set(ids)],
     createdAt: Number.isFinite(p.createdAt) ? p.createdAt : Date.now(),
+    // Made public (community.js): its id there, the key that updates or unpublishes it, and its description.
+    ...(pub && UUID.test(pub.id) && typeof pub.key === 'string' && pub.key.length <= 200
+      ? { published: { id: pub.id, key: pub.key, description: clipText(pub.description, 300) } } : {}),
+    // Downloaded from a public playlist: its id there, and the links of it already dealt with (saved,
+    // gone from TikTok, or taken out of this playlist), which aren't offered as new again.
+    ...(UUID.test(p.fromPublic) ? { fromPublic: p.fromPublic } : {}),
+    ...(Array.isArray(p.publicSeen) ? { publicSeen: p.publicSeen.filter((u) => webUrl(u, TIKTOK_HOST)).slice(-1000) } : {}),
   };
 }
 const samePlaylist = (a, b) => a.id === b.id && a.name === b.name && a.createdAt === b.createdAt &&
@@ -522,8 +535,8 @@ function sheetConfirm(title, msg, okLabel = 'Delete') {
 }
 
 // ---------- data actions ----------
-async function createPlaylist(name) {
-  const p = { id: uid(), name, soundIds: [], createdAt: Date.now() };
+async function createPlaylist(name, extra = {}) {
+  const p = { id: uid(), name, soundIds: [], createdAt: Date.now(), ...extra };
   await DB.put('playlists', p);
   state.playlists.push(p);
   return p;
@@ -699,7 +712,7 @@ window.addEventListener('unhandledrejection', (e) => {
 // ---------- routing ----------
 // Each route entry carries its in-app depth in history.state, so Back only steps through
 // Tikify's own entries; overlay entries also carry `ov` (see holdOverlay).
-const TAB_OF = { __proto__: null, library: 'library', all: 'library', playlist: 'library', add: 'add', search: 'search' };
+const TAB_OF = { __proto__: null, library: 'library', all: 'library', playlist: 'library', discover: 'library', public: 'library', add: 'add', search: 'search' };
 
 function currentRoute() {
   const [path, query = ''] = location.hash.replace(/^#\/?/, '').split('?');
@@ -806,7 +819,8 @@ function render() {
   const route = location.hash;
   const changed = route !== lastRoute;
   if (!changed && r.name === 'add') return;
-  if (!TAB_OF[r.name] || (r.name === 'playlist' && !getPlaylist(r.id))) return go('#/library', { replace: true });
+  if (!TAB_OF[r.name] || (r.name === 'playlist' && !getPlaylist(r.id)) ||
+    ((r.name === 'public' || r.name === 'discover') && (!Community.ready || (r.name === 'public' && !r.id)))) return go('#/library', { replace: true });
 
   const depth = history.state?.depth || 0;
   const first = lastRoute === null;
@@ -822,6 +836,8 @@ function render() {
   else if (r.name === 'all') renderPlaylist(view, null);
   else if (r.name === 'add') renderAdd(view);
   else if (r.name === 'search') renderSearch(view, !changed);
+  else if (r.name === 'discover') renderDiscover(view, !changed);
+  else if (r.name === 'public') renderPublic(view, r.id, !changed);
   else renderLibrary(view);
   view.scrollTop = y;
 
@@ -883,6 +899,7 @@ function renderLibrary(view) {
         Open Tikify in ${isIOS() ? 'Safari' : 'Chrome'} instead: tap <b>⋯</b> or <b>⋮</b> and choose <b>Open in browser</b>.</div>` : ''}
     <div class="lib-actions">
       <button class="chip" id="newPl">${ICON.plus}<span>New playlist</span></button>
+      ${Community.ready ? `<button class="chip" data-go="#/discover">${ICON.globe}<span>Find playlists</span></button>` : ''}
     </div>
     <div class="list">
       <button class="row" data-go="#/all" aria-label="All sounds, playlist, ${plural(count, 'sound')}">
@@ -1011,20 +1028,38 @@ function renderPlaylist(view, playlistId) {
 }
 
 async function playlistMenu(p) {
+  const publicItems = !Community.ready ? [] : p.published ? [
+    { label: 'Share public link', value: 'share', icon: ICON.share },
+    { label: 'Update public version', value: 'publish', icon: ICON.upload },
+    { label: 'Make private', value: 'private', icon: ICON.lock },
+  ] : [
+    { label: 'Make public', value: 'publish', icon: ICON.globe },
+    ...(p.fromPublic ? [{ label: 'Open public version', value: 'source', icon: ICON.globe }] : []),
+  ];
   const v = await sheetMenu(p.name, [
     { label: 'Add sounds from library', value: 'add', icon: ICON.playlistAdd },
     { label: 'Add new TikTok sound', value: 'new', icon: ICON.plus },
     { label: 'Rename playlist', value: 'rename', icon: ICON.edit },
+    ...publicItems,
     { label: 'Delete playlist', value: 'delete', danger: true, icon: ICON.trash },
-  ]);
+  ], p.published ? 'Public: anyone can find and download it' : '');
   if (v === 'add') pickSoundsFor(p);
+  if (v === 'publish') publishPlaylist(p);
+  if (v === 'share') sharePublic(p.published.id, p.name);
+  if (v === 'private') makePrivate(p);
+  if (v === 'source') go('#/public/' + p.fromPublic);
   if (v === 'new') go('#/add?to=' + encodeURIComponent(p.id));
   if (v === 'rename') {
     const name = await sheetPrompt('Rename playlist', p.name);
     if (name) { await updatePlaylist(p, { name }); render(); updateNowPlaying(); } // "Playing from <new name>"
   }
   if (v === 'delete') {
-    if (await sheetConfirm('Delete playlist?', `“${p.name}” will be removed. The sounds stay in your library.`)) {
+    const msg = `“${p.name}” will be removed${p.published ? ' and will no longer be public' : ''}. The sounds stay in your library.`;
+    if (await sheetConfirm('Delete playlist?', msg)) {
+      // Its public copy goes too: without this playlist, nothing could update or remove it any more.
+      if (p.published && Community.ready) {
+        try { await Community.unpublish(p.published.id, p.published.key); } catch (err) { return toast(err.message, { error: true }); }
+      }
       await DB.del('playlists', p.id);
       state.playlists = state.playlists.filter((x) => x.id !== p.id);
       // Step back rather than push, so Back doesn't return to the deleted playlist.
@@ -1527,10 +1562,12 @@ function renderSearch(view, refresh) {
           </button>`).join('')}
       </div>
       <div class="list tracks">${ids.map((id, i) => trackRow(state.sounds.get(id), i, { playing: id === currentId() })).join('')}</div>
-      ${!pls.length && !ids.length ? '<p class="hint center">No matches.</p>' : ''}`;
+      ${!pls.length && !ids.length ? '<p class="hint center">No matches.</p>' : ''}
+      ${Community.ready ? `<button class="link-btn find-public" id="findPublic">${ICON.globe}<span>Search public playlists for “${esc(q.value.trim())}”</span></button>` : ''}`;
     const n = pls.length + ids.length;
     announce(n ? `${n} result${n === 1 ? '' : 's'}` : 'No matches');
     out.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', () => go(el.dataset.go)));
+    if ($('#findPublic')) $('#findPublic').onclick = () => { discoverQuery = q.value.trim(); go('#/discover'); };
     out.querySelectorAll('.track').forEach((row) => row.addEventListener('click', (e) => {
       if (e.target.closest('.more')) return soundMenu(state.sounds.get(row.dataset.id), null);
       playList(ids, +row.dataset.i, { id: 'search', label: 'Search' });
@@ -1539,6 +1576,411 @@ function renderSearch(view, refresh) {
   q.addEventListener('input', run);
   $('#searchForm')._run = run;
   run();
+}
+
+// ----- public playlists (community.js) -----
+// What a public playlist holds of a playlist: its sounds that have a TikTok link to look up again.
+function publicSounds(p) {
+  return p.soundIds.map((id) => state.sounds.get(id))
+    .filter((s) => s && s.sourceUrl)
+    .map((s) => ({ url: s.sourceUrl, title: s.title, artist: s.artist }));
+}
+
+// The sound saved from this TikTok link, if any (by the video's id: links to one video vary).
+function soundForLink(url) {
+  const video = /\/video\/(\d+)/.exec(url);
+  for (const s of state.sounds.values()) {
+    if (s.sourceUrl === url || (video && s.tiktokId === video[1])) return s;
+  }
+  return null;
+}
+
+async function publishPlaylist(p) {
+  const sounds = publicSounds(p);
+  const shown = p.soundIds.filter((id) => state.sounds.has(id)).length;
+  if (!sounds.length) {
+    return toast(shown ? 'None of these sounds has a TikTok link to share.' : 'Add some sounds to the playlist first.', { error: true });
+  }
+  const left = shown - sounds.length;
+  const label = () => (p.published ? 'Update' : 'Publish');
+  let open = true;
+  const done = await openSheet(`
+    <div class="sheet-title">${p.published ? 'Update public version' : 'Make playlist public'}</div>
+    <form class="sheet-form">
+      <label class="lbl" for="pubName">Name</label>
+      <input class="input" id="pubName" name="name" value="${esc(p.name.slice(0, 60))}" maxlength="60" autocomplete="off" enterkeyhint="next">
+      <label class="lbl" for="pubAbout">Description (optional)</label>
+      <textarea class="input" id="pubAbout" name="about" maxlength="300" rows="2" placeholder="What is it for? Gym, sleep, a trend…">${esc(p.published ? p.published.description : '')}</textarea>
+      <p class="sheet-sub">Anyone can find it in Find playlists and download its ${plural(sounds.length, 'sound')}.
+        Only the TikTok links, titles and artists are shared.${left ? ` ${plural(left, 'sound')} without a TikTok link ${left === 1 ? 'is' : 'are'} left out.` : ''}</p>
+      <div id="pubError"></div>
+      <div class="row-btns">
+        <button type="button" class="btn ghost" data-cancel>Cancel</button>
+        <button type="submit" class="btn primary">${label()}</button>
+      </div>
+    </form>`, (sheet, close) => {
+    const f = $('form', sheet);
+    const btn = $('[type=submit]', f);
+    $('[data-cancel]', sheet).onclick = () => close(null);
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      const data = { name: f.elements.name.value.trim(), description: f.elements.about.value.trim(), sounds };
+      if (!data.name) return f.elements.name.focus();
+      const wasPublic = !!p.published;
+      btn.disabled = true;
+      btn.textContent = wasPublic ? 'Updating…' : 'Publishing…';
+      $('#pubError', sheet).innerHTML = '';
+      try {
+        await savePublic(p, data);
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = label();
+        const why = err && err.storage ? storageMessage(err) : err.message;
+        if (!open) return toast(why, { error: true });
+        $('#pubError', sheet).innerHTML = `<div class="error" role="alert">${esc(why)}</div>`;
+        return;
+      }
+      render();
+      if (!open) return toast(wasPublic ? 'Public version updated' : `“${data.name}” is public`);
+      close(wasPublic ? 'updated' : 'published');
+    };
+  }).finally(() => (open = false));
+  if (done === 'updated') toast('Public version updated');
+  if (done === 'published') publishedSheet(p);
+}
+
+// Publishes the playlist, or updates its public copy, and remembers that in the playlist.
+async function savePublic(p, data) {
+  let pub = p.published;
+  if (pub && (await Community.update(pub.id, pub.key, data)) === false) {
+    await forgetPublic(p); // made private on another device, or removed by Tikify's owner
+    throw new Error('This playlist was removed from public playlists. Tap Publish to make it public again.');
+  }
+  if (!pub) pub = await Community.publish(data);
+  publicCache.delete(pub.id);
+  await updatePlaylist(p, { published: { id: pub.id, key: pub.key, description: data.description } });
+}
+
+async function forgetPublic(p) {
+  const { published, ...rest } = p;
+  await DB.put('playlists', rest);
+  delete p.published;
+}
+
+function publishedSheet(p) {
+  openSheet(`
+    <div class="sheet-title">“${esc(p.name)}” is public</div>
+    <div class="sheet-sub">Anyone can now find it in Find playlists and download it. Send friends the link to take them straight to it.</div>
+    <div class="row-btns">
+      <button class="btn ghost" data-cancel>Done</button>
+      <button class="btn primary" data-ok>${ICON.share}Share link</button>
+    </div>`, (sheet, close) => {
+    $('[data-cancel]', sheet).onclick = () => close(null);
+    $('[data-ok]', sheet).onclick = () => { close(null); if (p.published) sharePublic(p.published.id, p.name); };
+  });
+}
+
+async function makePrivate(p) {
+  const ok = await sheetConfirm('Make playlist private?', `“${p.name}” will no longer be in Find playlists. People who downloaded it keep their copy.`, 'Make private');
+  if (!ok || !p.published) return;
+  const { id, key } = p.published;
+  try { await Community.unpublish(id, key); } catch (err) { return toast(err.message, { error: true }); }
+  publicCache.delete(id);
+  await forgetPublic(p);
+  toast(`“${p.name}” is private`);
+  render();
+}
+
+async function sharePublic(id, name) {
+  const url = location.origin + location.pathname + '#/public/' + id;
+  // The sheet this was chosen in gives up its history entry first: that navigation could close
+  // the share sheet (see showInstallPrompt). The tap still counts by then.
+  await overlaysReleased();
+  if (navigator.share) {
+    try { return await navigator.share({ title: name, text: `“${name}” on Tikify`, url }); } catch (err) {
+      if (err.name === 'AbortError') return; // closed without sharing
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    toast('Link copied');
+  } catch {
+    openSheet(`
+      <div class="sheet-title">Link to “${esc(name)}”</div>
+      <input class="input" readonly value="${esc(url)}" aria-labelledby="sheetTitle">
+      <div class="row-btns"><button class="btn primary" data-cancel>Done</button></div>`, (sheet, close) => {
+      const input = $('input', sheet);
+      input.focus({ preventScroll: true });
+      input.select();
+      $('[data-cancel]', sheet).onclick = () => close(null);
+    });
+  }
+}
+
+// One line of a Find playlists list.
+function publicRow(pl) {
+  const mine = state.playlists.some((p) => p.published && p.published.id === pl.id);
+  const have = state.playlists.some((p) => p.fromPublic === pl.id);
+  const facts = [plural(pl.sound_count, 'sound'), pl.downloads ? plural(pl.downloads, 'download') : '',
+    mine ? 'Yours' : have ? 'In your library' : '', pl.description].filter(Boolean).join(' · ');
+  return `
+    <button class="row" data-go="#/public/${encodeURIComponent(pl.id)}" aria-label="${esc(pl.name)}, ${pl.featured ? 'featured ' : ''}public playlist, ${esc(facts)}">
+      <div class="cover pub">${ICON.globe}</div>
+      <div class="meta">
+        <div class="t">${pl.featured ? '<span class="badge">Featured</span>' : ''}${esc(pl.name)}</div>
+        <div class="s">${esc(facts)}</div>
+      </div>
+    </button>`;
+}
+
+let discoverQuery = '';
+let discoverShown = null; // the last results, { q, items }: shown again at once when coming back
+let discoverSeq = 0;
+function renderDiscover(view, refresh) {
+  if (refresh && $('#discoverForm', view)) return; // nothing here changes with the library
+  setTop('Find playlists', { back: true });
+  view.innerHTML = `
+    <div class="search-wrap">
+      <form role="search" id="discoverForm">
+        <input class="input search" id="dq" type="search" placeholder="Gym, sleep, a trend…" value="${esc(discoverQuery)}" aria-label="Search public playlists" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+      </form>
+      <div id="discoverResults"></div>
+    </div>`;
+  const q = $('#dq');
+  const out = $('#discoverResults');
+  let timer;
+  const show = (res) => {
+    if (res.error) {
+      out.innerHTML = `<div class="error" role="alert">${esc(res.error)}<button class="btn ghost" id="discoverRetry">Try again</button></div>`;
+      $('#discoverRetry').onclick = () => load();
+      return;
+    }
+    out.innerHTML = res.items.length ? `
+      ${res.q ? '' : '<h2 class="list-head">Popular playlists</h2>'}
+      <div class="list">${res.items.map(publicRow).join('')}</div>` : `
+      <p class="hint center">${res.q ? `No public playlists match “${esc(res.q)}”.`
+        : 'No public playlists yet. Be the first: open one of your playlists and tap ⋮ → Make public.'}</p>`;
+    if (res.q) announce(res.items.length ? plural(res.items.length, 'playlist') : 'No matches');
+    out.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', () => go(el.dataset.go)));
+  };
+  // Coming back: the last results straight away, refreshed quietly.
+  const load = (back = false) => {
+    discoverQuery = q.value;
+    const term = q.value.trim();
+    const seq = ++discoverSeq;
+    const quiet = back && discoverShown && discoverShown.q === term;
+    if (quiet) show(discoverShown);
+    else out.innerHTML = '<div class="loading"><div class="spinner"></div>Searching…</div>';
+    Community.search(term).then((items) => ({ q: term, items: Array.isArray(items) ? items : [] }), (err) => ({ q: term, error: err.message }))
+      .then((res) => {
+        if (seq !== discoverSeq || !out.isConnected || (quiet && res.error)) return;
+        if (!res.error) discoverShown = res;
+        show(res);
+      });
+  };
+  $('#discoverForm').onsubmit = (e) => { e.preventDefault(); q.blur(); clearTimeout(timer); load(); };
+  q.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(load, 400); });
+  load(true);
+}
+
+const publicCache = new Map(); // public playlist id -> its data, or null when it's gone
+const publicLoads = new Map(); // id -> its request in flight
+// Resolves to whether it changed.
+function loadPublic(id) {
+  if (!publicLoads.has(id)) {
+    publicLoads.set(id, (async () => {
+      const pl = UUID.test(id) ? await Community.get(id) : null;
+      const old = publicCache.get(id);
+      publicCache.set(id, pl && Array.isArray(pl.sounds) ? pl : null);
+      return JSON.stringify(old) !== JSON.stringify(publicCache.get(id));
+    })().finally(() => publicLoads.delete(id)));
+  }
+  return publicLoads.get(id);
+}
+
+function renderPublic(view, id, refresh) {
+  const here = () => currentRoute().name === 'public' && currentRoute().id === id;
+  // Shown from memory, then refreshed: it may have been updated or removed since.
+  if (!refresh && publicCache.has(id)) loadPublic(id).then((changed) => changed && here() && render(), () => {});
+  const pl = publicCache.get(id);
+  if (pl === undefined) {
+    setTop('Public playlist', { back: true });
+    view.innerHTML = '<div class="loading"><div class="spinner"></div>Loading the playlist…</div>';
+    loadPublic(id).then(() => here() && render(), (err) => {
+      if (!here()) return;
+      view.innerHTML = `<div class="error" role="alert">${esc(err.message)}<button class="btn ghost" id="pubRetry">Try again</button></div>`;
+      $('#pubRetry').onclick = () => render();
+    });
+    return;
+  }
+  if (!pl) {
+    setTop('Public playlist', { back: true });
+    view.innerHTML = `
+      <div class="empty-state">
+        <h2>This playlist isn’t public any more</h2>
+        <p>It was made private or removed.</p>
+        <button class="btn primary" data-go="#/discover">Find playlists</button>
+      </div>`;
+    $('[data-go]', view).onclick = () => go('#/discover');
+    return;
+  }
+  const mine = state.playlists.find((p) => p.published && p.published.id === id);
+  setTop(pl.name, { back: true, menu: () => publicMenu(pl, mine), scrollTitle: true });
+  const facts = [pl.featured ? 'Featured' : '', plural(pl.sounds.length, 'sound'), pl.downloads ? plural(pl.downloads, 'download') : ''].filter(Boolean).join(' · ');
+  view.innerHTML = `
+    <div class="pl-header">
+      <div class="cover xl pub">${ICON.globe}</div>
+      <h1 tabindex="-1">${esc(pl.name)}</h1>
+      ${pl.description ? `<p class="pub-about">${esc(pl.description)}</p>` : ''}
+      <div class="s">${esc(facts)}</div>
+      <div class="pub-actions" id="pubActions"></div>
+    </div>
+    <div class="list">
+      ${pl.sounds.map((it) => {
+        const have = soundForLink(it.url);
+        return `
+          <div class="row pub-row">
+            ${have ? `<img class="cover" src="${esc(coverSrc(have))}" alt="" loading="lazy">` : `<div class="cover empty">${ICON.note}</div>`}
+            <div class="meta"><div class="t">${esc(it.title || 'TikTok sound')}</div><div class="s">${esc(it.artist || 'Unknown')}</div></div>
+            ${have ? `<span class="pub-have">${ICON.check}<span class="sr-only">In your library</span></span>` : ''}
+          </div>`;
+      }).join('')}
+    </div>`;
+  watchHeading($('.pl-header h1', view));
+  drawPublicActions(pl);
+}
+
+// The public playlist's buttons, or how far its download has got.
+function drawPublicActions(pl) {
+  const box = $('#pubActions');
+  if (!box) return;
+  const run = pubDownload;
+  if (run && run.id === pl.id) {
+    if (!$('#pubStop', box)) {
+      box.innerHTML = `
+        <div class="pub-progress"><div class="pub-bar"><div id="pubBar"></div></div><div class="pub-note" id="pubStatus"></div></div>
+        <button class="btn ghost" id="pubStop">Stop</button>`;
+      $('#pubStop').onclick = (e) => { run.stopped = true; e.currentTarget.disabled = true; e.currentTarget.textContent = 'Stopping…'; };
+      if (document.activeElement === document.body) $('#pubStop').focus();
+    }
+    $('#pubBar').style.width = Math.round((run.done / run.total) * 100) + '%';
+    $('#pubStatus').textContent = `Downloading ${Math.min(run.done + 1, run.total)} of ${run.total}…`;
+    return;
+  }
+  const mine = state.playlists.find((p) => p.published && p.published.id === pl.id);
+  const copy = mine || state.playlists.find((p) => p.fromPublic === pl.id);
+  // Not on this device yet, or (for a downloaded copy) new since it was downloaded.
+  const toGet = mine ? 0 : pl.sounds.filter((it) => {
+    const s = soundForLink(it.url);
+    return copy ? !(copy.publicSeen || []).includes(it.url) && !(s && copy.soundIds.includes(s.id)) : !s;
+  }).length;
+  box.innerHTML = copy ? `
+      ${mine ? '<p class="pub-note">This is your playlist.</p>' : ''}
+      <button class="btn primary" id="pubOpen">Open in your library</button>
+      ${toGet ? `<button class="btn ghost" id="pubGet" ${run ? 'disabled' : ''}>Get ${plural(toGet, 'new sound')}</button>` : ''}` : `
+      <button class="btn primary" id="pubGet" ${run ? 'disabled' : ''}>${ICON.download}Download playlist</button>
+      <p class="pub-note">${run ? 'Another playlist is downloading. ' : ''}${toGet
+        ? `Saves ${toGet === pl.sounds.length ? 'its' : `the ${toGet} new`} ${toGet === 1 ? 'sound' : 'sounds'} to this device, so they play offline.`
+        : 'All its sounds are in your library already.'}</p>`;
+  if ($('#pubOpen', box)) $('#pubOpen').onclick = () => go('#/playlist/' + encodeURIComponent(copy.id));
+  if ($('#pubGet', box)) $('#pubGet').onclick = () => downloadPublic(pl);
+}
+
+async function publicMenu(pl, mine) {
+  const v = await sheetMenu(pl.name, [
+    { label: 'Share link', value: 'share', icon: ICON.share },
+    ...(mine ? [] : [{ label: 'Report playlist', value: 'report', danger: true, icon: ICON.flag }]),
+  ]);
+  if (v === 'share') sharePublic(pl.id, pl.name);
+  if (v === 'report') {
+    const ok = await sheetConfirm('Report this playlist?', 'Report it if it’s spam, offensive or illegal. A playlist that several people report is hidden until it has been checked.', 'Report');
+    if (!ok) return;
+    try { await Community.report(pl.id, ''); toast('Thanks. The playlist was reported.'); } catch (err) { toast(err.message, { error: true }); }
+  }
+}
+
+// Saves a public playlist's sounds, one by one (tikwm answers one lookup a second), into a playlist
+// of the same name. Sounds already saved aren't downloaded again, and a second download only adds
+// what's new. One at a time; what's saved before a stop or an error stays.
+let pubDownload = null; // { id, done, total, stopped }
+async function downloadPublic(pl) {
+  if (pubDownload) return;
+  const run = (pubDownload = { id: pl.id, done: 0, total: pl.sounds.length, stopped: false });
+  const progress = () => {
+    const r = currentRoute();
+    if (r.name === 'public' && r.id === pl.id) drawPublicActions(pl);
+    else render();
+  };
+  progress();
+  let gone = 0; // deleted or private TikToks
+  let failed = 0; // to try again later
+  let local = null;
+  let error = null;
+  try {
+    local = state.playlists.find((p) => p.fromPublic === pl.id) || await createPlaylist(pl.name, { fromPublic: pl.id });
+    for (const it of pl.sounds) {
+      if (run.stopped || !getPlaylist(local.id)) break; // the playlist was deleted meanwhile
+      const seen = local.publicSeen || [];
+      if (!seen.includes(it.url)) {
+        let sound = soundForLink(it.url);
+        let dealt = true;
+        if (!sound) {
+          try {
+            sound = await fetchPublicSound(it);
+          } catch (err) {
+            // No room, no connection, or the lookup service is down: the rest would fail too.
+            if (err.storage || ['offline', 'service', 'limit'].includes(err.problem)) throw err;
+            if (['notfound', 'nosound', 'page'].includes(err.problem)) gone++;
+            else { failed++; dealt = false; } // tried again next time
+          }
+        }
+        if (dealt) {
+          const soundIds = sound && !local.soundIds.includes(sound.id) ? [...local.soundIds, sound.id] : local.soundIds;
+          await updatePlaylist(local, { soundIds, publicSeen: [...seen, it.url].slice(-1000) });
+        }
+      }
+      run.done++;
+      progress();
+    }
+    if (!run.stopped) Community.countDownload(pl.id).catch(() => {});
+  } catch (err) {
+    error = err;
+  } finally {
+    pubDownload = null;
+  }
+  render();
+  const n = local ? local.soundIds.length : 0;
+  const where = local ? `“${local.name}”` : 'your library';
+  if (error) {
+    const why = error.storage ? storageMessage(error) : error.problem ? error.message : 'Something went wrong.';
+    toast(`Download stopped${n ? ` with ${plural(n, 'sound')} in ${where}` : ''}. ${why}`, { error: true });
+  } else if (run.stopped) {
+    toast(`Stopped. ${plural(n, 'sound')} in ${where}.`);
+  } else {
+    toast(`${plural(n, 'sound')} in ${where}.` +
+      (gone ? ` ${plural(gone, 'TikTok')} ${gone === 1 ? 'is' : 'are'} no longer available.` : '') +
+      (failed ? ` ${failed} couldn’t be downloaded: open the public playlist again later to get ${failed === 1 ? 'it' : 'them'}.` : ''));
+  }
+}
+
+async function fetchPublicSound(it) {
+  let info;
+  try {
+    info = await TikTok.lookup(it.url);
+  } catch (err) {
+    if (err.problem !== 'limit') throw err;
+    await new Promise((r) => setTimeout(r, 5000)); // the lookup service is busy: once more, a little later
+    info = await TikTok.lookup(it.url);
+  }
+  const saved = findSaved(info); // the same sound, from another video
+  if (saved) return saved;
+  const fields = { title: it.title, artist: it.artist };
+  try {
+    return await saveSound(info, fields);
+  } catch (err) {
+    if (err.storage) throw err;
+    return saveSound(info, fields, { stream: true }); // plays online until it can be downloaded (see fillIn)
+  }
 }
 
 // ----- settings / backup -----
@@ -1562,7 +2004,7 @@ async function settingsMenu() {
 }
 
 // Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
-const VERSION = '1.4.1';
+const VERSION = '1.5.0';
 function aboutTech() {
   const v = measureViewport();
   const where = isStandalone() ? 'Home Screen app' : 'browser';
@@ -1578,6 +2020,9 @@ function showAbout() {
       <p><b>Privacy.</b> Your library is stored only on this device. A link you look up is sent to
         tikwm.com, a free third-party service, to find its sound; the audio and cover are then
         downloaded from TikTok’s servers. No account and no analytics.</p>
+      ${Community.ready ? `<p><b>Public playlists.</b> A playlist you make public (its name, description, and its
+        sounds’ TikTok links, titles and artists) is stored in Tikify’s playlist database, where anyone can
+        find it. Searching public playlists sends your search there.</p>` : ''}
       <p><b>Not affiliated with TikTok or Spotify.</b> Tikify is an independent project. It isn’t
         made, endorsed or sponsored by TikTok, ByteDance or Spotify. TikTok is a trademark of
         ByteDance Ltd. and Spotify a trademark of Spotify AB.</p>

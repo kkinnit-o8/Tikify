@@ -13,6 +13,8 @@ Spotify, but for TikTok sounds. Copy a TikTok link, save the sound, and play it 
 - **Works offline**: sounds are downloaded and stored on your device (IndexedDB).
 - **Installable PWA**: add it to your home screen. On Android you can share a TikTok straight to Tikify.
 - **Backup**: export/import your whole library as a file (menu ⋮ on the Library page).
+- **Public playlists**: make a playlist public (⋮ → *Make public*), and anyone can find it under
+  *Find playlists* in the Library and download its sounds. Needs a one-time setup (see below).
 
 ## Put it on GitHub Pages
 1. Go to the repo's **Settings → Pages**.
@@ -34,6 +36,40 @@ No version numbers to bump: just add any new app file (script, stylesheet, icon)
 Don't add an `id` to `manifest.webmanifest` or change its `start_url`: together they are the installed
 app's identity on Android, and a different one makes Chrome stop updating installed copies.
 
+## Public playlists (set up once)
+Public playlists live in a free [Supabase](https://supabase.com) database, because they have to be shared
+between phones. Until it's set up, the app works as before and simply doesn't show them.
+
+1. Sign up at [supabase.com](https://supabase.com) and create a **New project** (any name, e.g. *Tikify*;
+   pick the region closest to your listeners). Keep the database password somewhere safe: the app doesn't need it.
+2. In the project, open **SQL Editor → New query**, paste everything in [`supabase/setup.sql`](supabase/setup.sql)
+   and press **Run**. Running it again later is safe.
+3. Click **Connect** at the top of the project (or open **Project Settings → API Keys**) and copy the
+   **Project URL** and the **publishable key** (`sb_publishable_…`). Never use the *secret* key in the app.
+4. Paste them into `PROJECT_URL` and `KEY` at the top of `community.js`, then commit and push.
+
+*Find playlists* now shows in the Library, and every playlist's ⋮ menu has *Make public*.
+
+**What gets shared:** a public playlist holds its name, an optional description, and each sound's TikTok link,
+title and artist. No audio: whoever downloads it gets the sounds from TikTok, like when adding a link.
+Whoever publishes a playlist can update it or make it private again from their phone. Deleting the playlist
+makes it private too.
+
+**Your own theme playlists:** publish them from the app like anyone else, then mark them as featured (below).
+Featured playlists come first in *Find playlists*, with a badge.
+
+**Moderating**, in Supabase's **Table Editor → `public_playlists`**:
+- `featured` = true: shown first, with a *Featured* badge.
+- `hidden` = true: no longer listed or downloadable. A playlist that 3 people report is hidden
+  automatically until you set it back to false; reports are in `playlist_reports`.
+- Delete the row to remove a playlist for good.
+
+Limits (change them in `setup.sql` if you like): 200 sounds and a 60-character name per playlist, and
+10 publishes an hour from one person, 100 an hour from everyone together.
+
+Supabase pauses a free project that goes unused for about a week. While it's paused, *Find playlists*
+shows an error. Restore it from the Supabase dashboard.
+
 ## Install as an app
 - **iPhone (Safari)**: Share → *Add to Home Screen* (on iOS 26, tap ⋯ first, then Share).
   Install **before** saving sounds: the Home Screen app has its own storage, separate from Safari.
@@ -45,7 +81,8 @@ app's identity on Android, and a different one makes Chrome stop updating instal
   sounds are gone.
 
 ## Notes
-- No server or build step: it's plain HTML, CSS and JavaScript.
+- No build step: it's plain HTML, CSS and JavaScript. The only server is the optional Supabase database
+  for public playlists.
 - Sound lookups use the free public [tikwm.com](https://www.tikwm.com) API. If it's down or rate-limited, try again in a moment.
 - Use the link of a TikTok **video** (Share → Copy link). A sound's own page or a profile link has no single sound to read: open a video that uses the sound and share that instead.
 - Your library is stored only in your browser on that device. Use **Export backup** to move it to another device.
@@ -54,6 +91,11 @@ app's identity on Android, and a different one makes Chrome stop updating instal
 - Your library (sounds, covers, playlists) stays on your device. There is no account, no Tikify server and no analytics.
 - A link you look up is sent to [tikwm.com](https://www.tikwm.com), a third-party service, to find its sound.
   The audio and cover are then downloaded from TikTok's servers.
+- Public playlists (once set up): a playlist you make public (its name, description, and its sounds'
+  TikTok links, titles and artists) is stored in the Supabase database, where anyone can find it.
+  Searching public playlists sends your search words there. To limit spam, it keeps a salted hash of
+  the address that publishes or reports a playlist (never the address itself), and drops the publishing
+  ones after a day.
 - Save sounds for your own listening only, and respect the rights of their creators.
 
 ## Run locally

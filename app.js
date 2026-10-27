@@ -344,6 +344,14 @@ function travel(n) {
   releaseTimer = setTimeout(() => { releasing = 1; releaseDone(); }, 1000); // in case popstate never comes
   history.go(-n);
 }
+// Resolves once closed overlays have given up their history entries (at once if they hold none).
+function overlaysReleased() {
+  return new Promise((resolve) => {
+    if (!releasing && !releaseOverlays()) return resolve();
+    const prev = afterRelease;
+    afterRelease = () => { prev && prev(); resolve(); };
+  });
+}
 function releaseDone() {
   if (!releasing || --releasing) return;
   clearTimeout(releaseTimer);
@@ -1554,7 +1562,7 @@ async function settingsMenu() {
 }
 
 // Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
-const VERSION = '1.4.0';
+const VERSION = '1.4.1';
 function aboutTech() {
   const v = measureViewport();
   const where = isStandalone() ? 'Home Screen app' : 'browser';
@@ -2575,9 +2583,15 @@ async function showInstallPrompt() {
   });
   if (choice === 'install' && install) {
     deferredInstall = null; // it can only be used once
-    install.prompt();
-    const { outcome } = await install.userChoice;
-    if (outcome !== 'accepted') installDismissed();
+    // The browser closes its install dialog when the page navigates, so the sheet gives up its
+    // history entry (a history.go) first, not while the dialog is up. The tap still counts by then.
+    await overlaysReleased();
+    try {
+      const [{ outcome }] = await Promise.all([install.userChoice, install.prompt()]);
+      if (outcome !== 'accepted') installDismissed();
+    } catch {
+      showInstallPrompt(); // no dialog after all: show how to install from the browser menu
+    }
     return;
   }
   installDismissed();

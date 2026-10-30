@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Tikify — 15 s ad</title>
+<!-- fonts are local copies of Google Fonts (Inter Tight / Inter / Geist Mono), so headless capture never waits on the network -->
+<link href="../fonts/fonts.css" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#000;overflow:hidden}
+  #film{position:relative;overflow:hidden;perspective:2200px;background:#F7F4FA}
+  #bg{position:absolute;left:0;top:0}
+  #world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;transform-style:preserve-3d}
+  #grain{position:absolute;inset:-200px;pointer-events:none;opacity:.03;mix-blend-mode:overlay;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  body{-webkit-font-smoothing:antialiased;font-family:Inter}
+</style></head>
+<body>
+<div id="film"><canvas id="bg"></canvas><div id="world"></div><div id="grain"></div></div>
+<script src="engine.js"></script>
+<script src="common.js"></script>
+<script src="scenes/s1_tag.js"></script>
+<script src="scenes/s2_add.js"></script>
+<script src="scenes/s4_type.js"></script>
+<script src="scenes/s5_library.js"></script>
+<script src="scenes/s6_player.js"></script>
+<script src="scenes/s8_end.js"></script>
+<script>
+  FILM.fonts = ['800 100px "Inter Tight"', '700 100px "Inter Tight"', '500 100px Inter', '600 100px Inter', '700 100px Inter', '800 100px Inter', '500 100px "Geist Mono"'];
+  const b = T.b, c4 = T.S5cam(b(17)), PS = [c4.tx + c4.s * T.S5PLAY[0], c4.ty + c4.s * T.S5PLAY[1]];
+  FILM.BG = {
+    states: {
+      L: { base: '#F7F4FA', blobs: [['#FFC7D7', .9], ['#DCCDFF', .85], ['#C8F4F0', .8], ['#FFFFFF', .7]] },
+      P: { base: '#F2457A', blobs: [['#FF7EA6', .55], ['#E8306A', .5], ['#FF9DBC', .4], ['#D92B62', .45]],
+           plates: [[[[-.1, -.1], [.36, -.1], [.06, 1.1], [-.1, 1.1]], '#FF7FA7', .55], [[[.72, 1.1], [1.1, .42], [1.1, 1.1]], '#DE2D64', .5],
+                    [[[.52, -.1], [.6, -.1], [.3, 1.1], [.22, 1.1]], '#FF96B7', .22]] },
+      D: { base: '#111113', blobs: [['#3B1658', .45], ['#0F1A46', .4], ['#4A0F25', .35], ['#111113', 0]], dots: 'rgba(255,255,255,.035)' },
+      V: { base: '#170A2C', blobs: [['#7B2CBF', .85], ['#E8306A', .5], ['#1FB8C9', .35], ['#3A1A6E', .8]] },
+    },
+    start: 'L',
+    flows: [[b(4), b(4), 'L', 'P'], [b(9), b(9), 'P', 'D'], [b(12), b(12), 'D', 'P'],
+            [b(17), b(17) + .62, 'P', 'V', PS],             // the violet world floods out of the ▶ the cursor let go of
+            [b(22) + .72, b(22) + .72, 'V', 'L']],              // under s8's own flood (it floods OVER the lock screen)
+    fringe: ['#FE2C55', '#7B2CBF', '#25F4EE'],
+  };
+  FILM.start({ dur: 15.0, fps: 30 });
+</script>
+</body></html>

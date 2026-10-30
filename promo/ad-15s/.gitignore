@@ -1,0 +1,8 @@
+# rendered videos, frames and audio stay out of git (size; the soundtrack is a third-party track)
+out/
+*.work/
+*.mp4
+*.wav
+*.mp3
+*.m4a
+__pycache__/

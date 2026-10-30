@@ -38,6 +38,20 @@ Every on-screen state is something the app really does. The strings come from th
 "Finding the sound…", "Save to library", "Downloading… N%", "Your Library", "New playlist", "Playing from Road trip".
 Sound names and artists are made up.
 
+## 9:16 (TikTok / Reels / Shorts)
+
+`film/index_9x16.html` is the same film at 1080×1920. It has the same beats, the same cues and so the same soundtrack.
+It isn't a crop: every scene in `film/scenes916/` is re-laid out for a phone.
+- The Add sound and Library screens use the app's own vertical layout, with its tab bar.
+- The playlist uses the app's big centred cover.
+- The text messages stack.
+- The player and lock screen are true phone layouts.
+- The end card is a stacked lockup.
+
+Key text stays in TikTok's safe area: below the top tabs, left of the right-hand buttons and above the caption area.
+
+Render it with the same command as the 16:9 master, swapping in `film/index_9x16.html`.
+
 ## Files
 
 - `film/index.html` is the film page. It loads `engine.js`, the deterministic timeline engine from the

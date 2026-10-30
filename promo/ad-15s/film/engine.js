@@ -125,7 +125,7 @@
 
   /* ---------------- camera (in-scene depth only; neutral in transition windows) ---------------- */
   // FILM.CAM = [{t0,t1,a:{cx,cy,s,rx,ry,rz},b:{…},ease}]; world transform = translate(960,540) rot… scale translate(−cx,−cy)
-  FILM.cs = (o) => Object.assign({ cx: 960, cy: 540, s: 1, rx: 0, ry: 0, rz: 0 }, o || {});
+  FILM.cs = (o) => Object.assign({ cx: FILM.W / 2, cy: FILM.H / 2, s: 1, rx: 0, ry: 0, rz: 0 }, o || {});   // frame centre (16:9 or 9:16)
   FILM.camAt = (t) => {
     const C = FILM.CAM; if (!C.length || FILM.nocam) return FILM.cs();
     let g = C.find((c) => t >= c.t0 && t < c.t1); if (!g) g = t < C[0].t0 ? { a: C[0].a, b: C[0].a, t0: 0, t1: 1 } : { a: C[C.length - 1].b, b: C[C.length - 1].b, t0: 0, t1: 1 };

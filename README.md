@@ -19,9 +19,23 @@ Spotify, but for TikTok sounds. Copy a TikTok link, save the sound, and play it 
 2. Under **Build and deployment**, choose **Deploy from a branch**, pick `master` and folder `/ (root)`, then **Save**.
 3. After a minute the app is live at `https://<your-username>.github.io/Tikify/`.
 
-The app uses relative paths, so it works under any repo name. Only the link-preview tags in
+The app uses relative paths, so it works under any repo name or domain. Only the link-preview tags in
 `index.html` (`og:url`, `og:image`) name the live address, because they must be absolute: edit them
-if the site moves. `404.html` sends mistyped or path-style links (like `/Tikify/add`) into the app.
+if the site moves. `404.html` sends mistyped or path-style links (like `/add`) into the app.
+
+## Custom domain
+Tikify lives at **https://tikify.no**, set in **Settings → Pages → Custom domain** (GitHub keeps it
+in `CNAME` and redirects the old `github.io` address there), with **Enforce HTTPS** on.
+At Domeneshop, the `tikify.no` zone has:
+- `A` records for `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+- `AAAA` records for `@`: `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
+- a `CNAME` record from `www` to `kkinnit-o8.github.io`
+
+A repo can have only one custom domain, so `tikify.online` has the same records but belongs to a
+separate `tikify-online` repo whose pages only redirect to tikify.no.
+
+Your library is stored per address: moving the site to another domain starts every browser and
+installed app with an empty library. Export a backup on the old address and import it on the new one.
 
 ## Releasing an update
 Just push. The service worker (`sw.js`) serves the app from its cache, so it opens instantly and offline,
@@ -57,9 +71,8 @@ app's identity on Android, and a different one makes Chrome stop updating instal
 - Save sounds for your own listening only, and respect the rights of their creators.
 
 ## Run locally
-Serve the folder *above* the repo, so the app runs under `/Tikify/` like on GitHub Pages:
+Serve the repo folder, so the app runs at the root like on tikify.no:
 ```sh
-cd ..
 python3 -m http.server 8000
-# open http://localhost:8000/Tikify/
+# open http://localhost:8000/
 ```

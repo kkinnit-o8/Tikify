@@ -12,7 +12,7 @@
 (function () {
   const Q = new URLSearchParams(location.search);
   const FILM = window.FILM = { W: 1920, H: 1080, fps: 30, dur: 15, scenes: [], errors: [], cuts: [], cues: [],
-    fonts: [], CAM: [], BG: null, nocam: Q.has('nocam') };
+    fonts: [], assets: [], CAM: [], BG: null, nocam: Q.has('nocam') };   // assets: promises (decoded footage frames) awaited before __seek exists
 
   /* ---------------- math ---------------- */
   const clamp = FILM.clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
@@ -200,6 +200,7 @@
   FILM.start = async (opts = {}) => {
     Object.assign(FILM, opts);
     await FILM.loadFonts();
+    try { await Promise.all(FILM.assets); } catch (e) { FILM.errors.push('assets: ' + (e && e.message || e)); }
     const film = document.getElementById('film'), world = document.getElementById('world');
     film.style.cssText += `;width:${FILM.W}px;height:${FILM.H}px`;
     if (FILM.BG) {

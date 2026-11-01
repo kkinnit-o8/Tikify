@@ -13,7 +13,7 @@
   const NP = W(CARD.x + 350 + 110, CARD.y + 332);                     // needle pivot: Save button, left of its label
   // opened by a share: the link is already in, the lookup runs by itself; the sound lands on b5, Save on b6.5
   const T_CARD = T.b(5), T_SAVE = T.b(6.5), DL0 = T_SAVE + .07, DL1 = 4.84, ND = 4.86;
-  const LINK = 'https://www.tiktok.com/@mira.wav/video/7431906528114';
+  const LINK = 'https://www.tiktok.com/@fl0wd3mon/video/7431906528114';
   const S = {};
 
   // camera: screen = t + S·world
@@ -54,8 +54,8 @@
         <div class="card" style="position:absolute;left:${CARD.x}px;top:${CARD.y}px;width:${CARD.w}px;height:${CARD.h}px;border-radius:26px;background:#1B1B1B;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.07)">
           <div class="cv" style="position:absolute;left:40px;top:40px;width:270px;height:270px;border-radius:14px;background:url(${T.COV.night}) center/cover;box-shadow:0 18px 40px rgba(0,0,0,.45)"></div>
           <div class="pp" style="position:absolute;left:250px;top:250px;width:86px;height:86px;border-radius:43px;background:#1ED760;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.5)">${T.svg('play', 44, '#000')}</div>
-          <div class="r1" style="position:absolute;left:370px;top:44px;font:800 54px/1.1 Inter;letter-spacing:-.02em;color:#fff">night drive (slowed)</div>
-          <div class="r2" style="position:absolute;left:370px;top:112px;font:500 34px/1.2 Inter;color:#A7A7A7">mira.wav</div>
+          <div class="r1" style="position:absolute;left:370px;top:44px;font:800 54px/1.1 Inter;letter-spacing:-.02em;color:#fff">nuts (feat. rainy bear)</div>
+          <div class="r2" style="position:absolute;left:370px;top:112px;font:500 34px/1.2 Inter;color:#A7A7A7">Lil Peep</div>
           <div class="r3" style="position:absolute;left:370px;top:176px;display:flex;gap:16px;align-items:center">
             <div style="font:600 24px/1 Inter;letter-spacing:.08em;color:#A7A7A7;margin-right:6px">ADD TO</div>
             <div style="height:58px;padding:0 26px;border-radius:29px;background:#2A2A2A;font:600 29px/58px Inter;color:#fff">Gym</div>

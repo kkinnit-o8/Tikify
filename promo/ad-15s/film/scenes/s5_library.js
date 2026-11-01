@@ -61,7 +61,7 @@
             <div style="margin-top:44px;display:flex;gap:44px;align-items:center">${T.svg('plus', 60)}${T.svg('shuffle', 56)}</div>
           </div>
           <div class="gp" style="position:absolute;left:${1156 - 66}px;top:${300 - 66}px;width:132px;height:132px;border-radius:66px;background:#1ED760;display:grid;place-items:center;box-shadow:0 14px 34px rgba(30,215,96,.28)">${T.svg('play', 66, '#000')}</div>
-          ${track(410, T.COV.night, 'night drive (slowed)', 'mira.wav', 't0')}
+          ${track(410, T.COV.night, 'nuts (feat. rainy bear)', 'Lil Peep', 't0')}
           ${track(530, T.COV.summer, 'summer anthem', 'The Waves', 't1')}
           ${track(650, T.COV.walk, 'the walk home', 'Kiro', 't2')}
           ${track(770, T.COV.skies, 'pink skies loop', 'lune', 't3')}

@@ -11,7 +11,7 @@
   // rects: player (A) → lock widget (B)
   // everything sits below TikTok's top tabs and above its caption area
   const COV = [[280, 380, 520], [120, 724, 236]];
-  const TITLE = [[280, 930, 1], [388, 736, 48 / 70]], ART = [[282, 1020, 1], [390, 800, 32 / 38]];
+  const TITLE = [[280, 936, 1], [388, 740, 46 / 58]], ART = [[282, 1020, 1], [390, 800, 32 / 38]];
   const BAR = [[280, 1108, 520], [390, 874, 560]];
   const CTRL = { prev: [[410, 1260], [520, 948]], play: [[540, 1260], [690, 948]], next: [[670, 1260], [860, 948]] };
   const CARD = [[200, 330, 680, 1060, 60], [90, 680, 900, 330, 46]];
@@ -31,8 +31,8 @@
       T.img(T.COV.night, 'width:100%;height:50%', S.covIn); T.img(T.COV.summer, 'width:100%;height:50%', S.covIn);
       S.ctx = el('div', 'position:absolute;left:0;width:1080px;top:330px;text-align:center;font:700 30px/1 Inter;letter-spacing:.01em;color:rgba(255,255,255,.78)', S.grp, 'Playing from Road trip');
       const roll = (css, a, b) => { const w = el('div', `position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;${css}`, S.grp); const i = el('div', '', w); el('div', '', i, a); el('div', '', i, b); return [w, i]; };
-      [S.tw, S.ti] = roll('font:800 70px/84px "Inter Tight";letter-spacing:-.03em;color:#fff;height:84px;white-space:nowrap', 'night drive (slowed)', 'summer anthem');
-      [S.aw, S.ai] = roll('font:500 38px/50px Inter;color:#D9CDEA;height:50px;white-space:nowrap', 'mira.wav', 'The Waves');
+      [S.tw, S.ti] = roll('font:800 58px/72px "Inter Tight";letter-spacing:-.03em;color:#fff;height:72px;white-space:nowrap', 'nuts (feat. rainy bear)', 'summer anthem');
+      [S.aw, S.ai] = roll('font:500 38px/50px Inter;color:#D9CDEA;height:50px;white-space:nowrap', 'Lil Peep', 'The Waves');
       S.bar = el('div', 'position:absolute;height:8px;border-radius:4px;background:rgba(255,255,255,.28)', S.grp);
       S.fill = el('div', 'position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:#fff', S.bar);
       S.knob = el('div', 'position:absolute;top:-9px;width:26px;height:26px;border-radius:13px;background:#fff;margin-left:-13px', S.bar);
@@ -103,7 +103,7 @@
       // ⏭ on b21: ripple, then cover / title / artist roll to the next sound
       const rq = p(t, T_SKIP - .02, T_SKIP + .42); S.ripple.style.opacity = rq > 0 && rq < 1 ? .9 * (1 - rq) : 0; S.ripple.style.transform = `scale(${.3 + 1.2 * E.out(2)(rq)})`;
       const ro = E.smooth(p(t, T_SKIP + .04, T_SKIP + .4));
-      S.covIn.style.transform = `translateY(${-50 * ro}%)`; S.ti.style.transform = `translateY(${-84 * ro}px)`; S.ai.style.transform = `translateY(${-50 * ro}px)`;
+      S.covIn.style.transform = `translateY(${-50 * ro}%)`; S.ti.style.transform = `translateY(${-72 * ro}px)`; S.ai.style.transform = `translateY(${-50 * ro}px)`;
       // background: the lock dims the world (exposure ramp, not a plate)
       S.dim.style.opacity = .5 * E.smooth(p(t, C5, C5 + .5));
       // airplane pill: drops in, switches on on b18.5, then shrinks into the status bar when the phone locks

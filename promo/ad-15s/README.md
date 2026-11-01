@@ -19,13 +19,13 @@ The colours, icon, copy and screens are Tikify's own, from `styles.css`, `app.js
 
 | Time | Beat | Shot |
 |---|---|---|
-| 0.00 | intro | A short video plays: a night drive, its ticker reading "♫ night drive (slowed) · mira.wav". The ref-style label is born from a chip and reads **Love this sound?** |
+| 0.00 | intro | The example video plays muted in a short-video card: a *nuts (feat. rainy bear) · Lil Peep* song post by @FL0WD3MON. The ref-style label is born from a chip and reads **Love this sound?** |
 | 0.57 | **drop** | The label snaps cyan → pink → black. |
 | 0.85 | b1.5 | **Tap Share**: the cursor taps Share and the share sheet slides up, offering Copy link, **Tikify**, Message and More. |
-| 1.42 | b2.5 | **Pick Tikify**: the cursor taps Tikify. ♪ notes pop out of the video and are swallowed by the Tikify icon. |
+| 1.42 | b2.5 | **Pick Tikify**: the cursor taps Tikify. ♪ notes pop out of the video's album art and are swallowed by the Tikify icon. |
 | 1.98 | b3.5 | **Get the sound.** The camera dives into the icon (×62, speed peak on the cut). The label stays on screen. |
 | 2.26 | b4 | The real **Add sound** screen opens with the shared link already in, and "Finding the sound…" runs by itself. That's what the app does with a link shared to it on Android. |
-| 2.83 | b5 | The result card lands: *night drive (slowed)*, *mira.wav*, Add to ✓ Road trip. The label slides away. |
+| 2.83 | b5 | The result card lands: *nuts (feat. rainy bear)*, *Lil Peep*, Add to ✓ Road trip. The label slides away. |
 | 3.68 | b6.5 | **Save to library**, then "Downloading… 0–100 %" over the track's quiet breath. A needle zooms into the button. |
 | 5.09 | **hit** | Out of the ✓ chip: **Saved to Road trip.**, then a pull-back and **Downloaded. Works offline.** Needle into "offline". |
 | 6.79 | b12 | Your Library. The saved cover lands in Road trip's collage (b13), and the counts tick 4 → 5 and 8 → 9. |
@@ -38,7 +38,7 @@ The colours, icon, copy and screens are Tikify's own, from `styles.css`, `app.js
 
 Every on-screen state is something the app really does. The strings come from the app: "Add sound", "Find sound",
 "Finding the sound…", "Save to library", "Downloading… N%", "Your Library", "New playlist", "Playing from Road trip".
-Sound names and artists are made up.
+The hero sound matches the example video (*nuts (feat. rainy bear)* by Lil Peep, as supplied for this ad). The other sound names and artists are made up.
 
 ## 9:16 (TikTok / Reels / Shorts)
 
@@ -59,6 +59,12 @@ Render it with the same command as the 16:9 master, swapping in `film/index_9x16
 - `film/index.html` is the film page. It loads `engine.js`, the deterministic timeline engine from the
   higgsfield-motion-saas skill (plus flat "plates" in the background), `common.js` (palette, icons, cover art, cursor)
   and one scene module per shot in `scenes/`.
+- `film/clip/` holds the example video's frames. They stay out of git because the video is a third-party post. Recreate them from the supplied clip, muted, starting at 1.0 s:
+
+  ```bash
+  ffmpeg -ss 1.0 -t 2.6 -i "Nuts - Lil Peep.mp4" -an -vf "fps=30,scale=600:800:flags=lanczos" -q:v 3 film/clip/c_%03d.jpg
+  ```
+
 - `fonts/` holds local copies of Inter Tight, Inter and Geist Mono from Google Fonts, so capture never waits on the network.
 - `tools/` holds `capture.mjs` (CDP frame capture), `render.sh` (workers → blur → lens → ffmpeg), `stills.sh`,
   `blend.py`, `lens.py`, `sheet.py`, `sound.py` and `sound_kit.py`.

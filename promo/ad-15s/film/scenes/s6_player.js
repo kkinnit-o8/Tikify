@@ -29,8 +29,8 @@
       T.img(T.COV.night, 'width:100%;height:50%', S.covIn); T.img(T.COV.summer, 'width:100%;height:50%', S.covIn);
       S.ctx = el('div', 'position:absolute;left:800px;top:236px;font:700 30px/1 Inter;letter-spacing:.01em;color:rgba(255,255,255,.78);transform-origin:0 0', S.grp, 'Playing from Road trip');
       const roll = (css, a, b) => { const w = el('div', `position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;${css}`, S.grp); const i = el('div', '', w); el('div', '', i, a); el('div', '', i, b); return [w, i]; };
-      [S.tw, S.ti] = roll('font:800 88px/104px "Inter Tight";letter-spacing:-.03em;color:#fff;height:104px;white-space:nowrap', 'night drive (slowed)', 'summer anthem');
-      [S.aw, S.ai] = roll('font:500 40px/52px Inter;color:#D9CDEA;height:52px;white-space:nowrap', 'mira.wav', 'The Waves');
+      [S.tw, S.ti] = roll('font:800 88px/104px "Inter Tight";letter-spacing:-.03em;color:#fff;height:104px;white-space:nowrap', 'nuts (feat. rainy bear)', 'summer anthem');
+      [S.aw, S.ai] = roll('font:500 40px/52px Inter;color:#D9CDEA;height:52px;white-space:nowrap', 'Lil Peep', 'The Waves');
       S.bar = el('div', 'position:absolute;height:8px;border-radius:4px;background:rgba(255,255,255,.28)', S.grp);
       S.fill = el('div', 'position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:#fff', S.bar);
       S.knob = el('div', 'position:absolute;top:-9px;width:26px;height:26px;border-radius:13px;background:#fff;margin-left:-13px', S.bar);

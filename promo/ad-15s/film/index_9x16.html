@@ -15,8 +15,10 @@
 <body>
 <div id="film"><canvas id="bg"></canvas><div id="world"></div><div id="grain"></div></div>
 <script src="engine.js"></script>
+<script>FILM.W = 1080; FILM.H = 1920;   // known before the scene modules load (s1 is shared by both formats)</script>
 <script src="common.js"></script>
-<script src="scenes916/s1_tag.js"></script>
+<script src="scenes/s0_label.js"></script>
+<script src="scenes/s1_share.js"></script>
 <script src="scenes916/s2_add.js"></script>
 <script src="scenes916/s4_type.js"></script>
 <script src="scenes916/s5_library.js"></script>

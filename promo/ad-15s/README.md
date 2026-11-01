@@ -19,12 +19,14 @@ The colours, icon, copy and screens are Tikify's own, from `styles.css`, `app.js
 
 | Time | Beat | Shot |
 |---|---|---|
-| 0.00 | intro | A pastel field. A cyan chip grows out of a ring, text scrambling. |
-| 0.57 | **drop** | The chip snaps cyan → pink → black. **♪ Tikify** decodes, then *» TikTok sounds, on repeat «*. |
-| 1.42 | b2.5 | Five sound covers arc in and are swallowed by the ♪ icon. The camera dives into the icon (×62, speed peak on the cut). |
-| 2.26 | b4 | The real **Add sound** screen keeps flying in. Paste (b5), then **Find sound** (b6) shows "Finding the sound…". |
-| 3.68 | b6.5 | The result card is born from the button: *night drive (slowed)*, *mira.wav*, Add to ✓ Road trip. |
-| 4.25 | b7.5 | **Save to library**, then "Downloading… 0–100 %" over the track's quiet breath. A needle zooms into the button. |
+| 0.00 | intro | A short video plays: a night drive, its ticker reading "♫ night drive (slowed) · mira.wav". The ref-style label is born from a chip and reads **Love this sound?** |
+| 0.57 | **drop** | The label snaps cyan → pink → black. |
+| 0.85 | b1.5 | **Tap Share**: the cursor taps Share and the share sheet slides up, offering Copy link, **Tikify**, Message and More. |
+| 1.42 | b2.5 | **Pick Tikify**: the cursor taps Tikify. ♪ notes pop out of the video and are swallowed by the Tikify icon. |
+| 1.98 | b3.5 | **Get the sound.** The camera dives into the icon (×62, speed peak on the cut). The label stays on screen. |
+| 2.26 | b4 | The real **Add sound** screen opens with the shared link already in, and "Finding the sound…" runs by itself. That's what the app does with a link shared to it on Android. |
+| 2.83 | b5 | The result card lands: *night drive (slowed)*, *mira.wav*, Add to ✓ Road trip. The label slides away. |
+| 3.68 | b6.5 | **Save to library**, then "Downloading… 0–100 %" over the track's quiet breath. A needle zooms into the button. |
 | 5.09 | **hit** | Out of the ✓ chip: **Saved to Road trip.**, then a pull-back and **Downloaded. Works offline.** Needle into "offline". |
 | 6.79 | b12 | Your Library. The saved cover lands in Road trip's collage (b13), and the counts tick 4 → 5 and 8 → 9. |
 | 7.92 | b14 | Tap Road trip, which pushes into the playlist. The cursor presses ▶ on b16.5 and holds it… |

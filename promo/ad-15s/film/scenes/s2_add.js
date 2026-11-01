@@ -1,23 +1,25 @@
-/* s2 · b4 → b9 (2.264 → 5.094): the real "Add sound" screen on pink plates. The panel keeps flying in from the dive
-   (×0.2 → ×1.22, x⁴ out: speed max on the cut). Paste on b5, Find sound on b6 ("Finding the sound…"), the result card is
-   born from the button on b6.5, the camera cranes back as it lands, Save to library on b7.5 → "Downloading… N %" over
-   the track's quiet breath, the camera leans in, then a needle INTO the button lands on the big hit (b9). */
+/* s2 · b4 → b9 (2.264 → 5.094): the real "Add sound" screen on pink plates, opened by the share. The panel keeps flying
+   in from the dive (×0.32 → ×1.22, x⁴ out: speed max on the cut). The link is already in the box and the lookup runs by
+   itself ("Finding the sound…"), as the app does with a shared link; the result card is born on b5, the camera cranes back
+   as it lands, Save to library on b6.5 → "Downloading… N %" over the track's quiet breath, the camera leans in, then a
+   needle INTO the button lands on the big hit (b9). */
 (function () {
   const { E, p, el, zoom, kf } = FILM;
   const C1 = T.b(4), C2 = T.b(9);
   const PX = 320, PY = 90, PW = 1280, PH = 900;
   const W = (x, y) => [PX + x, PY + y];
   const CARD = { x: 64, y: 466, w: 1152, h: 400 };
-  const PASTE = W(64 + 1152 - 58, 258), FIND = W(640, 384), SAVE = W(CARD.x + 350 + 381, CARD.y + 292 + 40);
+  const SAVE = W(CARD.x + 350 + 381, CARD.y + 292 + 40);
   const NP = W(CARD.x + 350 + 110, CARD.y + 332);                     // needle pivot: Save button, left of its label
-  const T_PASTE = T.b(5), T_FIND = T.b(6), T_CARD = T.b(6.5), T_SAVE = T.b(7.5), DL0 = T_SAVE + .07, DL1 = 4.84, ND = 4.86;
+  // opened by a share: the link is already in, the lookup runs by itself; the sound lands on b5, Save on b6.5
+  const T_CARD = T.b(5), T_SAVE = T.b(6.5), DL0 = T_SAVE + .07, DL1 = 4.84, ND = 4.86;
   const LINK = 'https://www.tiktok.com/@mira.wav/video/7431906528114';
   const S = {};
 
   // camera: screen = t + S·world
   function cam(t) {
     let s = zoom(t, C1, C1 + .62, .32, 1.22, E.out(4)), fx = 960, fy = 348;
-    const q2 = E.smooth(p(t, 3.5, 4.1));                    // results land → crane back to the whole page
+    const q2 = E.smooth(p(t, 2.95, 3.55));                    // results land → crane back to the whole page
     s *= Math.exp(Math.log(.98 / 1.22) * q2); fy += (540 - fy) * q2;
     const q3 = E.glide(p(t, T_SAVE - .05, ND + .04));       // lean in on the click, centre the button
     s *= Math.exp(Math.log(1.12 / .98) * q3); fx += (1010 - fx) * q3; fy += (SAVE[1] - fy) * q3;
@@ -71,25 +73,18 @@
         cv: q('cv'), pp: q('pp'), rows: [q('r1'), q('r2'), q('r3')], sv: q('sv'), fill: q('fill'), svl: q('svl'), svw: q('svw') });
       S.selW = S.lk.offsetWidth + 12;
       S.cur = T.cursor(root);
-      S.keys = [[C1 + .28, [2060, 1180]], [T_PASTE - .06, scr(PASTE), .1], [T_PASTE + .16, scr(PASTE)], [T_FIND - .05, scr(FIND), .08], [T_FIND + .2, scr(FIND)],
-        [T_SAVE - .06, scr(SAVE), .1], [T_SAVE + .18, scr(SAVE)], [ND + .02, [2120, 1240], .06]];
-      FILM.cue('paste', T_PASTE, 'click'); FILM.cue('find', T_FIND, 'click'); FILM.cue('card', T_CARD, 'pop'); FILM.cue('save', T_SAVE, 'click');
+      S.keys = [[3.02, [2060, 1180]], [T_SAVE - .06, scr(SAVE), .1], [T_SAVE + .18, scr(SAVE)], [4.5, [2120, 1240], .06]];
+      FILM.cue('card', T_CARD, 'pop'); FILM.cue('save', T_SAVE, 'click');
       FILM.cue('needle', C2, 'riser');
     },
     update(lt, t) {
       const c = cam(t);
       S.null.style.transform = T.mat(c.tx, c.ty, c.s);
-      // paste on b5: focus ring, the link lands with a fast wipe and a selection flash
-      const pq = p(t, T_PASTE + .02, T_PASTE + .2);
-      S.ph.style.visibility = t < T_PASTE + .02 ? 'visible' : 'hidden';
-      S.lk.style.clipPath = `inset(-10px ${100 - 100 * E.out(2)(pq)}% -10px -10px)`;
-      S.sel.style.width = S.selW * E.out(2)(pq) + 'px'; S.sel.style.opacity = 1 - p(t, T_PASTE + .3, T_PASTE + .75);
-      const focus = p(t, T_PASTE - .02, T_PASTE + .06) * (1 - .75 * p(t, T_FIND, T_FIND + .4));
-      S.inp.style.boxShadow = `inset 0 0 0 3px rgba(37,244,238,${focus})`;
-      S.pb.style.background = `rgba(255,255,255,${.12 * T.bump(t, T_PASTE - .04, .3)})`;
-      // Find sound on b6: press, then the app's own loading line until the card is born on b6.5
-      S.fb.style.transform = `scale(${1 - .035 * T.bump(t, T_FIND - .03, .24)})`;
-      const ld = p(t, T_FIND + .04, T_FIND + .14) * (1 - p(t, T_CARD - .04, T_CARD + .06));
+      // arrived from the share sheet: the link is already in the box (a brief focus glow says so), no paste
+      S.ph.style.visibility = 'hidden'; S.sel.style.opacity = 0;
+      S.inp.style.boxShadow = `inset 0 0 0 3px rgba(37,244,238,${1 - p(t, C1 + .5, C1 + 1.1)})`;
+      // the lookup starts by itself, as the app does with a shared link: its loading line until the card is born on b5
+      const ld = p(t, C1 + .1, C1 + .2) * (1 - p(t, T_CARD - .04, T_CARD + .06));
       S.ld.style.opacity = ld; S.ld.style.transform = `translateY(${10 * (1 - ld)}px)`;
       S.sp.style.transform = `rotate(${t * 520}deg)`;
       // result card grows from the Find button (height from 0, children rise in a 50 ms stagger)
@@ -108,7 +103,7 @@
       S.svl.textContent = S.svw.textContent = t < DL0 ? 'Save to library' : `Downloading… ${n}%`;
       S.svw.style.clipPath = `inset(0 ${100 - 100 * dq}% 0 0)`;           // white label over the fill, black over the rest
       // cursor (screen space, targets tracked live)
-      T.cursorAt(S.cur, t, T.path(t, S.keys), [T_PASTE, T_FIND, T_SAVE]);
+      T.cursorAt(S.cur, t, T.path(t, S.keys), [T_SAVE]);
     },
   });
 })();

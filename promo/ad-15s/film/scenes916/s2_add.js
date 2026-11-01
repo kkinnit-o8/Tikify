@@ -1,21 +1,22 @@
-/* 9:16 · s2 · b4 → b9 (2.264 → 5.094): the real "Add sound" screen, in the app's own vertical layout, on pink plates.
-   Same beats as the 16:9 cut: arrival from the dive, Paste on b5, Find sound on b6, the result card born on b6.5,
-   Save to library on b7.5 → "Downloading… N %", lean in, needle INTO the button on the big hit (b9). */
+/* 9:16 · s2 · b4 → b9 (2.264 → 5.094): the real "Add sound" screen, in the app's own vertical layout, on pink plates,
+   opened by the share: the link is already in, the lookup runs by itself ("Finding the sound…"), the card is born on b5,
+   Save to library on b6.5 → "Downloading… N %", lean in, needle INTO the button on the big hit (b9). */
 (function () {
   const { E, p, el, zoom } = FILM;
   const C1 = T.b(4), C2 = T.b(9);
   const PX = 60, PY = 250, PW = 960, PH = 1320;
   const W = (x, y) => [PX + x, PY + y];
   const CARD = { x: 56, y: 500, w: 848, h: 770 };
-  const PASTE = W(56 + 848 - 58, 296), FIND = W(480, 422), SAVE = W(CARD.x + 48 + 376, CARD.y + 646 + 42);
+  const SAVE = W(CARD.x + 48 + 376, CARD.y + 646 + 42);
   const NP = W(CARD.x + 48 + 100, CARD.y + 688);                      // needle pivot: Save button, left of its label
-  const T_PASTE = T.b(5), T_FIND = T.b(6), T_CARD = T.b(6.5), T_SAVE = T.b(7.5), DL0 = T_SAVE + .07, DL1 = 4.84, ND = 4.86;
+  // opened by a share: the link is already in, the lookup runs by itself; the sound lands on b5, Save on b6.5
+  const T_CARD = T.b(5), T_SAVE = T.b(6.5), DL0 = T_SAVE + .07, DL1 = 4.84, ND = 4.86;
   const LINK = 'https://www.tiktok.com/@mira.wav/video/7431906528114';
   const S = {};
 
   function cam(t) {
     let s = zoom(t, C1, C1 + .62, .32, 1.12, E.out(4)), fx = 540, fy = PY + 520;   // panel top high in the frame, input in the upper-middle
-    const q2 = E.smooth(p(t, 3.5, 4.1));                    // results land → crane back to the whole page
+    const q2 = E.smooth(p(t, 2.95, 3.55));                    // results land → crane back to the whole page
     s *= Math.exp(Math.log(.98 / 1.12) * q2); fy += (PY + PH / 2 - fy) * q2;
     const q3 = E.glide(p(t, T_SAVE - .05, ND + .04));       // lean in on the click
     s *= Math.exp(Math.log(1.1 / .98) * q3); fy += (SAVE[1] - 30 - fy) * q3;      // keeps the needle pivot within ±56 px of the frame centre: the button covers 1920 at ×22
@@ -69,23 +70,18 @@
         cv: q('cv'), pp: q('pp'), rows: [q('r1'), q('r2'), q('r3')], sv: q('sv'), fill: q('fill'), svl: q('svl'), svw: q('svw') });
       S.selW = 690;
       S.cur = T.cursor(root);
-      S.keys = [[C1 + .28, [1180, 2060]], [T_PASTE - .06, scr(PASTE), .1], [T_PASTE + .16, scr(PASTE)], [T_FIND - .05, scr(FIND), .08], [T_FIND + .2, scr(FIND)],
-        [T_SAVE - .06, scr(SAVE), .1], [T_SAVE + .18, scr(SAVE)], [ND + .02, [1250, 2150], .06]];
-      FILM.cue('paste', T_PASTE, 'click'); FILM.cue('find', T_FIND, 'click'); FILM.cue('card', T_CARD, 'pop'); FILM.cue('save', T_SAVE, 'click');
+      S.keys = [[3.02, [1180, 2060]], [T_SAVE - .06, scr(SAVE), .1], [T_SAVE + .18, scr(SAVE)], [4.5, [1250, 2150], .06]];
+      FILM.cue('card', T_CARD, 'pop'); FILM.cue('save', T_SAVE, 'click');
       FILM.cue('needle', C2, 'riser');
     },
     update(lt, t) {
       const c = cam(t);
       S.null.style.transform = T.mat(c.tx, c.ty, c.s);
-      const pq = p(t, T_PASTE + .02, T_PASTE + .2);
-      S.ph.style.visibility = t < T_PASTE + .02 ? 'visible' : 'hidden';
-      S.lk.style.clipPath = `inset(-10px ${100 - 100 * E.out(2)(pq)}% -10px -10px)`;
-      S.sel.style.width = S.selW * E.out(2)(pq) + 'px'; S.sel.style.opacity = 1 - p(t, T_PASTE + .3, T_PASTE + .75);
-      const focus = p(t, T_PASTE - .02, T_PASTE + .06) * (1 - .75 * p(t, T_FIND, T_FIND + .4));
-      S.inp.style.boxShadow = `inset 0 0 0 3px rgba(37,244,238,${focus})`;
-      S.pb.style.background = `rgba(${36 + 30 * T.bump(t, T_PASTE - .04, .3)},${36 + 30 * T.bump(t, T_PASTE - .04, .3)},${36 + 30 * T.bump(t, T_PASTE - .04, .3)},1)`;
-      S.fb.style.transform = `scale(${1 - .035 * T.bump(t, T_FIND - .03, .24)})`;
-      const ld = p(t, T_FIND + .04, T_FIND + .14) * (1 - p(t, T_CARD - .04, T_CARD + .06));
+      // arrived from the share sheet: the link is already in the box (a brief focus glow says so), no paste
+      S.ph.style.visibility = 'hidden'; S.sel.style.opacity = 0;
+      S.inp.style.boxShadow = `inset 0 0 0 3px rgba(37,244,238,${1 - p(t, C1 + .5, C1 + 1.1)})`;
+      // the lookup starts by itself, as the app does with a shared link: its loading line until the card is born on b5
+      const ld = p(t, C1 + .1, C1 + .2) * (1 - p(t, T_CARD - .04, T_CARD + .06));
       S.ld.style.opacity = ld; S.ld.style.transform = `translateY(${10 * (1 - ld)}px)`;
       S.sp.style.transform = `rotate(${t * 520}deg)`;
       const cq = E.soft(p(t, T_CARD, T_CARD + .55));
@@ -100,7 +96,7 @@
       S.fill.style.width = (100 * dq) + '%';
       S.svl.textContent = S.svw.textContent = t < DL0 ? 'Save to library' : `Downloading… ${n}%`;
       S.svw.style.clipPath = `inset(0 ${100 - 100 * dq}% 0 0)`;
-      T.cursorAt(S.cur, t, T.path(t, S.keys), [T_PASTE, T_FIND, T_SAVE]);
+      T.cursorAt(S.cur, t, T.path(t, S.keys), [T_SAVE]);
     },
   });
 })();

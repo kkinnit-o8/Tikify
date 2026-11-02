@@ -1,0 +1,4 @@
+/* Google Fonts (SIL Open Font License), latin subset, variable files — kept local so renders never depend on the network. */
+@font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 200 900; font-display: block; src: url(Unbounded.woff2) format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 200 800; font-display: block; src: url(BricolageGrotesque.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: block; src: url(Inter.woff2) format('woff2'); }

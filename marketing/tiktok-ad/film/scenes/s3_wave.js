@@ -65,11 +65,11 @@
         if (!on) return;
         let q;
         if (wd.k === 'sped') {                                         // zips in fast from the right, x-smear
-          q = E.out(4)(p(t, wd.t - .06, wd.t + .16));
+          q = E.out(3)(p(t, wd.t - .09, wd.t + .28));
           d.style.opacity = clamp(q * 3); d.style.transform = `translateX(${(1 - q) * 700}px) scaleX(${1 - .1 * (1 - q)})`;
           d.style.filter = q < .98 ? `blur(${(1 - q) * 18}px)` : 'none'; d.style.letterSpacing = '-.06em';
         } else {
-          q = K.wordIn(d, t, wd.t - .06, wd.k === 'slowed' ? .6 : .36, 40, 16);
+          q = K.wordIn(d, t, wd.t - .1, wd.k === 'slowed' ? .62 : .5, 36, 14);
         }
         if (wd.k === 'slowed') d.style.letterSpacing = (lerp(-.035, .07, E.glide(p(t, wd.t, tEnd)))).toFixed(4) + 'em';   // time-stretched
         if (wd.k === 'boost') { const sh = settleShake(t, T.bass, 18, 9, 7) + settleShake(t, T.boosted, 14, 9, 7); d.style.transform += ` translateX(${sh}px) rotate(${sh * .08}deg)`; }
@@ -80,9 +80,9 @@
         }
         // exit: pushed up and out by the next word
         // a real push: the old word is out of its box before the next one is half in ('slowed' leaves left, mirroring the +700 zip-in)
-        const out = E.in(3)(p(t, tEnd - .2, tEnd - .02));
+        const out = E.inOut(2)(p(t, tEnd - .26, tEnd + .04));
         const ox = wd.k === 'slowed' ? -760 * out : 0, oy = wd.k === 'slowed' ? 0 : -270 * out;
-        if (out > 0) { d.style.transform += ` translate(${ox}px,${oy}px)`; d.style.opacity = 1 - clamp((out - .5) * 2); d.style.filter = `blur(${out * 16}px)`; }
+        if (out > 0) { d.style.transform += ` translate(${ox}px,${oy}px)`; d.style.opacity = (1 - clamp((out - .3) / .7)).toFixed(3); d.style.filter = `blur(${out * 14}px)`; }
         // pill: lands just after the word (chip overshoot ≤4 %)
         const pq = E.back(1.1)(p(t, wd.t + .05, wd.t + .35)), pe = clamp(p(t, wd.t + .05, wd.t + .14));
         S.pills[i].style.opacity = pe * (1 - clamp(out * 1.6));

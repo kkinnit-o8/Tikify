@@ -51,6 +51,7 @@
     });
     return w;
   }
+  K.win = win; K.THEMES = THEMES;                                   // the hook (s1) floats a few of these windows
 
   FILM.scene({
     id: 's2', t0: T0, t1: T1,
@@ -129,22 +130,23 @@
       S.wall.style.filter = dim > 0 ? `brightness(${br.toFixed(3)}) blur(${(dim2 * 9).toFixed(2)}px)` : 'none';
       S.hero.style.filter = dim2 > 0 ? `brightness(${(1 - .5 * dim2).toFixed(3)}) blur(${(dim2 * 9).toFixed(2)}px)` : 'none';
       // --- words ---
-      const hq = K.wordIn(S.here, t, T.here - .04, .3, 0, 16);
-      S.here.style.display = t < T.there + .07 ? 'block' : 'none';
-      S.here.style.transform = `translateX(${(1 - aIn) * 520 - aOut * 1100}px)`;
-      S.there.style.display = t >= T.there - .001 && t < T.and + .2 ? 'block' : 'none';
-      K.wordIn(S.there, t, T.there - .02, .3, 0, 16);
-      const thOut = E.in(3)(p(t, T.and - .06, T.and + .12));                // pushed up and out by the wall (not faded in place)
-      S.there.style.transform = `translateX(${(1 - bIn) * 520}px) translateY(${-300 * thOut}px)`; S.there.style.opacity = 1 - clamp((thOut - .5) * 2);
-      S.there.style.filter = thOut > .02 ? `blur(${thOut * 14}px)` : S.there.style.filter;
+      // the words rise and settle in place (blur → sharp), then lift away softly as the next one arrives
+      S.here.style.display = t < T.there + .2 ? 'block' : 'none';
+      K.wordIn(S.here, t, T.here - .1, .5, 34, 14);
+      const hOut = E.inOut(2)(p(t, T.there - .16, T.there + .16));
+      if (hOut > 0) { S.here.style.transform += ` translateY(${-90 * hOut}px)`; S.here.style.opacity = (1 - hOut).toFixed(3); S.here.style.filter = `blur(${hOut * 10}px)`; }
+      S.there.style.display = t >= T.there - .1 && t < T.and + .3 ? 'block' : 'none';
+      K.wordIn(S.there, t, T.there - .1, .5, 34, 14);
+      const thOut = E.inOut(2)(p(t, T.and - .04, T.and + .26));
+      if (thOut > 0) { S.there.style.transform += ` translateY(${-120 * thOut}px)`; S.there.style.opacity = (1 - thOut).toFixed(3); S.there.style.filter = `blur(${thOut * 12}px)`; }
       // "everywhere": lands as the wall opens, exits upward on "just"
-      S.every.style.display = t >= T.every - .1 && t < T.just + .2 ? 'block' : 'none';
-      K.wordIn(S.every, t, T.every - .06, .4, 40, 18);
-      const eo = K.wordOut(S.every, t, T.just - .02, .18, -90, 14);
+      S.every.style.display = t >= T.every - .14 && t < T.just + .3 ? 'block' : 'none';
+      K.wordIn(S.every, t, T.every - .12, .55, 36, 14);
+      const eo = K.wordOut(S.every, t, T.just - .14, .34, -80, 12);
       // "just to find" / "that one TikTok audio."
-      [T.just, T.to, T.find].forEach((t0, i) => K.wordIn(S.wJust[i], t, t0 - .05, .4, 26));
-      [T.that, T.one].forEach((t0, i) => K.wordIn(S.wOne[i], t, t0 - .05, .4, 30));
-      [T.tiktok, T.audio].forEach((t0, i) => K.wordIn(S.wTik[i], t, t0 - .05, .4, 30));
+      [T.just, T.to, T.find].forEach((t0, i) => K.wordIn(S.wJust[i], t, t0 - .09, .5, 26));
+      [T.that, T.one].forEach((t0, i) => K.wordIn(S.wOne[i], t, t0 - .09, .5, 30));
+      [T.tiktok, T.audio].forEach((t0, i) => K.wordIn(S.wTik[i], t, t0 - .09, .5, 30));
       // --- the sound card grows out of the wall's centre (grow from a point) ---
       const g = p(t, T.find - .02, T.find + .55), gs = E.soft(g), gp = E.out(3)(g);
       S.card.style.display = t >= T.find - .02 ? 'block' : 'none';

@@ -31,8 +31,8 @@ L_drop = lufs(['-ss', str(a.start + DROP + .1), '-t', '8.3', '-i', a.track])
 L_vo = lufs(['-t', str(DROP), '-i', a.vo])
 L_TARGET = -14.0
 mus *= 10 ** ((L_TARGET - L_drop) / 20)
-vo *= 10 ** ((L_TARGET - 6.0 - L_vo) / 20)
-print(f'music breakdown {L_brk:.1f} / drop {L_drop:.1f} LUFS, voice {L_vo:.1f} LUFS → drop {L_TARGET}, voice {L_TARGET - 6.0}')
+vo *= 10 ** ((L_TARGET - 3.0 - L_vo) / 20)
+print(f'music breakdown {L_brk:.1f} / drop {L_drop:.1f} LUFS, voice {L_vo:.1f} LUFS → drop {L_TARGET}, voice {L_TARGET - 3.0}')
 
 # --- duck the music under the voice (smoothed VO envelope, −5 dB at full speech) ---
 env = np.sqrt(np.convolve(vo[0] ** 2, np.ones(int(.03 * SR)) / int(.03 * SR), 'same'))
@@ -48,6 +48,7 @@ ramp = np.clip((tt - 7.95) / (8.42 - 7.95), 0, 1); ramp = ramp * ramp * (3 - 2 *
 gain *= 10 ** (-4 * (1 - ramp) / 20)
 # +2 dB ride on the first bar after the drop, easing back to 0 dB by the next bar
 ride = np.interp(tt, [8.47, 10.59, 12.71], [2, 2, 0], left=0, right=0)
+ride += np.interp(tt, [8.45, 8.47, 8.88, 9.02], [0, 3, 3, 0])                 # the drop's first half-second, before the voice returns
 gain *= 10 ** (ride / 20)
 mus *= gain
 # after the drop the music is louder: lift the voice 6 dB there and duck the music 3 dB deeper under it

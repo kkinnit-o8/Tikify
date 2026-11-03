@@ -180,9 +180,9 @@
       CAPS.forEach((c, i) => {
         const o = S.caps[i], on = t >= c.a - .1 && t < c.b + .2;
         o.d.style.display = on ? 'block' : 'none'; if (!on) return;
-        o.w.forEach((e, j) => K.wordIn(e, t, c.w[j] - .05, .4, 40, 14));
-        const out = E.in(3)(p(t, c.b - .12, c.b + .04));
-        o.d.style.transform = `translateY(${-170 * out}px)`; o.d.style.opacity = 1 - clamp((out - .4) / .6); o.d.style.filter = out > .02 ? `blur(${out * 14}px)` : 'none';
+        o.w.forEach((e, j) => K.wordIn(e, t, c.w[j] - .1, .5, 30, 12));
+        const out = E.inOut(2)(p(t, c.b - .28, c.b + .06));
+        o.d.style.transform = `translateY(${-110 * out}px)`; o.d.style.opacity = (1 - out).toFixed(3); o.d.style.filter = out > .02 ? `blur(${out * 12}px)` : 'none';
       });
       // ---------- the app ----------
       const pasted = FILM.TQ(t) >= TM.paste + .04;
@@ -253,12 +253,12 @@
       }
       // ---------- feature pills land on the track's hits, leave upward before the close ----------
       S.pills.forEach((e, i) => {
-        const a = PILLS[i], on = t >= a - .05 && t < TM.close0 + .3;
+        const a = PILLS[i], on = t >= a - .1 && t < TM.close0 + .4;
         e.style.display = on ? 'flex' : 'none'; if (!on) return;
-        const q = E.back(1.1)(p(t, a, a + .34)), o = clamp(p(t, a, a + .1));
-        const out = E.in(2)(p(t, TM.close0 - .1 + i * .04, TM.close0 + .1 + i * .04));
+        const q = E.soft(p(t, a - .08, a + .5)), o = E.sine(clamp(p(t, a - .08, a + .22)));
+        const out = E.inOut(2)(p(t, TM.close0 - .24 + i * .05, TM.close0 + .12 + i * .05));
         e.style.opacity = o * (1 - out);
-        e.style.transform = `translateX(-50%) translateY(${(1 - q) * 50 - 180 * out}px) scale(${.9 + .1 * q})`;
+        e.style.transform = `translateX(-50%) translateY(${(1 - q) * 40 - 120 * out}px) scale(${.94 + .06 * q})`;
         e.style.filter = out > .02 ? `blur(${out * 12}px)` : 'none';
       });
     },

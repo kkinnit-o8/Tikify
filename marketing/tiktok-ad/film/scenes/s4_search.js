@@ -33,9 +33,9 @@
       S.cap.ico.style.opacity = .55 * clamp(p(t, T0 + .12, T0 + .26));
       S.cap.set(K.QUERY.slice(0, FILM.typedN(typeT, t)), t > 7.34 && t < 8.1);
       // "Search" / "no more."
-      K.wordIn(S.search, t, T.search - .06, .38, 34);
-      K.wordIn(S.wNo[0], t, T.no - .05, .34, 34);
-      K.wordIn(S.wNo[1], t, T.more - .05, .34, 34);
+      K.wordIn(S.search, t, T.search - .1, .5, 30);
+      K.wordIn(S.wNo[0], t, T.no - .09, .45, 30);
+      K.wordIn(S.wNo[1], t, T.more - .09, .45, 30);
       // the search gets struck through on "more"
       const sw = E.smooth(p(t, T.more - .02, T.more + .2));
       S.strike.style.width = (S.cap.txt.offsetWidth + 16) * sw + 'px';

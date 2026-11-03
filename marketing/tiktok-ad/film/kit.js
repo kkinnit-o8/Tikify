@@ -34,16 +34,16 @@
   K.beatAt = (k) => 8.47 + k * K.BEAT;
 
   /* ---------- word entrance: move + scale .94→1 + opacity + blur 14→0 on expo-out (nothing pops) ---------- */
-  K.wordIn = (e, lt, t0, d = .42, dy = 34, blur = 14) => {
-    const q = E.soft(p(lt, t0, t0 + d)), o = clamp(p(lt, t0, t0 + d * .45));
+  K.wordIn = (e, lt, t0, d = .55, dy = 30, blur = 12) => {
+    const q = E.soft(p(lt, t0, t0 + d)), o = E.sine(clamp(p(lt, t0, t0 + d * .55)));
     e.style.opacity = o;
     e.style.transform = `translateY(${(1 - q) * dy}px) scale(${.94 + .06 * q})`;
     e.style.filter = q > .995 ? 'none' : `blur(${(1 - q) * blur}px)`;
     return q;
   };
   // exit upward with acceleration (mirror of the entrance, cubic-in)
-  K.wordOut = (e, lt, t0, d = .16, dy = -60, blur = 12) => {
-    const q = E.in(3)(p(lt, t0, t0 + d));
+  K.wordOut = (e, lt, t0, d = .3, dy = -60, blur = 12) => {
+    const q = E.inOut(2)(p(lt, t0, t0 + d));
     if (q <= 0) return 0;
     e.style.opacity = 1 - q;
     e.style.transform = `translateY(${q * dy}px) scale(${1 - .04 * q})`;

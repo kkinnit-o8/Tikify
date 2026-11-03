@@ -26,7 +26,7 @@ Two natural Ainsley takes (`speech_rate` 15), placed untouched: no time-stretch 
 ## Shots
 | # | Time | Picture | Camera / transition | On-screen text |
 |---|---|---|---|---|
-| 1 | 0.00–0.80 | Light airy world (pale pink, lavender and aqua blobs). | Slow push-in. | **Let me guess…** (word by word, blur-to-sharp) |
+| 1 | 0.00–0.80 | **Hook from frame 0:** music-app windows (Spotify and SoundCloud logos among them) drift past the camera at different depths with depth of field, while the camera dollies forward. | Forward dolly that settles. | **Let me / guess…**, huge (198 px), each word slamming in on its syllable |
 | 2 | 0.80–1.40 | In the pause after "Let me guess", a search bar (the hero object) rises in under the words and types *that one tiktok sound*. | Push continues. | — |
 | 3 | 1.40–1.90 | A music-app window with the **Spotify** logo whips in around the search bar (the bar stays put: the app changes around it). | Whip in from the right. | **here,** |
 | 4 | 1.90–2.30 | The **SoundCloud** window enters from the right; Spotify is pushed into the slot to its left. | Mirrored whip. | **there,** |

@@ -3,17 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Tikify</title>
-  <meta name="description" content="Save TikTok sounds and play them like music. Make playlists, listen offline.">
+  <!-- app.js puts this title back whenever the Library (the home page) is shown: it's the one search results use. -->
+  <title>Tikify – Save TikTok Sounds &amp; Play Them Like Music</title>
+  <meta name="description" content="Save TikTok sounds and play them like music: make playlists, listen offline and keep playing with your phone locked. Free, no account, on iPhone and Android.">
   <meta name="theme-color" content="#121212">
   <meta name="color-scheme" content="dark">
-  <!-- Link previews (iMessage, WhatsApp, Discord, X…) need absolute URLs: update them if the site moves. -->
+  <!-- Search engines and link previews (iMessage, WhatsApp, Discord, X…) need absolute URLs:
+       update these, robots.txt, sitemap.xml and the pages' own tags if the site moves. -->
+  <link rel="canonical" href="https://tikify.no/">
+  <link rel="alternate" hreflang="en" href="https://tikify.no/">
+  <link rel="alternate" hreflang="nb" href="https://tikify.no/no/">
+  <link rel="alternate" hreflang="x-default" href="https://tikify.no/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Tikify">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="nb_NO">
   <meta property="og:title" content="Tikify: your TikTok sounds, played like music">
   <meta property="og:description" content="Save TikTok sounds and play them like music. Make playlists, listen offline. Free, no account.">
-  <meta property="og:url" content="https://kkinnit-o8.github.io/Tikify/">
-  <meta property="og:image" content="https://kkinnit-o8.github.io/Tikify/icons/og.png">
+  <meta property="og:url" content="https://tikify.no/">
+  <meta property="og:image" content="https://tikify.no/icons/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Tikify: Save TikTok sounds. Play them like music.">
@@ -29,6 +37,49 @@
   <!-- dark from the first frame, before styles.css arrives -->
   <style>html, body { background: #121212; }</style>
   <link rel="stylesheet" href="styles.css">
+  <!-- What Tikify is, for search engines. Only true facts: no ratings or reviews it doesn't have. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://tikify.no/#website",
+        "name": "Tikify",
+        "url": "https://tikify.no/",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://tikify.no/#app",
+        "name": "Tikify",
+        "url": "https://tikify.no/",
+        "description": "Save TikTok sounds and play them like music: playlists, shuffle and repeat, offline playback and background playback with the screen locked. Free, no account.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "iOS, Android, Windows, macOS",
+        "browserRequirements": "Requires JavaScript. Works in Safari, Chrome, Edge and Firefox.",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "image": "https://tikify.no/icons/icon-512.png",
+        "screenshot": [
+          "https://tikify.no/screenshots/library.jpg",
+          "https://tikify.no/screenshots/playlist.jpg",
+          "https://tikify.no/screenshots/player.jpg"
+        ],
+        "featureList": [
+          "Save the sound of any TikTok video from its link",
+          "Playlists with shuffle, repeat and play next",
+          "Plays offline: sounds are stored on your device",
+          "Keeps playing in the background and from the lock screen",
+          "Installable on iPhone, Android and computers",
+          "No account and no analytics"
+        ],
+        "isPartOf": { "@id": "https://tikify.no/#website" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div id="app">
@@ -42,7 +93,30 @@
       </button>
     </header>
 
-    <main id="view"></main>
+    <main id="view">
+      <!-- For browsers and crawlers that don't run JavaScript. With it, app.js shows the same
+           introduction on the empty Library (see libraryIntro). -->
+      <noscript>
+        <div class="intro">
+          <h2>Save TikTok sounds. Play them like music.</h2>
+          <p>Tikify keeps the sounds you love from TikTok in your own library, so you can listen to them
+            like songs: in playlists, offline and with your phone locked. Free, no account.</p>
+          <p><b>Tikify needs JavaScript.</b> Turn it on in your browser settings to use the app.</p>
+          <nav aria-labelledby="introGuides">
+            <h3 id="introGuides">Guides</h3>
+            <div class="intro-links">
+              <a href="how-to-save-tiktok-sounds/">How to save a TikTok sound</a>
+              <a href="listen-to-tiktok-sounds-offline/">Listen offline and with the screen locked</a>
+              <a href="tiktok-sound-playlist/">Make a playlist of TikTok sounds</a>
+              <a href="install/">Install on iPhone and Android</a>
+              <a href="faq/">FAQ</a>
+              <a href="privacy/">Privacy</a>
+              <a href="no/" hreflang="nb" lang="nb">På norsk</a>
+            </div>
+          </nav>
+        </div>
+      </noscript>
+    </main>
 
     <div class="mini-player" id="miniPlayer" role="region" aria-label="Now playing" hidden>
       <div class="mini-progress"><div id="miniProgressBar"></div></div>

@@ -1,0 +1,5 @@
+# Everything may be crawled: app.js and styles.css too, which search engines need to see the app.
+User-agent: *
+Allow: /
+
+Sitemap: https://tikify.no/sitemap.xml

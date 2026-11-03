@@ -1,0 +1,94 @@
+/* The guide pages (how-to, FAQ, privacy, install, Norwegian): plain web pages around the app, readable
+   without JavaScript. Same colours as styles.css. Not in sw.js's SHELL: they aren't part of the app. */
+:root {
+  --bg: #121212;
+  --bg-2: #181818;
+  --bg-3: #242424;
+  --bg-4: #2e2e2e;
+  --text: #ffffff;
+  --muted: #a7a7a7;
+  --accent: #1ed760;
+  --brand: linear-gradient(135deg, #fe2c55, #7b2cbf 55%, #25f4ee);
+  --gutter: max(16px, env(safe-area-inset-left), env(safe-area-inset-right), calc(50% - 344px));
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--muted);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, .btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+b, strong { color: var(--text); }
+code { font-size: .9em; background: var(--bg-3); color: var(--text); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+
+/* ---------- header ---------- */
+.top {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 12px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) var(--gutter) 10px;
+  background: rgb(18 18 18 / .92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bg-3);
+}
+.brand { display: flex; align-items: center; gap: 10px; flex: 1; color: var(--text); font-size: 18px; font-weight: 800; letter-spacing: -.2px; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 22px;
+  border-radius: 999px; font-weight: 700; font-size: 15px; text-decoration: none; text-align: center;
+}
+.btn.primary { background: var(--text); color: #000; }
+.btn.ghost { border: 1px solid #727272; color: var(--text); }
+.btn.small { min-height: 40px; padding: 8px 16px; font-size: 14px; }
+.btn:active { transform: scale(.98); }
+
+/* ---------- article ---------- */
+main { padding: 8px var(--gutter) 24px; }
+.crumbs { font-size: 13px; margin: 16px 0 0; }
+.crumbs a { color: var(--muted); }
+h1 { color: var(--text); font-size: 30px; line-height: 1.2; letter-spacing: -.5px; margin: 12px 0 12px; }
+h2 { color: var(--text); font-size: 21px; line-height: 1.3; letter-spacing: -.2px; margin: 36px 0 10px; }
+h3 { color: var(--text); font-size: 17px; line-height: 1.35; margin: 24px 0 6px; }
+p, ul, ol { margin: 0 0 14px; }
+ul, ol { padding-left: 22px; }
+li { margin-bottom: 6px; }
+.lede { font-size: 18px; color: #cfcfcf; }
+.updated { font-size: 13px; }
+
+/* numbered steps, as in the app's own introduction */
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 20px 0; display: grid; gap: 18px; }
+.steps > li { counter-increment: step; position: relative; padding-left: 46px; min-height: 32px; margin: 0; }
+.steps > li::before {
+  content: counter(step); position: absolute; left: 0; top: -2px; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-3); color: var(--text); font-size: 15px; font-weight: 800; display: grid; place-items: center;
+}
+.steps h3 { margin: 0 0 4px; }
+
+.card { background: var(--bg-2); border: 1px solid var(--bg-3); border-radius: 12px; padding: 16px 18px; margin: 20px 0; }
+.card > :last-child { margin-bottom: 0; }
+.card h2, .card h3 { margin-top: 0; }
+
+.perks { list-style: none; padding: 0; display: grid; gap: 10px; margin: 20px 0; }
+.perks li { background: var(--bg-2); border-radius: 12px; padding: 14px 16px; margin: 0; font-size: 15px; }
+.perks b { display: block; margin-bottom: 2px; }
+@media (min-width: 560px) { .perks { grid-template-columns: repeat(2, 1fr); } }
+
+.cta { margin: 36px 0 8px; padding: 24px 18px; text-align: center; border-radius: 16px; background: var(--bg-2); border: 1px solid var(--bg-3); }
+.cta p { color: var(--text); font-weight: 700; font-size: 18px; margin-bottom: 14px; }
+.cta .btn + .btn { margin-left: 8px; }
+
+/* ---------- footer ---------- */
+.foot { border-top: 1px solid var(--bg-3); padding: 24px var(--gutter) calc(32px + env(safe-area-inset-bottom, 0px)); font-size: 13px; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 16px; }
+.foot nav a { color: var(--text); text-decoration: none; font-weight: 600; padding: 4px 0; }
+.foot nav a:hover { text-decoration: underline; }
+.foot p { margin: 0 0 8px; }
+.foot p a { color: var(--muted); }
+
+@media (min-width: 700px) {
+  h1 { font-size: 38px; }
+}

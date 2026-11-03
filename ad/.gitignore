@@ -1,3 +1,4 @@
 out/*.work/
 out/draft*
 film/cues.json
+__pycache__/

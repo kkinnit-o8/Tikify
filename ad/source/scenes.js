@@ -1,5 +1,6 @@
 /* Tikify TikTok ad v2 (dark, smooth) — 12 scenes on the track's bar grid (bar = 4 beats = 1.438 s, B(n) = 0.23 + n·0.3595).
-   s1 hook 0–B4 · s2 copy link B4–B8 · s3 paste+save B8–B12 (breakdown) · s4 DROP brand B12–B16 · s5 playlists B16–B20
+   s1 hook 0–B4 · s2 step 1 «Share from TikTok» B4–B8 · s3 step 2 «Play the sound» B8–B13 (the play tap lands on the drop, B12)
+   s4 brand B13–B16 · s5 playlists B16–B20
    s6 player B20–B24 · s7 lock screen B24–B28 · s8 offline B28–B32 · s9 free B32–B36 · s10 home screen B36–B40
    s11 recap B40–B44 · s12 end card B44–end.
    No hard cuts: neighbours overlap by ±T.H2 around each bar and hand off with a forward zoom-blur (T.trans), a shared object
@@ -23,10 +24,11 @@
       return { b, sh, ph: i * .33 };
     });
     el('div', 'position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,0,20,.6) 100%)', c);
-    [['heart', '1.2M', 430], ['comment', '8,214', 545], ['share', 'Share', 660]].forEach(([ic, n, y]) => {
+    const icons = [['heart', '1.2M', 430], ['comment', '8,214', 545], ['share', 'Share', 660]].map(([ic, n, y]) => {
       const a = T.at(c, R.w - 52, y);
-      T.ico(a, ic, 0, 0, 62, '#fff', 'filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))');
+      const i = T.ico(a, ic, 0, 0, 62, '#fff', 'filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))');
       el('div', 'position:absolute;left:-60px;top:38px;width:120px;text-align:center;font:700 21px Inter;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)', a, n);
+      return i;
     });
     el('div', 'position:absolute;left:26px;top:742px;font:800 29px Inter;color:#fff', c, '@djnova');
     el('div', 'position:absolute;left:26px;top:783px;font:500 23px Inter;color:#fff', c, 'this sound is on repeat');
@@ -40,7 +42,7 @@
     el('div', 'width:34px;height:34px', rp, T.svg('replay'));
     const rpn = el('div', 'font:800 30px Inter;letter-spacing:-.01em', rp, '×12');
     return {
-      c,
+      c, share: icons[2],
       update(t, loopStart, loopLen, count) {
         c.style.transform = `translateY(${cardY(t).toFixed(2)}px)`;
         beams.forEach((b, i) => { b.style.transform = `rotate(${(i ? -1 : 1) * (14 + 9 * Math.sin(t * 1.3 + i * 2))}deg)`; });
@@ -60,7 +62,7 @@
   /* ---------- the copied link pill: ONE object from the share sheet (s2) into Tikify's input (s3), above both scenes ---------- */
   const LINK = { x: 540, y: 520, w: 660, h: 104 };
   (function () {
-    const T0 = B(6), BTN = [CARD.x + 76, CARD.y + 470 + 160];
+    const T0 = B(6) + .06;
     let S = {};
     FILM.scene({
       id: 'link', t0: T0, t1: B(8) + .32,
@@ -78,8 +80,8 @@
       update(lt, t) {
         // A: born at the Copy-link button on B6, glides up to its hold pose
         const m = E.out(3)(p(lt, 0, .55)), sc = .14 + .86 * E.soft(p(lt, 0, .6));
-        const by = BTN[1] + cardY(T0);
-        let x = BTN[0] + (LINK.x - BTN[0]) * m, y = by + (LINK.y - by) * m - 80 * Math.sin(Math.PI * m) * (1 - m);
+        const [bx, by] = FILM.S2BTN(T0);
+        let x = bx + (LINK.x - bx) * m, y = by + (LINK.y - by) * m - 80 * Math.sin(Math.PI * m) * (1 - m);
         y += 7 * Math.sin((t - T0) * 3.2) * p(lt, .5, .8) * (1 - p(t, B(8) - .3, B(8)));     // gentle float while held
         let w = LINK.w, h = LINK.h, k = 0;
         // C: into the input field of s3 (its rect is a pure function of s3's own time)
@@ -95,7 +97,7 @@
         S.box.style.boxShadow = k > 0 ? `0 0 ${(28 * (1 - k)).toFixed(1)}px rgba(254,44,85,${(.3 * (1 - k)).toFixed(3)})` : S.sh0;
         S.tx.style.transform = `scale(${(1 - .3 * k).toFixed(3)})`; S.tx.style.lineHeight = (h - 6) + 'px'; S.tx.style.left = (104 - 86 * k) + 'px';
         S.ic.style.transform = `scale(${(1 - k).toFixed(3)})`;
-        T.blurIn(S.badge, lt, B(7) - T0 - .05, .5, 20, 1.1, 10);
+        T.blurIn(S.badge, lt, B(7) - T0 + .02, .5, 20, 1.1, 10);
         if (k > 0) S.badge.style.opacity = (Math.min(1, +S.badge.style.opacity) * (1 - E.sine(p(k, 0, .4)))).toFixed(3);
         S.a.style.display = t < B(8) + .3 ? 'block' : 'none';
       },
@@ -123,7 +125,6 @@
         });
         S.offs = S.lines.map((l) => CY - (l.top + l.h / 2));
         S.card = videoCard(root);
-        S.tap = T.tap(root);
       },
       update(lt, t) {
         S.bg(t);
@@ -146,60 +147,67 @@
         S.glow.style.transform = `scale(${(.96 + .06 * T.breath(t)).toFixed(4)})`;
         const kq = LINES.reduce((n, l, i) => (TQ(lt) >= TQ(Math.max(0, l[0])) ? i : n), 0);
         S.card.update(t, kq ? TQ(LINES[kq][0]) : -.3, 1.2, COUNTS[kq]);
-        S.tap(lt, 1.5, CARD.x + CARD.w - 52, CARD.y + 660 + cardY(t));
       },
     });
   })();
 
-  /* =================================== s2 · COPY THE LINK (B4 → B8) =================================== */
+  /* =================================== s2 · STEP 1: SHARE FROM TIKTOK (B4 → B8) =================================== */
   (function () {
-    const T0 = B(4), DUR = B(8) - T0;
+    const T0 = B(4), DUR = B(8) - T0, PV = [540, 1270];
+    const cpF = (lt) => zoom(lt, .05, 1.1, 1, 1.08, E.smooth);            // lean in on the share sheet so its buttons read
+    const scr = (lt, x, y) => { const k = cpF(lt); return [PV[0] + k * (x - PV[0]), PV[1] + k * (y - PV[1])]; };
+    const TS = .1, TC = B(6) - T0;                                         // tap Share, then Copy link on B6
     let S = {};
     FILM.scene({
       id: 's2', t0: T0, t1: B(8), pre: H2, post: H2,
       build(root) {
         S.bg = T.bg(root, [[C.purp, .42, 640], [C.cyan, .26, 560], [C.pink, .3, 520], ['#FF9A3D', .14, 420]]);
-        S.head = T.rise(root, 'Copy the link', { y: 330, size: 124 });
-        S.card = videoCard(root);
+        S.head = T.stepHead(root, 1, 'Share from TikTok', 'Tap Share → Copy link', { y: 290 });
+        S.cp = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
+        S.card = videoCard(S.cp);
         S.sheet = el('div', 'position:absolute;left:0;right:0;top:470px;height:470px;border-radius:34px 34px 0 0;background:linear-gradient(180deg,#221B2E,#15111D);box-shadow:0 -10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08)', S.card.c);
         el('div', 'position:absolute;left:50%;top:14px;width:60px;height:6px;margin-left:-30px;border-radius:3px;background:#4a4258', S.sheet);
         el('div', `position:absolute;left:0;right:0;top:40px;text-align:center;font:800 27px Inter;color:${C.text}`, S.sheet, 'Share to');
         S.opts = [['link', 'Copy link', T.GRAD], ['comment', 'Message', '#22C7C2'], ['download', 'Save video', C.purp], ['dots', 'More', '#4a4258']].map(([ic, lab, bg], i) => {
           const a = T.at(S.sheet, 76 + i * 123, 160);
           const d = el('div', `position:absolute;left:-46px;top:-46px;width:92px;height:92px;border-radius:50%;background:${bg};padding:24px;box-sizing:border-box;color:#fff;${i === 0 ? 'box-shadow:0 0 26px rgba(254,44,85,.55)' : ''}`, a, ic === 'dots' ? T.dots() : T.svg(ic));
-          el('div', `position:absolute;left:-70px;top:58px;width:140px;text-align:center;font:600 19px Inter;color:${C.muted}`, a, lab);
+          el('div', `position:absolute;left:-70px;top:58px;width:140px;text-align:center;font:${i === 0 ? 800 : 600} 21px Inter;color:${i === 0 ? C.text : C.muted}`, a, lab);
           return d;
         });
         S.toast = el('div', `position:absolute;left:50%;top:330px;height:64px;width:300px;margin-left:-150px;border-radius:32px;background:#F5F1FB;color:${C.ink};font:700 24px/64px Inter;text-align:center`, S.sheet, 'Link copied');
-        S.tap = T.tap(root);
+        S.tapS = T.tap(S.cp); S.tapC = T.tap(S.cp);
+        // where the Copy-link button is ON SCREEN at global time t — the link pill is born there
+        FILM.S2BTN = (t) => scr(t - T0, CARD.x + 76, CARD.y + 470 + 160 + cardY(t));
       },
       update(lt, t, root) {
         T.trans(root, lt, DUR, { inS: 1, inBlur: 0, outS: 1.12 });     // the card is identical in s1 → a seamless crossfade
         S.bg(t);
         S.head.update(lt, .02);
+        S.cp.style.transform = about(PV[0], PV[1], cpF(lt));
         S.card.update(t, TQ(B(3)), 1.2, '×99+');
-        const sq = E.soft(p(lt, .02, .55)); S.sheet.style.transform = `translateY(${((1 - sq) * 480).toFixed(1)}px)`;
-        const tp = B(5) - T0;
-        S.tap(lt, tp, CARD.x + 76, CARD.y + 470 + 160 + cardY(t));
-        S.opts[0].style.transform = `scale(${T.press(lt, tp, .06).toFixed(4)})`;
-        const ty = E.soft(p(lt, tp + .1, tp + .55)); S.toast.style.transform = `translateY(${((1 - ty) * 24).toFixed(1)}px)`; S.toast.style.opacity = (ty * (1 - E.sine(p(lt, 1.1, 1.4)))).toFixed(3);
+        S.tapS(lt, TS, CARD.x + CARD.w - 52, CARD.y + 660 + cardY(t));
+        S.card.share.style.transform = `scale(${T.press(lt, TS, .14).toFixed(4)})`;
+        const sq = E.soft(p(lt, TS + .1, TS + .72)); S.sheet.style.transform = `translateY(${((1 - sq) * 480).toFixed(1)}px)`;
+        S.tapC(lt, TC, CARD.x + 76, CARD.y + 470 + 160 + cardY(t));
+        S.opts[0].style.transform = `scale(${T.press(lt, TC, .06).toFixed(4)})`;
+        const ty = E.soft(p(lt, TC + .1, TC + .55)); S.toast.style.transform = `translateY(${((1 - ty) * 24).toFixed(1)}px)`; S.toast.style.opacity = (ty * (1 - E.sine(p(lt, 1.16, 1.42)))).toFixed(3);
       },
     });
   })();
 
-  /* =================================== s3 · PASTE + SAVE (B8 → B12, the breakdown) =================================== */
+  /* =================================== s3 · STEP 2: PLAY THE SOUND (B8 → B13; the play tap lands on the drop, B12) =================================== */
   (function () {
-    const T0 = B(8), DUR = B(12) - T0, PX = 540, PY = 1160, TO = { outS: 1, outBlur: 22 };
-    const pushF = (lt) => zoom(lt, -.2, 1.0, 1.12, 1.26, E.glide);
+    const T0 = B(8), DUR = B(13) - T0, PX = 540, PY = 1160, TO = { outS: 1, outBlur: 22 };
+    const pushF = (lt) => zoom(lt, -.2, 1.3, 1.12, 1.32, E.glide);
+    const TF = B(9) - T0 + .04, TV = B(10) - T0, TP = B(12) - T0;        // Find sound · the preview arrives · PLAY on the drop
     let S = {}, P;
     FILM.scene({
-      id: 's3', t0: T0, t1: B(12), pre: H2, post: H2,
+      id: 's3', t0: T0, t1: B(13), pre: H2, post: H2,
       build(root) {
         S.bg = T.bg(root, [[C.purp, .45, 660], [C.cyan, .2, 520], [C.pink, .26, 560], [C.purp, .2, 420]]);
-        S.pan = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
-        S.needle = el('div', 'position:absolute;inset:0;transform-origin:0 0', S.pan);
+        S.head = T.stepHead(root, 2, 'Play the sound', 'Paste the link in Tikify', { y: 290 });
+        S.needle = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
         S.push = el('div', 'position:absolute;inset:0;transform-origin:0 0', S.needle);
-        S.head = T.rise(S.pan, 'Paste it in Tikify', { y: 330, size: 116 });
         const a = T.at(S.push, PX, PY); P = T.phone(a, 580); const ui = P.ui;
         T.status(ui);
         el('div', 'position:absolute;left:16px;top:52px;font:700 23px Inter;letter-spacing:-.01em', ui, 'Add sound');
@@ -209,8 +217,10 @@
         S.find = el('div', 'position:absolute;left:16px;top:212px;width:358px;height:48px;border-radius:24px;background:#fff;color:#000;font:700 15px/48px Inter;text-align:center', ui, 'Find sound');
         S.spin = el('div', 'position:absolute;left:183px;top:224px;width:24px;height:24px;border-radius:50%;border:3px solid #000;border-right-color:transparent;box-sizing:border-box;display:none', ui);
         S.prev = el('div', 'position:absolute;left:0;top:0;width:390px;height:780px', ui);
-        el('div', 'position:absolute;left:16px;top:278px;width:140px;height:140px;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)', S.prev, T.cover('gym', 3));
-        el('div', `position:absolute;left:172px;top:320px;width:56px;height:56px;border-radius:50%;background:${C.green};padding:14px;box-sizing:border-box;color:#000`, S.prev, T.svg('play'));
+        S.cov = el('div', 'position:absolute;left:16px;top:278px;width:140px;height:140px;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)', S.prev, T.cover('gym', 3));
+        S.pbtn = el('div', `position:absolute;left:172px;top:320px;width:56px;height:56px;border-radius:50%;background:${C.green};padding:14px;box-sizing:border-box;color:#000`, S.prev);
+        S.pPlay = el('div', 'width:100%;height:100%', S.pbtn, T.svg('play'));
+        S.pPause = el('div', 'position:absolute;left:14px;top:14px;width:28px;height:28px;display:none', S.pbtn, T.svg('pause'));
         const lbl = (y, s) => el('div', `position:absolute;left:16px;top:${y}px;font:700 12px Inter;color:#a7a7a7;letter-spacing:.6px`, S.prev, s);
         const inp = (y, s) => el('div', `position:absolute;left:16px;top:${y}px;width:358px;height:44px;border-radius:6px;border:1px solid #7a7a7a;background:#242424;box-sizing:border-box;padding:0 13px;font:500 16px/42px Inter;color:#fff`, S.prev, s);
         lbl(432, 'TITLE'); inp(450, 'Gym motivation mix');
@@ -221,18 +231,20 @@
           el('div', `width:18px;height:18px;border-radius:4px;${on ? `background:${C.green};color:#000` : 'border:2px solid #a7a7a7;box-sizing:border-box'}`, ch, on ? T.svg('check') : '');
           ch.appendChild(document.createTextNode(n));
         });
-        S.save = el('div', 'position:absolute;left:16px;top:652px;width:358px;height:50px;border-radius:25px;background:#fff;color:#000;font:800 16px/50px Inter;text-align:center;box-shadow:0 0 22px rgba(255,255,255,.25)', S.prev, 'Save to library');
+        el('div', 'position:absolute;left:16px;top:652px;width:358px;height:50px;border-radius:25px;background:#fff;color:#000;font:800 16px/50px Inter;text-align:center', S.prev, 'Save to library');
         const tb = el('div', 'position:absolute;left:0;right:0;bottom:0;height:72px;background:#121212;border-top:1px solid #222;display:flex;justify-content:space-around;align-items:flex-start;padding-top:10px;box-sizing:border-box;z-index:12', ui);
         [['library', 'Library'], ['plus', 'Add sound'], ['search', 'Search']].forEach(([ic, n], i) => {
           const it = el('div', `display:flex;flex-direction:column;align-items:center;gap:4px;font:600 11px Inter;color:${i === 1 ? '#fff' : '#a7a7a7'}`, tb);
           el('div', `width:${i === 1 ? 44 : 24}px;height:${i === 1 ? 28 : 24}px;border-radius:${i === 1 ? 8 : 0}px;${i === 1 ? `background:${T.GRAD};padding:3px 9px;box-sizing:border-box;color:#fff` : ''}`, it, T.svg(ic));
           it.appendChild(document.createTextNode(n));
         });
-        S.tapF = T.tap(S.push); S.tapS = T.tap(S.push);
-        S.SAVE = [PX + P.X(195), PY + P.Y(677)];
+        S.PLAY = [PX + P.X(200), PY + P.Y(348)];
         S.INPUT = [PX + P.X(166), PY + P.Y(176), 300 * P.k, 48 * P.k];
         S.FIND = [PX + P.X(195), PY + P.Y(236)];
-        // where the input field is ON SCREEN at s3 time lt (pan = 0, needle = 1 while the link lands) — used by the link pill
+        // the sound starting: a green-to-cyan light opens from the play button (on the drop)
+        S.glow = el('div', `position:absolute;left:${S.PLAY[0] - 320}px;top:${S.PLAY[1] - 320}px;width:640px;height:640px;border-radius:50%;background:radial-gradient(closest-side, rgba(30,215,96,.55) 0%, rgba(37,244,238,.22) 42%, rgba(123,44,191,0) 100%);opacity:0`, S.push);
+        S.tapF = T.tap(S.push); S.tapP = T.tap(S.push);
+        // where the input field is ON SCREEN at s3 time lt (needle = 1 while the link lands) — used by the link pill
         FILM.S3IN = (lt) => {
           const v = T.transVals(lt, DUR, TO), pu = pushF(lt);
           const x = 540 + pu * (S.INPUT[0] - 540), y = 900 + pu * (S.INPUT[1] - 900);
@@ -242,36 +254,38 @@
       update(lt, t, root) {
         T.trans(root, lt, DUR, TO);
         S.bg(t);
-        S.head.update(lt, .06);
+        S.head.update(lt, .04);
         const push = pushF(lt);
         S.push.style.transform = about(540, 900, push);
-        const sy = 900 + push * (S.SAVE[1] - 900);
-        const dy = -(sy - 1080) * E.smooth(p(lt, .6, 1.08));
-        S.pan.style.transform = `translate(0px,${dy.toFixed(2)}px)`;
-        // a smooth dive into Save (peak speed on the drop, then the zoom-blur hands over to s4)
-        S.needle.style.transform = about(540, sy, zoom(lt, 1.0, DUR + H2, 1, 3.6, E.in(3)));
+        // after the play tap: a smooth dive into the button, handing over to the brand reveal on B13
+        const px = 540 + push * (S.PLAY[0] - 540), py = 900 + push * (S.PLAY[1] - 900);
+        S.needle.style.transform = about(px, py, zoom(lt, TP + .12, DUR + H2, 1, 3.4, E.in(3)));
         const pasted = lt >= .3;
         S.input.textContent = pasted ? 'https://www.tiktok.com/@djnova/video/7302…' : 'https://www.tiktok.com/@user/video/…';
         S.input.style.color = pasted ? '#fff' : '#a7a7a7';
         S.input.style.borderColor = pasted && lt < .55 ? '#fff' : '#7a7a7a';
-        const tf1 = B(9) - T0 + .04;
-        S.tapF(lt, tf1, S.FIND[0], S.FIND[1]);
-        S.find.style.transform = `scale(${T.press(lt, tf1).toFixed(4)})`;
-        const loading = lt > tf1 + .08 && lt < B(10) - T0 - .02;
+        S.tapF(lt, TF, S.FIND[0], S.FIND[1]);
+        S.find.style.transform = `scale(${T.press(lt, TF).toFixed(4)})`;
+        const loading = lt > TF + .08 && lt < TV - .02;
         S.find.style.color = loading ? 'transparent' : '#000';
         S.spin.style.display = loading ? 'block' : 'none'; S.spin.style.transform = `rotate(${lt * 720}deg)`;
-        const pv = E.soft(p(lt, B(10) - T0 - .04, B(10) - T0 + .55));
+        const pv = E.soft(p(lt, TV - .04, TV + .55));
         S.prev.style.opacity = Math.min(1, pv * 2).toFixed(3); S.prev.style.transform = `translateY(${((1 - pv) * 40).toFixed(1)}px)`;
-        const ts = B(11) - T0;
-        S.tapS(lt, ts, S.SAVE[0], S.SAVE[1]);
-        S.save.style.transform = `scale(${T.press(lt, ts, .04).toFixed(4)})`;
+        S.tapP(lt, TP, S.PLAY[0], S.PLAY[1]);
+        S.pbtn.style.transform = `scale(${T.press(lt, TP, .08).toFixed(4)})`;
+        const playing = TQ(lt) >= TQ(TP + .03);
+        S.pPlay.style.display = playing ? 'none' : 'block'; S.pPause.style.display = playing ? 'block' : 'none';
+        const gq = E.out(3)(p(lt, TP, TP + .5));
+        S.glow.style.opacity = (gq * .95).toFixed(3); S.glow.style.transform = `scale(${(.3 + 1.1 * gq).toFixed(3)})`;
+        S.pbtn.style.boxShadow = `0 0 ${(36 * gq).toFixed(1)}px rgba(30,215,96,${(.75 * gq).toFixed(3)})`;
+        S.cov.style.transform = `scale(${(1 + .03 * gq * T.breath(t)).toFixed(4)})`;
       },
     });
   })();
 
-  /* =================================== s4 · DROP: brand (B12 → B16) =================================== */
+  /* =================================== s4 · brand, right after the drop (B13 → B16) =================================== */
   (function () {
-    const T0 = B(12), DUR = B(16) - T0, IY = 790;
+    const T0 = B(13), DUR = B(16) - T0, IY = 790;
     let S = {};
     FILM.scene({
       id: 's4', t0: T0, t1: B(16), pre: H2, post: H2,
@@ -298,7 +312,7 @@
           r.style.display = on ? 'block' : 'none';
           r.style.transform = `scale(${(.85 + 2.4 * E.out(2)(q)).toFixed(3)})`; r.style.opacity = (.9 * (1 - E.sine(q))).toFixed(3);
         });
-        S.word.update(lt, B(13) - T0 - .08, .035, .6);
+        S.word.update(lt, .06, .035, .6);
         S.l1.update(lt, B(14) - T0 - .06, .02, .55);
         S.l2.update(lt, B(15) - T0 - .06, .02, .55);
       },

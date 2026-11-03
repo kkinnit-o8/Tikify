@@ -103,6 +103,18 @@
     wrap.style.top = (y - line.offsetHeight / 2) + 'px';
     return { wrap, g, update: (lt, t0, st = .03, d = .62) => FILM.riseGlyphs(g, lt, t0, st, d, 115) };
   };
+  // a numbered how-to step: glowing number badge + headline (glyph rise) + a caption line under it
+  T.stepHead = (parent, n, title, sub, { y = 300, size = 112, maxW = 940 } = {}) => {
+    const wrap = el('div', 'position:absolute;left:0;top:0;width:1080px;display:flex;justify-content:center;align-items:center;filter:drop-shadow(0 0 22px rgba(190,120,255,.35))', parent);
+    const badge = el('div', `flex:none;box-sizing:border-box;border-radius:50%;background:${T.GRAD};display:flex;align-items:center;justify-content:center;font-family:Unbounded;font-weight:900;color:#fff;box-shadow:0 0 26px rgba(254,44,85,.6),inset 0 0 0 2px rgba(255,255,255,.25)`, wrap, String(n));
+    const line = el('div', `font-size:${size}px;line-height:1.02;color:${T.C.text};white-space:nowrap`, wrap); line.className = 'Bh';
+    const g = FILM.glyphs(line, title);
+    const fit = (s) => { line.style.fontSize = s + 'px'; const b = s * .8; badge.style.width = badge.style.height = b + 'px'; badge.style.fontSize = (b * .5) + 'px'; badge.style.marginRight = (s * .24) + 'px'; };
+    fit(size); const tw = badge.offsetWidth + size * .24 + line.offsetWidth; const s = tw > maxW ? size * maxW / tw : size; fit(s);
+    wrap.style.top = (y - wrap.offsetHeight / 2) + 'px';
+    const sb = el('div', `position:absolute;left:0;top:${y + s * .62}px;width:1080px;text-align:center;font:600 44px Inter;letter-spacing:-.01em;color:#D9CFEA;white-space:nowrap`, parent, sub);
+    return { wrap, badge, sub: sb, update: (lt, t0) => { T.blurIn(badge, lt, t0 - .04, .65, 0, .55, 10); FILM.riseGlyphs(g, lt, t0 + .04, .03, .68, 115); T.blurIn(sb, lt, t0 + .32, .65, 26, 1, 10); } };
+  };
   // soft entrance of any element: rise + scale 1.05→1 + blur 14→0 + opacity, expo-out
   T.blurIn = (e, lt, t0, d = .6, dist = 46, from = 1.05, blur = 14) => {
     const q = E.soft(p(lt, t0, t0 + d));

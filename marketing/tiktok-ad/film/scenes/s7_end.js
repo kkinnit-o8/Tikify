@@ -2,7 +2,7 @@
    on the bar (bigger than at the drop), then the line and the CTA pill; held still ≥ 1.5 s. */
 (function () {
   const { E, p, el, clamp } = FILM;
-  const T0 = K.bar(4), T1 = 572 / 30, I = K.END_ICON;
+  const T0 = K.END, T1 = 636 / 30, I = K.END_ICON;
   let S = {};
   FILM.scene({
     id: 's7', t0: T0, t1: T1,
@@ -29,7 +29,8 @@
       const wq = E.width(p(t, T0 + .5, T0 + 1.0)), W = 116 + (480 - 116) * wq;
       S.cta.style.width = W + 'px'; S.cta.style.marginLeft = -W / 2 + 'px';
       S.cta.style.opacity = clamp(p(t, T0 + .5, T0 + .6));
-      S.cta.style.transform = `translateY(${(1 - E.soft(p(t, T0 + .5, T0 + 1.0))) * 30}px)`;
+      let pulse = 0; for (const h of [19.08, 19.73, 20.38]) if (t >= h) pulse = Math.max(pulse, Math.exp(-(t - h) * 7));   // the track's last hits
+      S.cta.style.transform = `translateY(${(1 - E.soft(p(t, T0 + .5, T0 + 1.0))) * 30}px) scale(${(1 + .035 * pulse).toFixed(4)})`;
       K.wordIn(S.ctaT, t, T0 + .72, .45, 20, 10);
       K.wordIn(S.legal, t, T0 + .9, .5, 10, 6);
     },

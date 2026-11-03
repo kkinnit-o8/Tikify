@@ -7,7 +7,7 @@ import numpy as np
 
 ap = argparse.ArgumentParser()
 ap.add_argument('track'); ap.add_argument('vo'); ap.add_argument('kit'); ap.add_argument('out')
-ap.add_argument('--start', type=float, default=16.72); ap.add_argument('--dur', type=float, default=572 / 30)
+ap.add_argument('--start', type=float, default=16.72); ap.add_argument('--dur', type=float, default=636 / 30)
 a = ap.parse_args()
 sys.path.insert(0, a.kit); import sound_kit as S
 SR = 48000; N = int(round(a.dur * SR))
@@ -50,6 +50,10 @@ gain *= 10 ** (-4 * (1 - ramp) / 20)
 ride = np.interp(tt, [8.47, 10.59, 12.71], [2, 2, 0], left=0, right=0)
 gain *= 10 ** (ride / 20)
 mus *= gain
+# after the drop the music is louder: lift the voice 6 dB there and duck the music 3 dB deeper under it
+post = np.clip((tt - 8.6) / .2, 0, 1)
+vo *= (10 ** (6 * post / 20))[None, :]
+mus *= (10 ** (-3 * post * sm / 20))[None, :]
 # high-pass the music below ~120 Hz until the drop (the breakdown's bass tail), opening at 8.47 in 10 ms:
 # the drop then brings ALL the sub-bass in at once
 cut = int(8.50 * SR); seg = mus[:, :cut]
@@ -80,13 +84,19 @@ imp = np.asarray(S.impact2(.8, decay=3.2, d=1.4)); put(imp / np.abs(imp).max(), 
 for t, g in [(10.02, .5), (10.31, .5), (10.84, .5), (11.30, .45), (11.66, .5), (12.18, .5), (13.24, .45)]:
     put(S.mclick(.3), t, g)                                                 # taps on glass
 put(S.pop(1100, .3), 11.76, .22)                                            # toast
-for k, tp in enumerate((14.82, 15.09, 15.61)): put(S.pop(820 + 140 * k, .3), tp, .28)   # feature pills (on the track's hits)
+for k, tp in enumerate((14.86, 15.74, 16.76)): put(S.pop(820 + 140 * k, .3), tp, .24)   # feature pills (as the voice says them)
 put(np.asarray(S.thunk(.45)), 9.27, .22)                                   # the strong hit at 9.27 (icon pulse)
-put(S.whoosh(.5, 300, 1200, 2500, 9000, .4), 16.52, .2)                     # phone closes into the icon
+put(S.whoosh(.5, 300, 1200, 2500, 9000, .4), 17.58, .2)                     # phone closes into the icon
 
 mix = mus + vo * 1.0 + sfx
-# fade out before the stab that starts at 18.80 (a new hit would be chopped at the loop point), silence after
-fo = np.interp(tt, [18.30, 18.78], [1, 0]) ** 2; mix *= fo[None, :]
+# report: voice over music while she speaks (speech-gated RMS, 200 Hz–4 kHz band where words live)
+def band_db(x, a0, a1):
+    seg = x[:, int(a0 * SR):int(a1 * SR)].mean(0); F = np.fft.rfft(seg); f = np.fft.rfftfreq(len(seg), 1 / SR)
+    F[(f < 200) | (f > 4000)] = 0; y = np.fft.irfft(F, n=len(seg)); return 10 * np.log10((y ** 2).mean() + 1e-12)
+for a0, a1, lab in [(.05, 8.3, 'before drop'), (9.6, 13.8, 'app lines'), (14.84, 17.5, 'pills'), (18.3, 19.6, 'tikify.no')]:
+    print(f'voice − music ({lab}): {band_db(vo, a0, a1) - band_db(mus, a0, a1):+.1f} dB')
+# fade out before the track's next phrase (a new hit would be chopped at the end), silence after
+fo = np.interp(tt, [20.70, 21.15], [1, 0]) ** 2; mix *= fo[None, :]          # out before the track's next phrase at 21.18
 raw = f'{a.out}/mix_raw.wav'
 with wave.open(raw, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)

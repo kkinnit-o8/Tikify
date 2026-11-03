@@ -1,6 +1,6 @@
 # Tikify TikTok ad: "Let me guess…"
 
-This is a 19.07 s vertical ad (1080×1920, 30 fps), built entirely in code. Each frame is an HTML/CSS page that headless
+This is a 21.2 s vertical ad (1080×1920, 30 fps), built entirely in code. Each frame is an HTML/CSS page that headless
 Chromium captures, followed by sub-frame motion blur, a light lens pass and H.264 encoding. The shot plan is in
 [SCENARIO.md](SCENARIO.md).
 
@@ -10,15 +10,15 @@ Chromium captures, followed by sub-frame motion blur, a light lens pass and H.26
 | `film/engine.js` | The deterministic timeline engine (from the higgsfield-motion-saas skill; the camera centre is patched for 9:16). |
 | `film/kit.js` | Palette, **all timing** (`K.T` holds the voiceover word times and `K.bar()` the post-drop bars), and shared components (search capsule, waveform, icons). |
 | `film/scenes/s1…s7` | One module per shot group: hook, apps wall, waveform, search/dive, drop reveal, app demo, end card. |
-| `audio/place_vo.py` | Places the Higgsfield voice take on the timeline untouched (no stretch, no pause edits), so the first word starts at 0.05 s and "Search no more." ends at 8.33 s, before the drop. |
+| `audio/place_vo.py` + `audio/vo_pieces.json` | Place the two Higgsfield voice takes untouched (no stretch, no pause edits inside a phrase). Before the drop the first take runs as one piece, ending at 8.33 s; after the drop each line lands on the caption, pill or end card it reads. |
 | `audio/mix.py` | The song from 16.72 s, the voice with the music ducked under it, quiet picture sounds, and a static gain to −14 LUFS plus a −1.5 dBTP limiter. |
 | `render.sh` | Parallel capture, then blend (motion blur), the optional lens pass, and the ffmpeg encode. |
 | `out/` | The rendered ads. |
 
 ## Voice
-Higgsfield **Seed Audio 1.0**, preset voice **Ainsley** (`731b4ffe-e95e-59f4-8c00-81608936091f`), `speech_rate` 15, one take
-(`audio/vo_take_ainsley_natural.wav`), at natural speed. The script was shortened to fit the 8.4 s before the drop without stretching:
-*"Let me guess. Here, there, everywhere. Just to find that one TikTok audio. Slowed, sped up, bass boosted. Search no more."*
+Higgsfield **Seed Audio 1.0**, preset voice **Ainsley** (`731b4ffe-e95e-59f4-8c00-81608936091f`), `speech_rate` 15, at natural speed.
+- `audio/vo_take_ainsley_natural.wav`: *"Let me guess. Here, there, everywhere. Just to find that one TikTok audio. Slowed, sped up, bass boosted. Search no more."*
+- `audio/vo_take_ainsley_app.wav`: *"Tikify. Paste any TikTok link, get the exact sound, and play it like music. Playlists, works offline, and it's free. Tikify dot no."*
 
 ## Re-render
 The scripts need `TOOLS` to point at a folder holding the skill's `capture.mjs`, `blend.py`, `lens.py` and `sound_kit.py`,
@@ -27,7 +27,7 @@ and `HFT_BROWSER` at a Chromium binary. On Linux as root, that binary must be a 
 Rebuild the voiceover:
 
 ```bash
-python3 audio/place_vo.py audio/vo_take_ainsley_natural.wav audio --onset 0.36 --at 0.05
+cd audio && python3 place_vo.py vo_pieces.json . && cd ..
 ```
 
 Rebuild the mix:
@@ -45,7 +45,7 @@ TOOLS=… HFT_BROWSER=… ./render.sh out/draft_nosound.mp4 1 4
 Render the final, with 4 sub-frames everywhere and 12 in the fast windows, plus the lens pass:
 
 ```bash
-LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.30-2.10,2.20-2.85,4.65-5.25,5.60-5.90,7.05-7.45,8.15-8.80,9.50-10.05,10.40-11.00,13.24-13.75,14.76-15.35,16.45-17.05"
+LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.30-2.10,2.20-2.85,4.65-5.25,5.60-5.90,7.05-7.45,8.15-8.80,9.50-10.05,10.40-11.00,13.24-13.75,14.76-15.35,17.50-18.10"
 ```
 
 Then mux the mix onto the video:

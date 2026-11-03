@@ -6,7 +6,7 @@
    steps back while three true feature pills land on the track's hits, and closes back into the icon (carried into s7). */
 (function () {
   const { E, p, el, clamp, lerp, kf } = FILM;
-  const T = K.T, T0 = 9.53, T1 = K.bar(4);                          // 16.94
+  const T = K.T, T0 = 9.53, T1 = K.END = 18.00;                     // the end card lands on the half-bar at 18.00
   const C = K.C;
   const BZ = 22, PW = 820, SC = (PW - 2 * BZ) / 390, PH = Math.round(844 * SC + 2 * BZ), PR = 96;
   const PCX = 540, PCY = 470 + PH / 2;                                // phone rect in WORLD px (camera at identity)
@@ -16,13 +16,14 @@
   const LINK = `https://www.tiktok.com/@${HANDLE}/video/7438…`;
   const TM = {
     paste: 10.02, find: 10.31, born: 10.47, play: 10.84, scroll0: 10.98, scroll1: 11.40, chip: 11.30, save: 11.66, toast: 11.76,
-    saved: 11.82, playNow: 12.18, mini: 12.22, miniTap: 13.24, player0: 13.26, player1: 13.62, feat: K.bar(3), close0: 16.52,
+    saved: 11.82, playNow: 12.18, mini: 12.22, miniTap: 13.24, player0: 13.26, player1: 13.62, feat: K.bar(3), close0: 17.58,
   };
-  const PILLS = [14.82, 15.09, 15.61];                                // on the track's hits (review sync-3)
+  const PILLS = [14.86, 15.74, 16.76];                                // each lands as the voice says it
   const CAPS = [
-    { a: 9.60, b: 10.95, l1: 'Paste any', l2: 'TikTok link', w: [9.62, 9.79, 9.96, 10.13] },
-    { a: 11.0, b: 12.62, l1: 'Get the', l2: 'exact sound', w: [11.0, 11.14, 11.31, 11.47] },
-    { a: 12.71, b: 14.76, l1: 'Play it', l2: 'like music.', w: [12.71, 12.88, 13.06, 13.24] },
+    // word times = the voice reading them (K.T)
+    { a: 9.60, b: 10.95, l1: 'Paste any', l2: 'TikTok link', w: [T.paste, T.any, T.tiktok2, T.link] },
+    { a: 10.98, b: 12.62, l1: 'Get the', l2: 'exact sound', w: [T.get, T.the, T.exact, T.sound2] },
+    { a: 12.71, b: 14.76, l1: 'Play it', l2: 'like music.', w: [T.play, T.it, T.like, T.music] },
   ];
   // camera keys [t, dy (world px), scale about the frame centre] — each move follows what the finger works on
   const CAM = [[T0, 0, 1], [10.0, 0, 1], [10.42, 0, 1.06], [10.95, -250, 1.06], [11.45, -560, 1.06], [13.30, -560, 1.06],

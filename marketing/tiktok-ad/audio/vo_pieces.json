@@ -1,0 +1,10 @@
+{"pieces": [
+ {"text": "Let me guess. Here, there, everywhere. Just to find that one TikTok audio. Slowed, sped up, bass boosted. Search no more.",
+  "take": "vo_take_ainsley_natural.wav", "from": 0.30, "to": 8.72, "onset": 0.36, "at": 0.05},
+ {"text": "Tikify.", "take": "vo_take_ainsley_app.wav", "from": 0.30, "to": 1.02, "onset": 0.36, "at": 8.95},
+ {"text": "Paste any TikTok link,", "take": "vo_take_ainsley_app.wav", "from": 1.34, "to": 2.80, "onset": 1.40, "at": 9.60},
+ {"text": "get the exact sound,", "take": "vo_take_ainsley_app.wav", "from": 2.92, "to": 4.18, "onset": 2.98, "at": 10.98},
+ {"text": "and play it like music.", "take": "vo_take_ainsley_app.wav", "from": 4.24, "to": 5.48, "onset": 4.32, "at": 12.71},
+ {"text": "Playlists. Works offline, and it's free.", "take": "vo_take_ainsley_app.wav", "from": 5.72, "to": 8.50, "onset": 5.80, "at": 14.84},
+ {"text": "Tikify dot no.", "take": "vo_take_ainsley_app.wav", "from": 8.82, "to": 10.22, "onset": 8.90, "at": 18.30}
+]}

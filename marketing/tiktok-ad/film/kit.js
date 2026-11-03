@@ -25,6 +25,9 @@
     or: 6.98,                                   // the waveform's glitch (no word: "or doesn't sound right" was cut)
     search: 7.44, no: 7.72, more: 7.96, moreEnd: 8.33,
     drop: 8.47, b808: 8.73,
+    // after the drop the voice keeps going, reading the on-screen lines (second take, placed untouched)
+    vTikify: 9.00, paste: 9.66, any: 9.86, tiktok2: 10.18, link: 10.60, get: 11.02, the: 11.12, exact: 11.28, sound2: 11.60,
+    play: 12.84, it: 13.06, like: 13.18, music: 13.32, playlists: 14.90, works: 15.78, free: 16.80, vTikify2: 18.36, dotno: 18.78,
   };
   K.BEAT = 0.5294;                          // 113.3 BPM (slowed)
   K.bar = (n) => 8.47 + n * 4 * K.BEAT;     // post-drop bars: 8.47, 10.59, 12.71, 14.82, 16.94, 19.06

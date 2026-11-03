@@ -1,51 +1,41 @@
 {
  "tempo": 1.0,
- "take": "vo_take_ainsley_natural.wav (seed_audio, Ainsley, speech_rate 15, placed untouched)",
+ "note": "natural takes placed untouched (no stretch)",
  "phrases": [
   {
-   "text": "Let me guess.",
+   "text": "Let me guess. Here, there, everywhere. Just to find that one TikTok audio. Slowed, sped up, bass boosted. Search no more.",
    "on": 0.05,
-   "off": 0.67
+   "off": 8.38
   },
   {
-   "text": "Here,",
-   "on": 1.37,
-   "off": 1.75
+   "text": "Tikify.",
+   "on": 8.95,
+   "off": 9.58
   },
   {
-   "text": "there,",
-   "on": 1.87,
-   "off": 2.22
+   "text": "Paste any TikTok link,",
+   "on": 9.6,
+   "off": 10.97
   },
   {
-   "text": "everywhere.",
-   "on": 2.37,
-   "off": 2.9
+   "text": "get the exact sound,",
+   "on": 10.98,
+   "off": 12.15
   },
   {
-   "text": "Just to find that one TikTok audio.",
-   "on": 3.18,
-   "off": 4.91
+   "text": "and play it like music.",
+   "on": 12.71,
+   "off": 13.84
   },
   {
-   "text": "Slowed,",
-   "on": 5.12,
-   "off": 5.61
+   "text": "Playlists. Works offline, and it's free.",
+   "on": 14.84,
+   "off": 17.51
   },
   {
-   "text": "sped up,",
-   "on": 5.69,
-   "off": 6.05
-  },
-  {
-   "text": "bass boosted.",
-   "on": 6.23,
-   "off": 7.01
-  },
-  {
-   "text": "Search no more.",
-   "on": 7.41,
-   "off": 8.33
+   "text": "Tikify dot no.",
+   "on": 18.3,
+   "off": 19.59
   }
  ]
 }

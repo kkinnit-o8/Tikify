@@ -9,32 +9,35 @@
   const { E, p, el, zoom, about, clamp, TQ, lerp } = FILM;
   const { B, C, W, H, BT, H2 } = T;
 
+  /* ---------- the example TikTok: the gym clip (source 0.6 s on, 24 fps), as pre-decoded frames — headless Chromium has no H.264 ---------- */
+  const GYM = { fps: 24, n: 85, imgs: [] };
+  for (let i = 0; i < GYM.n; i++) {
+    const im = new Image(); im.src = `footage/gym_${String(i + 1).padStart(3, '0')}.jpg`; GYM.imgs.push(im);
+    FILM.preload.push(im.decode().catch((e) => FILM.errors.push(`footage ${i + 1}: ${e.message}`)));
+  }
+  const gymFrame = (t) => GYM.imgs[clamp(Math.floor(TQ(Math.max(0, t)) * GYM.fps + 1e-6), 0, GYM.n - 1)];   // plays straight through, quantised to film frames
+
   /* ---------- shared: the vertical video card (a TikTok-style post; no third-party logo) ---------- */
   const CARD = { x: 280, y: 640, w: 520, h: 920 };
   const cardY = (t) => 10 * Math.sin(t * 1.6);                       // the card floats; same pure function in s1 and s2
   function videoCard(root) {
     const R = CARD;
     const c = el('div', `position:absolute;left:${R.x}px;top:${R.y}px;width:${R.w}px;height:${R.h}px;border-radius:44px;overflow:hidden;background:#111;box-shadow:0 0 0 4px rgba(255,255,255,.10),0 0 60px rgba(254,44,85,.35),0 0 140px rgba(123,44,191,.4),0 50px 100px rgba(0,0,0,.6)`, root);
-    el('div', 'position:absolute;inset:0;background:linear-gradient(170deg,#FF9A3D 0%,#F0306E 40%,#6A1FB8 82%,#2A0C55 100%)', c);
-    const beams = [0, 1].map((i) => el('div', `position:absolute;left:${i ? 330 : 40}px;top:-120px;width:150px;height:900px;transform-origin:75px 0;background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0) 80%);clip-path:polygon(42% 0,58% 0,100% 100%,0 100%)`, c));
-    el('div', 'position:absolute;left:-40px;right:-40px;top:610px;height:320px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.28),rgba(255,255,255,0))', c);
-    const balls = [[150, 80, '#FFE27A'], [260, 104, '#FFFFFF'], [380, 70, '#25F4EE']].map(([x, d, col], i) => {
-      const sh = el('div', `position:absolute;left:${x - d * .5}px;top:${640 - 10}px;width:${d}px;height:20px;border-radius:50%;background:rgba(40,0,50,.35)`, c);
-      const b = el('div', `position:absolute;left:${x - d / 2}px;top:${640 - d}px;width:${d}px;height:${d}px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0%,${col} 38%,${col} 70%,rgba(0,0,0,.15) 100%);box-shadow:0 0 30px ${col}88`, c);
-      return { b, sh, ph: i * .33 };
-    });
-    el('div', 'position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,0,20,.6) 100%)', c);
+    const cv = el('canvas', 'position:absolute;left:0;top:0;width:520px;height:920px', c); cv.width = R.w; cv.height = R.h;
+    const cx = cv.getContext('2d');
+    el('div', 'position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,0,20,.35) 0%,rgba(10,0,20,0) 14%)', c);
+    el('div', 'position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 52%,rgba(10,0,20,.72) 100%)', c);
     const icons = [['heart', '1.2M', 430], ['comment', '8,214', 545], ['share', 'Share', 660]].map(([ic, n, y]) => {
       const a = T.at(c, R.w - 52, y);
       const i = T.ico(a, ic, 0, 0, 62, '#fff', 'filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))');
       el('div', 'position:absolute;left:-60px;top:38px;width:120px;text-align:center;font:700 21px Inter;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)', a, n);
       return i;
     });
-    el('div', 'position:absolute;left:26px;top:742px;font:800 29px Inter;color:#fff', c, '@djnova');
-    el('div', 'position:absolute;left:26px;top:783px;font:500 23px Inter;color:#fff', c, 'this sound is on repeat');
+    el('div', 'position:absolute;left:26px;top:742px;font:800 29px Inter;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)', c, 'Gym motivation');
+    el('div', 'position:absolute;left:26px;top:783px;font:500 23px Inter;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)', c, 'this sound is on repeat');
     T.ico(c, 'note', 40, 840, 26, '#fff');
     const tk = el('div', 'position:absolute;left:62px;top:825px;width:290px;height:32px;overflow:hidden', c);
-    const tkt = el('div', 'position:absolute;left:0;top:0;font:600 23px/32px Inter;color:#fff;white-space:nowrap', tk, 'original sound - DJ Nova &nbsp;·&nbsp; original sound - DJ Nova &nbsp;·&nbsp; original sound - DJ Nova');
+    const tkt = el('div', 'position:absolute;left:0;top:0;font:600 23px/32px Inter;color:#fff;white-space:nowrap', tk, 'Gym motivation mix - DJ Nova &nbsp;·&nbsp; Gym motivation mix - DJ Nova &nbsp;·&nbsp; Gym motivation mix - DJ Nova');
     const disc = el('div', `position:absolute;left:${R.w - 82}px;top:800px;width:60px;height:60px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 8px rgba(30,30,30,.85)`, c, T.cover('gym', 3));
     el('div', 'position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(255,255,255,.3)', c);
     const prog = el('div', 'position:absolute;left:0;bottom:0;height:5px;width:0;background:#fff', c);
@@ -45,12 +48,8 @@
       c, share: icons[2],
       update(t, loopStart, loopLen, count) {
         c.style.transform = `translateY(${cardY(t).toFixed(2)}px)`;
-        beams.forEach((b, i) => { b.style.transform = `rotate(${(i ? -1 : 1) * (14 + 9 * Math.sin(t * 1.3 + i * 2))}deg)`; });
-        balls.forEach(({ b, sh, ph }) => {            // a smooth sway on the half-time pulse instead of hard bounces
-          const x = ((t - .23) / (2 * BT) + ph) % 1, up = .5 - .5 * Math.cos(2 * Math.PI * (x < 0 ? x + 1 : x));
-          b.style.transform = `translateY(${(-120 * up).toFixed(1)}px)`;
-          sh.style.transform = `scaleX(${(1.1 - .45 * up).toFixed(3)})`; sh.style.opacity = (1 - .55 * up).toFixed(3);
-        });
+        const im = gymFrame(t), k = Math.max(R.w / im.naturalWidth, R.h / im.naturalHeight), dw = im.naturalWidth * k, dh = im.naturalHeight * k;
+        cx.drawImage(im, (R.w - dw) / 2, (R.h - dh) / 2, dw, dh);      // cover-fit, the same frame in s1 and s2 (pure function of t)
         tkt.style.transform = `translateX(${-((t * 50) % 330)}px)`;
         disc.style.transform = `rotate(${t * 90}deg)`;
         prog.style.width = (R.w * clamp((t - loopStart) / loopLen)).toFixed(1) + 'px';
@@ -71,7 +70,7 @@
         S.a = T.at(root, LINK.x, LINK.y);
         S.box = el('div', `position:absolute;left:${-LINK.w / 2}px;top:${-LINK.h / 2}px;width:${LINK.w}px;height:${LINK.h}px;${T.GLASS(LINK.h / 2)};overflow:hidden`, S.a);
         S.ic = el('div', `position:absolute;left:12px;top:12px;width:74px;height:74px;border-radius:50%;background:${T.GRAD};padding:17px;box-sizing:border-box;color:#fff;box-shadow:0 0 20px rgba(254,44,85,.5)`, S.box, T.svg('link'));
-        S.tx = el('div', `position:absolute;left:104px;top:0;font:700 31px/98px Inter;color:${C.text};white-space:nowrap;transform-origin:0 50%`, S.box, 'tiktok.com/@djnova/video/7302…');
+        S.tx = el('div', `position:absolute;left:104px;top:0;font:700 31px/98px Inter;color:${C.text};white-space:nowrap;transform-origin:0 50%`, S.box, 'vm.tiktok.com/ZMh7Kq2Lp/');
         S.badge = el('div', `position:absolute;left:${LINK.w / 2 - 136}px;top:${-LINK.h / 2 - 36}px;height:56px;padding:0 22px 0 14px;border-radius:28px;background:${C.green};display:flex;align-items:center;gap:6px;font:800 25px Inter;color:#05290f;box-shadow:0 0 24px rgba(30,215,96,.55)`, S.a);
         el('div', 'width:30px;height:30px', S.badge, T.svg('check'));
         S.badge.appendChild(document.createTextNode('Copied'));
@@ -261,7 +260,7 @@
         const px = 540 + push * (S.PLAY[0] - 540), py = 900 + push * (S.PLAY[1] - 900);
         S.needle.style.transform = about(px, py, zoom(lt, TP + .12, DUR + H2, 1, 3.4, E.in(3)));
         const pasted = lt >= .3;
-        S.input.textContent = pasted ? 'https://www.tiktok.com/@djnova/video/7302…' : 'https://www.tiktok.com/@user/video/…';
+        S.input.textContent = pasted ? 'https://vm.tiktok.com/ZMh7Kq2Lp/' : 'https://www.tiktok.com/@user/video/…';
         S.input.style.color = pasted ? '#fff' : '#a7a7a7';
         S.input.style.borderColor = pasted && lt < .55 ? '#fff' : '#7a7a7a';
         S.tapF(lt, TF, S.FIND[0], S.FIND[1]);

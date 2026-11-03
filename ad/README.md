@@ -17,7 +17,7 @@ Every hand-off sits on a bar of the track (≈167 BPM, a bar is 1.438 s), and so
 
 | Time | Beat |
 |---|---|
-| 0.00–1.67 | **Hook.** "STOP / REWATCHING / TIKTOKS / FOR THE SOUND." glide up one line per beat, over a looping video whose replay counter climbs |
+| 0.00–1.67 | **Hook.** "STOP / REWATCHING / TIKTOKS / FOR THE SOUND." glide up one line per beat, over the example TikTok (the supplied gym-motivation clip) whose replay counter climbs |
 | 1.67–3.11 | **Step 1 · Share from TikTok** ("Tap Share → Copy link"): Share opens the share sheet, Copy link, and the link pill glides out |
 | 3.11–4.90 | **Step 2 · Play the sound** ("Paste the link in Tikify"): the same pill lands in Tikify's real **Add sound** screen, Find sound → preview → the green **play** button, tapped on the drop (4.54 s). A glow opens from it and the camera dives in |
 | 4.90–5.98 | **Brand.** Icon, "Tikify", "Your TikTok sounds. Played like music." |
@@ -30,15 +30,17 @@ Every hand-off sits on a bar of the track (≈167 BPM, a bar is 1.438 s), and so
 | 14.61–16.05 | SAVE. SORT. PLAY. REPEAT. |
 | 16.05–18.37 | End card: icon, wordmark, tagline, **Get it free · tikify.no** |
 
-Every claim matches the README's feature list. No third-party logos are drawn: TikTok appears only as words, and the
-"video" in the hook is a generic vertical post.
+Every claim matches the README's feature list. No third-party logos are drawn: TikTok appears only as words. The example
+post plays the supplied gym-motivation clip; its caption carries no made-up creator handle, and the copied link is a short
+`vm.tiktok.com/…` link (what TikTok's Copy link gives, and what Tikify accepts).
 
 TikTok safe zones: the key text stays between y ≈ 250 and 1450 and clear of the right-hand button column.
 
 ## Re-rendering
 `source/` is a code-built film: `index.html` + `scenes.js` (12 scenes and the carried link) + `lib.js` (look, components,
 the zoom-blur hand-off) + `engine.js` (a deterministic timeline: `window.__seek(t)` draws frame *t*). Needs Node 22+, a
-Chromium browser, Python 3 with numpy and Pillow, and ffmpeg.
+Chromium browser, Python 3 with numpy and Pillow, and ffmpeg. `footage/` holds the clip as 24 fps JPEG frames (source 0.6 s on),
+drawn into the card on a canvas, because headless Chromium can't decode H.264.
 
 ```bash
 cd ad/source

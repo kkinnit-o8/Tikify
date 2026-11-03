@@ -1,0 +1,55 @@
+{
+ "tempo": 1.321,
+ "phrases": [
+  {
+   "text": "Let me guess...",
+   "on": 0.05,
+   "off": 0.618
+  },
+  {
+   "text": "you have been looking here,",
+   "on": 0.818,
+   "off": 1.711
+  },
+  {
+   "text": "there,",
+   "on": 1.791,
+   "off": 2.105
+  },
+  {
+   "text": "and everywhere...",
+   "on": 2.185,
+   "off": 2.726
+  },
+  {
+   "text": "just to find that one TikTok audio.",
+   "on": 2.846,
+   "off": 4.421
+  },
+  {
+   "text": "It's either slowed,",
+   "on": 4.541,
+   "off": 5.256
+  },
+  {
+   "text": "sped up,",
+   "on": 5.326,
+   "off": 5.765
+  },
+  {
+   "text": "bass boosted,",
+   "on": 5.835,
+   "off": 6.46
+  },
+  {
+   "text": "or doesn't sound right on your app.",
+   "on": 6.53,
+   "off": 7.571
+  },
+  {
+   "text": "Search no more.",
+   "on": 7.711,
+   "off": 8.328
+  }
+ ]
+}

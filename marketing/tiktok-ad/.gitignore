@@ -1,0 +1,5 @@
+# drafts and intermediates (re-creatable: see README)
+out/*draft*
+*.work/
+audio/mix_raw.wav
+audio/mix.wav

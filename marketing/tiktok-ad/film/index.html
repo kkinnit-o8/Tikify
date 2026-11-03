@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Tikify — TikTok ad (Let me guess…)</title>
+<!-- Fonts: Inter + Inter Display (Tikify's own UI face), installed locally: no network at render time. -->
+<style>
+  html,body{margin:0;background:#000;overflow:hidden}
+  #film{position:relative;overflow:hidden;background:#F4F2F8;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  #bg{position:absolute;left:0;top:0}
+  #world{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+  #grain{position:absolute;inset:-200px;pointer-events:none;opacity:.028;mix-blend-mode:overlay;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .disp{font-family:"Inter Display";font-weight:700;letter-spacing:-.035em;line-height:1}
+  svg{display:block}
+</style></head>
+<body>
+<div id="film"><canvas id="bg"></canvas><div id="world"></div><div id="grain"></div></div>
+<script src="engine.js"></script>
+<script src="kit.js"></script>
+<!-- one <script> per scene module: a syntax error in one must not break the others -->
+<script src="scenes/s1_hook.js"></script>
+<script src="scenes/s2_apps.js"></script>
+<script src="scenes/s3_wave.js"></script>
+<script src="scenes/s4_search.js"></script>
+<script src="scenes/s5_reveal.js"></script>
+<script src="scenes/s6_app.js"></script>
+<script src="scenes/s7_end.js"></script>
+<script>
+  FILM.fonts = ['700 100px "Inter Display"', '800 100px "Inter Display"', '600 100px "Inter Display"', '900 100px "Inter Display"',
+    '400 100px Inter', '500 100px Inter', '600 100px Inter', '700 100px Inter', '800 100px Inter'];
+  FILM.BG = {
+    states: {
+      L0: { base: '#F4F2F8', blobs: [['#FFD3E0', .85], ['#E3D8FF', .9], ['#CFF5F4', .8], ['#FFFFFF', .75]], dots: null },
+      D1: { base: '#0E0D11', blobs: [['#7B2CBF', .42], ['#FE2C55', .24], ['#1E6F8A', .30], ['#2A1450', .55]], dots: null },
+    },
+    start: 'L0',
+    flows: [[8.468, 8.469, 'L0', 'D1', [540, 960]]],   // hard switch on the drop (the frame is covered by the capsule's gradient at the cut)
+    fringe: null,
+  };
+  FILM.CAM = [];
+  (async () => {
+    for (const src of [K.ICON_SRC, 'assets/spotify_logo.svg', 'assets/soundcloud_mark_white.svg']) {
+      const img = new Image(); img.src = src; try { await img.decode(); } catch (e) { FILM.errors.push(src + ': ' + e.message); }
+    }
+    await FILM.start({ W: 1080, H: 1920, fps: 30, dur: 572 / 30 });
+  })();
+</script>
+</body></html>

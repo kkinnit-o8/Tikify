@@ -39,9 +39,10 @@
       S.cv.style.display = hq < 1 ? 'block' : 'none';
       // --- icon flies in to meet us (log-space, decelerating), bloom swells on the 808 ---
       const z = FILM.zoom(t, T0, T0 + .62, .3, 1, E.out(3));
-      S.icon.style.transform = `scale(${z})`;
+      const hit2 = t >= 9.25 ? Math.exp(-(t - 9.27) * 5) * clamp((t - 9.25) / .02) : 0;   // the strong hit at 9.27
+      S.icon.style.transform = `scale(${z * (1 + .045 * hit2)})`;
       const hit = Math.exp(-Math.max(0, t - T.b808) * 3.2) * (t >= T.b808 - .02 ? 1 : 0);
-      S.bloom.style.opacity = (.35 + .4 * E.smooth(p(t, T0, T0 + .5)) + .35 * hit).toFixed(3);
+      S.bloom.style.opacity = Math.min(1, .35 + .4 * E.smooth(p(t, T0, T0 + .5)) + .35 * hit + .3 * hit2).toFixed(3);
       S.bloom.style.transform = `scale(${(.75 + .25 * E.out(3)(p(t, T0, T0 + .6)) + .08 * hit).toFixed(4)})`;
       // ring pulse from the icon on the 808
       const rq = p(t, T.b808, T.b808 + .6);

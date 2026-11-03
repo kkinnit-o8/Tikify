@@ -46,7 +46,18 @@ gain = 10 ** (-6 * sm / 20)
 tt = np.arange(N) / SR
 ramp = np.clip((tt - 7.95) / (8.42 - 7.95), 0, 1); ramp = ramp * ramp * (3 - 2 * ramp)
 gain *= 10 ** (-4 * (1 - ramp) / 20)
+# +2 dB ride on the first bar after the drop, easing back to 0 dB by the next bar
+ride = np.interp(tt, [8.47, 10.59, 12.71], [2, 2, 0], left=0, right=0)
+gain *= 10 ** (ride / 20)
 mus *= gain
+# high-pass the music below ~120 Hz until the drop (the breakdown's bass tail), opening at 8.47 in 10 ms:
+# the drop then brings ALL the sub-bass in at once
+cut = int(8.50 * SR); seg = mus[:, :cut]
+F = np.fft.rfft(seg, axis=1); fr = np.fft.rfftfreq(seg.shape[1], 1 / SR)
+F *= (1 / np.sqrt(1 + (120 / np.maximum(fr, 1e-3)) ** 8))[None, :]          # 4th-order-like magnitude response
+hp = np.fft.irfft(F, n=seg.shape[1], axis=1)
+w = np.clip((tt[:cut] - 8.46) / .01, 0, 1)
+mus[:, :cut] = hp * (1 - w) + seg * w
 
 # --- picture sounds ---
 S.init(a.dur, seed=11)
@@ -66,15 +77,16 @@ for t in (5.84, 6.02): put(S.thunk(.5), t, .35)                             # ba
 put(np.asarray(S.whoosh(.16, 2000, 6000, 3000, 12000, .3)), 6.54, .15)      # glitch
 put_end(S.riser2(.75, f0=200, f1=2600, g=.4), 8.47, .32)                    # dive into the capsule
 imp = np.asarray(S.impact2(.8, decay=3.2, d=1.4)); put(imp / np.abs(imp).max(), 8.47, .30)   # weight under the drop
-for t, g in [(10.02, .5), (10.31, .5), (10.84, .5), (11.30, .45), (11.66, .5), (12.40, .45), (13.42, .45)]:
+for t, g in [(10.02, .5), (10.31, .5), (10.84, .5), (11.30, .45), (11.66, .5), (12.18, .5), (13.24, .45)]:
     put(S.mclick(.3), t, g)                                                 # taps on glass
 put(S.pop(1100, .3), 11.76, .22)                                            # toast
-for k in range(3): put(S.pop(820 + 140 * k, .3), 14.82 + k * .5294, .28)   # feature pills
-put(S.whoosh(.5, 300, 1200, 2500, 9000, .4), 16.40, .2)                     # phone closes into the icon
+for k, tp in enumerate((14.82, 15.09, 15.61)): put(S.pop(820 + 140 * k, .3), tp, .28)   # feature pills (on the track's hits)
+put(np.asarray(S.thunk(.45)), 9.27, .22)                                   # the strong hit at 9.27 (icon pulse)
+put(S.whoosh(.5, 300, 1200, 2500, 9000, .4), 16.52, .2)                     # phone closes into the icon
 
 mix = mus + vo * 1.0 + sfx
-# fade out the last 0.5 s
-f = int(.5 * SR); mix[:, -f:] *= np.linspace(1, 0, f) ** 1.5
+# fade out before the stab that starts at 18.80 (a new hit would be chopped at the loop point), silence after
+fo = np.interp(tt, [18.30, 18.78], [1, 0]) ** 2; mix *= fo[None, :]
 raw = f'{a.out}/mix_raw.wav'
 with wave.open(raw, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)

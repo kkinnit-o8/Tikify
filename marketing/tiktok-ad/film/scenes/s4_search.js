@@ -6,11 +6,11 @@
   const T = K.T, T0 = 7.60, T1 = T.drop;
   const L = K.LINE, H = 132, CY = L.y, X0 = L.x - L.w / 2;
   const typeT = FILM.cadence(K.QUERY, 7.66, 7.86, 91);
-  const Z1 = 17, DIVE0 = 8.13;
+  const Z1 = 17, DIVE0 = 8.22;
   let S = {};
   FILM.scene({
     id: 's4', t0: T0, t1: T1,
-    zoom: (lt) => FILM.zoom(lt, DIVE0 - T0, T1 - T0, 1, Z1, E.in(5)),
+    zoom: (lt) => FILM.zoom(lt, DIVE0 - T0, T1 - T0, 1, Z1, E.in(6)),
     build(root) {
       S.null = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
       S.search = el('div', `position:absolute;left:0;right:0;top:470px;text-align:center;font-size:200px;color:${K.C.ink}`, S.null, 'Search');
@@ -41,9 +41,9 @@
       S.strike.style.width = (S.cap.txt.offsetWidth + 16) * sw + 'px';
       S.cap.txt.style.opacity = 1 - .45 * sw;
       // dive INTO the capsule (pivot = its centre = frame centre); fill turns into the brand gradient as it fills the frame
-      const z = FILM.zoom(t, DIVE0, T1, 1, Z1, E.in(5));
+      const z = FILM.zoom(t, DIVE0, T1, 1, Z1, E.in(6));
       S.null.style.transform = about(L.x, CY, z);
-      const gq = E.smooth(p(t, 8.2, 8.42));
+      const gq = E.smooth(p(t, 8.26, 8.44));
       S.grad.style.opacity = gq;
       S.cap.ico.style.opacity = (+S.cap.ico.style.opacity) * (1 - gq);
       S.cap.txt.style.opacity = (1 - .45 * sw) * (1 - gq); S.strike.style.opacity = 1 - gq;

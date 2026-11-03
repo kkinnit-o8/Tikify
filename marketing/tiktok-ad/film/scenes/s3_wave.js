@@ -22,8 +22,10 @@
     build(root) {
       S.its = el('div', `position:absolute;left:0;right:0;top:470px;text-align:center;font-size:70px;font-weight:600;color:${K.C.inkSoft}`, root);
       S.its.className = 'disp'; S.wIts = K.words(S.its, 'It’s either');
+      // the big words roll inside a band: they leave upward out of its mask instead of sliding through "It's either"
+      S.band = el('div', 'position:absolute;left:0;right:0;top:548px;height:330px;overflow:hidden', root);
       S.w = WORDS.map((w) => {
-        const d = el('div', `position:absolute;left:0;right:0;top:${w.k === 'wrong' ? 540 : 600}px;text-align:center;font-size:${w.size}px;color:${K.C.ink};white-space:nowrap`, root, w.txt);
+        const d = el('div', `position:absolute;left:0;right:0;top:${w.k === 'wrong' ? 0 : 52}px;text-align:center;font-size:${w.size}px;color:${K.C.ink};white-space:nowrap;padding:0 0 30px`, S.band, w.txt);
         d.className = 'disp';
         if (w.k === 'boost') d.style.fontWeight = 900;
         if (w.k === 'wrong') d.style.lineHeight = '1.02';
@@ -52,7 +54,7 @@
       const amp = lerp(lerp(lerp(lerp(.95, .8, ws), .9, wp), 1.7, wb), 1, wg);
       sx *= lerp(lerp(1, 1.08, ws), 1, wp);
       // collapse into a line at the end: height → 0, width → the capsule's, centre → frame centre
-      const cl = E.smooth(p(t, 7.36, T1));
+      const cl = E.in(2)(p(t, 7.40, T1));                              // still moving at the hand-off to s4
       const fy = lerp(cy, K.LINE.y, cl), fsx = lerp(sx, K.LINE.w / WW, cl);
       const shake = settleShake(t, T.bass, 16, 7, 8) + settleShake(t, T.boosted, 12, 7, 8);
       S.wrap.style.transform = `translate(${cx - WX + shake * (1 - wg)}px,${fy - WY}px) scale(${fsx},${sy})`;
@@ -61,11 +63,11 @@
         S.cx.fillStyle = K.C.ink; S.cx.globalAlpha = cl; S.cx.beginPath(); S.cx.roundRect(0, WH / 2 - 3 / sy, WW, 6 / sy, 3); S.cx.fill(); S.cx.globalAlpha = 1;
       }
       // --- words ---
-      [T.its, T.either].forEach((t0, i) => K.wordIn(S.wIts[i], t, t0 - .05, .38, 24));
+      [4.40, 4.56].forEach((t0, i) => K.wordIn(S.wIts[i], t, t0, .38, 24));
       const itsOut = K.wordOut(S.its, t, T.or - .06, .18, -70);
       WORDS.forEach((wd, i) => {
-        const d = S.w[i], nx = WORDS[i + 1], tEnd = nx ? nx.t : 7.36;
-        const on = t >= wd.t - .08 && t < tEnd + .18;
+        const d = S.w[i], nx = WORDS[i + 1], tEnd = nx ? nx.t : 7.52;
+        const on = t >= wd.t - .08 && t < tEnd + .02;
         d.style.display = on ? 'block' : 'none'; S.pills[i].style.display = on ? 'block' : 'none';
         if (!on) return;
         let q;
@@ -84,16 +86,18 @@
           d.style.transform += ` translateX(${j}px)`;
         }
         // exit: pushed up and out by the next word
-        const out = E.in(2)(p(t, tEnd - .04, tEnd + .14));
-        if (out > 0) { d.style.transform += ` translateY(${-110 * out}px)`; d.style.opacity = (1 - out) * (+d.style.opacity || 1); d.style.filter = `blur(${out * 14}px)`; }
+        // a real push: the old word is out of its box before the next one is half in ('slowed' leaves left, mirroring the +700 zip-in)
+        const out = E.in(3)(p(t, tEnd - .2, tEnd - .02));
+        const ox = wd.k === 'slowed' ? -760 * out : 0, oy = wd.k === 'slowed' ? 0 : -270 * out;
+        if (out > 0) { d.style.transform += ` translate(${ox}px,${oy}px)`; d.style.opacity = 1 - clamp((out - .5) * 2); d.style.filter = `blur(${out * 16}px)`; }
         // pill: lands just after the word (chip overshoot ≤4 %)
         const pq = E.back(1.1)(p(t, wd.t + .05, wd.t + .35)), pe = clamp(p(t, wd.t + .05, wd.t + .14));
-        S.pills[i].style.opacity = pe * (1 - out);
-        S.pills[i].style.transform = `translateX(-50%) translateY(${(1 - pq) * 30 - 60 * out}px) scale(${.9 + .1 * pq})`;
+        S.pills[i].style.opacity = pe * (1 - clamp(out * 1.6));
+        S.pills[i].style.transform = `translateX(-50%) translate(${ox}px,${(1 - pq) * 30 + oy}px) scale(${.9 + .1 * pq})`;
       });
-      [T.on, T.your, T.app].forEach((t0, i) => K.wordIn(S.wApp[i], t, t0 - .05, .34, 22));
+      [T.on - .05, T.your - .06, T.app - .1].forEach((t0, i) => K.wordIn(S.wApp[i], t, t0, .32, 22));
       S.app.style.top = '858px';
-      const ao = K.wordOut(S.app, t, 7.40, .18, -60);
+      const ao = K.wordOut(S.app, t, 7.50, .1, -60);
     },
   });
   FILM.cue('glitch', T.or, 'glitch'); FILM.cue('thump', T.bass, 'thump'); FILM.cue('thump', T.boosted, 'thump');

@@ -11,11 +11,12 @@
       S.bloom = el('div', `position:absolute;left:${540 - 520}px;top:${I.y - 520}px;width:1040px;height:1040px;border-radius:50%;` +
         'background:radial-gradient(circle, rgba(254,44,85,.5) 0, rgba(123,44,191,.42) 34%, rgba(37,244,238,.12) 56%, transparent 70%);filter:blur(30px)', root);
       S.icon = K.icon(root, I.s, `left:${540 - I.s / 2}px;top:${I.y - I.s / 2}px;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5))`);
-      S.word = el('div', 'position:absolute;left:0;right:0;top:952px;text-align:center;font-size:230px;font-weight:800;color:#fff;letter-spacing:-.045em', root);
+      S.word = el('div', 'position:absolute;left:0;right:0;top:872px;text-align:center;font-size:230px;font-weight:800;color:#fff;letter-spacing:-.045em', root);
       S.word.className = 'disp'; S.g = FILM.glyphs(S.word, 'Tikify');
-      S.line = el('div', 'position:absolute;left:0;right:0;top:1222px;text-align:center;font:600 54px/1.22 "Inter Display";letter-spacing:-.02em;color:#CFCAD8', root);
+      S.line = el('div', 'position:absolute;left:0;right:0;top:1142px;text-align:center;font:600 54px/1.22 "Inter Display";letter-spacing:-.02em;color:#CFCAD8', root);
       S.l1 = el('div', '', S.line, 'Save TikTok sounds.'); S.l2 = el('div', '', S.line, 'Play them like music.');
-      S.cta = el('div', `position:absolute;left:50%;top:1420px;height:116px;border-radius:999px;background:${K.BRAND};box-shadow:0 20px 60px rgba(123,44,191,.45);overflow:hidden`, root);
+      S.cta = el('div', `position:absolute;left:50%;top:1340px;height:116px;border-radius:999px;background:${K.BRAND};box-shadow:0 20px 60px rgba(123,44,191,.45);overflow:hidden`, root);
+      S.legal = el('div', 'position:absolute;left:0;right:0;top:1486px;text-align:center;font:500 28px Inter;color:#8E8A99', root, 'Not affiliated with TikTok, Spotify or SoundCloud.');
       S.ctaT = el('div', 'position:absolute;left:0;right:0;top:0;line-height:116px;text-align:center;font:800 58px "Inter Display";letter-spacing:-.02em;color:#fff;white-space:nowrap', S.cta, 'tikify.no');
     },
     update(lt, t) {
@@ -30,6 +31,7 @@
       S.cta.style.opacity = clamp(p(t, T0 + .5, T0 + .6));
       S.cta.style.transform = `translateY(${(1 - E.soft(p(t, T0 + .5, T0 + 1.0))) * 30}px)`;
       K.wordIn(S.ctaT, t, T0 + .72, .45, 20, 10);
+      K.wordIn(S.legal, t, T0 + .9, .5, 10, 6);
     },
   });
   FILM.cue('end', T0, 'hit');

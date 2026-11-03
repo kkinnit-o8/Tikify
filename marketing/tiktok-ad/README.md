@@ -44,7 +44,7 @@ TOOLS=… HFT_BROWSER=… ./render.sh out/draft_nosound.mp4 1 4
 Render the final, with 4 sub-frames everywhere and 12 in the fast windows, plus the lens pass:
 
 ```bash
-LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.25-1.95,2.15-2.7,8.05-8.8,9.5-10.1,12.4-12.75,13.4-13.9,16.35-17.05"
+LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.30-2.00,2.15-2.75,4.20-4.75,5.20-5.45,7.35-7.70,8.15-8.80,9.50-10.05,10.40-11.00,13.24-13.75,14.76-15.35,16.45-17.05"
 ```
 
 Then mux the mix onto the video:

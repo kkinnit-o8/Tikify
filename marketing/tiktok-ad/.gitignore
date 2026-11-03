@@ -3,3 +3,6 @@ out/*draft*
 *.work/
 audio/mix_raw.wav
 audio/mix.wav
+# full-bitrate masters (~60 MB each) stay local; the TikTok upload copy is committed
+out/tikify_ad_final.mp4
+out/tikify_ad_final_nosound.mp4

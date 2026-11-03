@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Every page search engines should find. Add new pages here, and update lastmod when a page changes. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://tikify.no/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tikify.no/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://tikify.no/no/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tikify.no/"/>
+  </url>
+  <url>
+    <loc>https://tikify.no/how-to-save-tiktok-sounds/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/listen-to-tiktok-sounds-offline/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/tiktok-sound-playlist/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/install/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/faq/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/privacy/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://tikify.no/no/</loc>
+    <lastmod>2026-11-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tikify.no/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://tikify.no/no/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tikify.no/"/>
+  </url>
+</urlset>

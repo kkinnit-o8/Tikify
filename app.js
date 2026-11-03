@@ -39,6 +39,8 @@ const ICON = {
 // Decoration only: whatever shows an icon has a text or label of its own, so screen readers skip it.
 for (const k in ICON) ICON[k] = ICON[k].replace('<svg ', '<svg aria-hidden="true" ');
 
+const HOME_TITLE = document.title; // see render()
+
 // Mobile Safari applies :active (the press feedback on every button and row) only to elements under a
 // touch listener. This one does nothing else.
 document.addEventListener('touchstart', () => {}, { passive: true });
@@ -819,7 +821,9 @@ function render() {
 
   const heading = view.querySelector('.pl-header h1') || $('#viewTitle');
   const name = heading.textContent.trim();
-  document.title = name ? name + ' · Tikify' : 'Tikify';
+  // The Library is the home page: it keeps index.html's own title, the one search results show.
+  const home = !['playlist', 'all', 'add', 'search'].includes(r.name);
+  document.title = home ? HOME_TITLE : name ? name + ' · Tikify' : 'Tikify';
   if (keep && restoreFocus(keep)) return;
   // A refresh leaves focus alone, unless the focused control is gone (its row was deleted).
   if (!changed && !keep) return;
@@ -848,6 +852,43 @@ function unbackedSounds() {
   let n = 0;
   for (const s of state.sounds.values()) if (s.addedAt > since) n++;
   return n >= 10 ? n : 0;
+}
+
+// Under the empty Library, which is what a first-time visitor and a search engine see of Tikify:
+// what it is, how it works, and links to the guide pages. index.html has the same in <noscript>.
+// Not in the installed app: its user already knows, and the guides are web pages that need internet.
+function libraryIntro() {
+  if (isStandalone()) return '';
+  return `
+    <section class="intro" aria-labelledby="introTitle">
+      <h2 id="introTitle">Save TikTok sounds. Play them like music.</h2>
+      <p>Tikify keeps the sounds you love from TikTok in your own library, so you can listen to them
+        like songs: in playlists, offline and with your phone locked. Free, no account.</p>
+      <h3>How it works</h3>
+      <ol class="intro-steps">
+        <li><b>Copy a TikTok link.</b> On a video whose sound you like, tap <b>Share → Copy link</b>.</li>
+        <li><b>Save the sound.</b> Tap <b>Add sound</b>, paste the link and save. Tikify downloads the sound to your device.</li>
+        <li><b>Play it like music.</b> Sort your sounds into playlists, shuffle and repeat them, and keep listening with the screen off.</li>
+      </ol>
+      <ul class="intro-perks">
+        <li><b>Plays offline</b>Saved sounds need no internet.</li>
+        <li><b>Keeps playing</b>In the background, with lock-screen controls.</li>
+        <li><b>Private</b>No account. Your library stays on your device.</li>
+      </ul>
+      <nav aria-labelledby="introGuides">
+        <h3 id="introGuides">Guides</h3>
+        <div class="intro-links">
+          <a href="how-to-save-tiktok-sounds/">How to save a TikTok sound</a>
+          <a href="listen-to-tiktok-sounds-offline/">Listen offline and with the screen locked</a>
+          <a href="tiktok-sound-playlist/">Make a playlist of TikTok sounds</a>
+          <a href="install/">Install on iPhone and Android</a>
+          <a href="faq/">FAQ</a>
+          <a href="privacy/">Privacy</a>
+          <a href="no/" hreflang="nb" lang="nb">På norsk</a>
+        </div>
+      </nav>
+      <p class="intro-fine">Tikify is an independent project, not affiliated with TikTok or ByteDance.</p>
+    </section>`;
 }
 
 function renderLibrary(view) {
@@ -897,7 +938,8 @@ function renderLibrary(view) {
           <p class="from-safari">Saved sounds in Safari before installing? They stay in Safari: export a backup
             there (Your Library → ⋮), then import it here.</p>
           <button class="btn ghost" id="emptyImport">Import backup</button>` : ''}
-      </div>` : ''}
+      </div>
+      ${libraryIntro()}` : ''}
   `;
   view.querySelectorAll('[data-go]').forEach((el) => el.addEventListener('click', () => go(el.dataset.go)));
   if (storageFailure) {

@@ -19,9 +19,29 @@ Spotify, but for TikTok sounds. Copy a TikTok link, save the sound, and play it 
 2. Under **Build and deployment**, choose **Deploy from a branch**, pick `master` and folder `/ (root)`, then **Save**.
 3. After a minute the app is live at `https://<your-username>.github.io/Tikify/`.
 
-The app uses relative paths, so it works under any repo name. Only the link-preview tags in
-`index.html` (`og:url`, `og:image`) name the live address, because they must be absolute: edit them
-if the site moves. `404.html` sends mistyped or path-style links (like `/Tikify/add`) into the app.
+The app uses relative paths, so it works under any repo name. The live address, `https://tikify.no`
+(set in `CNAME`), appears only where it must be absolute: the canonical, `hreflang` and link-preview
+tags in `index.html` and the guide pages, `robots.txt` and `sitemap.xml`. Update all of them if the
+site moves. Keep **Enforce HTTPS** ticked in **Settings → Pages**, so the site has one address.
+`404.html` sends mistyped or path-style links (like `/Tikify/add`) into the app.
+
+## Search engines and guide pages
+The app's own page shows whatever is saved on the device, so a search engine (which has saved
+nothing) sees an empty library. This is what it finds instead:
+- **`index.html`**: the title and description search results show (`render()` in `app.js` puts the
+  title back on the Library view), the canonical address, structured data (JSON-LD) and a
+  `<noscript>` introduction for crawlers that don't run JavaScript.
+- **The empty Library** shows the same introduction, with links to the guides (`libraryIntro()` in
+  `app.js`). Only in a browser: the installed app doesn't show it.
+- **Guide pages**: plain HTML that works without JavaScript, styled by `pages.css`:
+  `how-to-save-tiktok-sounds/`, `listen-to-tiktok-sounds-offline/`, `tiktok-sound-playlist/`,
+  `install/`, `faq/`, `privacy/`, and `no/` in Norwegian.
+- **`robots.txt`** and **`sitemap.xml`**.
+
+To add a guide page, copy one of the folders and change its title, description, canonical, `og:url`
+and breadcrumb. Add it to `sitemap.xml`, then link it from the other pages' footers, `libraryIntro()`
+and the `<noscript>` in `index.html`. When a page changes, update its `<lastmod>` in `sitemap.xml`.
+Guide pages aren't part of the app, so they aren't in `sw.js`'s `SHELL` and need internet.
 
 ## Releasing an update
 Just push. The service worker (`sw.js`) serves the app from its cache, so it opens instantly and offline,

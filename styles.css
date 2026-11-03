@@ -157,6 +157,31 @@ body.has-mini main#view {
 .big-icon svg { width: 36px; height: 36px; }
 .big-icon.ok { background: var(--accent); color: #000; font-weight: 800; }
 
+/* What Tikify is, under the empty Library in a browser (and the no-JavaScript page). */
+.intro { border-top: 1px solid var(--bg-3); padding: 28px 0 8px; color: var(--muted); line-height: 1.5; }
+.intro h2 { color: var(--text); font-size: 22px; line-height: 1.25; letter-spacing: -.3px; margin: 0 0 8px; }
+.intro h3 { color: var(--text); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin: 28px 0 12px; }
+.intro p { margin: 0 0 12px; }
+.intro b { color: var(--text); }
+.intro-steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 16px; }
+.intro-steps li { counter-increment: step; position: relative; padding-left: 44px; min-height: 30px; }
+.intro-steps li::before {
+  content: counter(step); position: absolute; left: 0; top: -3px; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--bg-3); color: var(--text); font-size: 14px; font-weight: 800; display: grid; place-items: center;
+}
+.intro-perks { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+.intro-perks li { background: var(--bg-2); border-radius: 12px; padding: 14px 16px; font-size: 14px; }
+.intro-perks b { display: block; font-size: 15px; margin-bottom: 2px; }
+@media (min-width: 560px) { .intro-perks { grid-template-columns: repeat(3, 1fr); } }
+.intro-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.intro-links a {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border-radius: 999px;
+  background: var(--bg-3); color: var(--text); font-size: 14px; font-weight: 600; text-decoration: none;
+}
+.intro-links a:active { background: var(--bg-4); }
+.intro-links a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.intro p.intro-fine { font-size: 12px; margin-top: 24px; }
+
 /* ---------- buttons / inputs ---------- */
 .btn {
   padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: 15px;

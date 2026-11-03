@@ -3,9 +3,9 @@
    turns into Tikify's gradient — at the cut the frame is solid gradient, and s5 flies on through it (the drop). */
 (function () {
   const { E, p, el, clamp, lerp, about } = FILM;
-  const T = K.T, T0 = 7.60, T1 = T.drop;
+  const T = K.T, T0 = 7.30, T1 = T.drop;
   const L = K.LINE, H = 132, CY = L.y, X0 = L.x - L.w / 2;
-  const typeT = FILM.cadence(K.QUERY, 7.66, 7.86, 91);
+  const typeT = FILM.cadence(K.QUERY, 7.36, 7.60, 91);
   const Z1 = 17, DIVE0 = 8.22;
   let S = {};
   FILM.scene({
@@ -31,7 +31,7 @@
       S.cap.box.style.top = (CY - h / 2) + 'px'; S.cap.box.style.height = h + 'px'; S.cap.box.style.borderRadius = h / 2 + 'px';
       S.cap.box.style.background = g < .35 ? K.C.ink : '#fff';
       S.cap.ico.style.opacity = .55 * clamp(p(t, T0 + .12, T0 + .26));
-      S.cap.set(K.QUERY.slice(0, FILM.typedN(typeT, t)), t > 7.64 && t < 8.1);
+      S.cap.set(K.QUERY.slice(0, FILM.typedN(typeT, t)), t > 7.34 && t < 8.1);
       // "Search" / "no more."
       K.wordIn(S.search, t, T.search - .06, .38, 34);
       K.wordIn(S.wNo[0], t, T.no - .05, .34, 34);

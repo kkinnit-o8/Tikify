@@ -70,11 +70,11 @@ def put(sig, t, g, pan=0.0):
 def put_end(sig, t, g, pan=0.0): put(sig, t - len(sig) / SR, g, pan)
 sfx = np.zeros((2, N))
 put_end(S.whoosh(.22, 400, 1500, 2500, 9000, .4), 1.40 + .04, .28, -.3)     # whip "here,"
-put_end(S.whoosh(.22, 400, 1500, 2500, 9000, .4), 1.80 + .04, .28, .3)      # whip "there,"
-put(S.whoosh(.7, 3000, 9000, 300, 1200, .4), 2.20, .22)                     # pull back to the wall
-put(S.pop(700, .3), 3.18, .25)                                              # sound card born
-for t in (5.84, 6.02): put(S.thunk(.5), t, .35)                             # bass boosted
-put(np.asarray(S.whoosh(.16, 2000, 6000, 3000, 12000, .3)), 6.54, .15)      # glitch
+put_end(S.whoosh(.22, 400, 1500, 2500, 9000, .4), 1.90 + .04, .28, .3)      # whip "there,"
+put(S.whoosh(.7, 3000, 9000, 300, 1200, .4), 2.30, .22)                     # pull back to the wall
+put(S.pop(700, .3), 3.46, .25)                                              # sound card born
+for t in (6.28, 6.48): put(S.thunk(.5), t, .35)                             # bass boosted
+put(np.asarray(S.whoosh(.16, 2000, 6000, 3000, 12000, .3)), 6.98, .15)      # glitch
 put_end(S.riser2(.75, f0=200, f1=2600, g=.4), 8.47, .32)                    # dive into the capsule
 imp = np.asarray(S.impact2(.8, decay=3.2, d=1.4)); put(imp / np.abs(imp).max(), 8.47, .30)   # weight under the drop
 for t, g in [(10.02, .5), (10.31, .5), (10.84, .5), (11.30, .45), (11.66, .5), (12.18, .5), (13.24, .45)]:

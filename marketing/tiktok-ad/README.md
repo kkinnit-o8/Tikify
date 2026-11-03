@@ -10,14 +10,15 @@ Chromium captures, followed by sub-frame motion blur, a light lens pass and H.26
 | `film/engine.js` | The deterministic timeline engine (from the higgsfield-motion-saas skill; the camera centre is patched for 9:16). |
 | `film/kit.js` | Palette, **all timing** (`K.T` holds the voiceover word times and `K.bar()` the post-drop bars), and shared components (search capsule, waveform, icons). |
 | `film/scenes/s1…s7` | One module per shot group: hook, apps wall, waveform, search/dive, drop reveal, app demo, end card. |
-| `audio/build_vo.py` | Cuts the Higgsfield voice take into phrases, shortens pauses, time-stretches the phrases with rubberband (pitch kept), and places them so "Search no more." ends before the drop. |
+| `audio/place_vo.py` | Places the Higgsfield voice take on the timeline untouched (no stretch, no pause edits), so the first word starts at 0.05 s and "Search no more." ends at 8.33 s, before the drop. |
 | `audio/mix.py` | The song from 16.72 s, the voice with the music ducked under it, quiet picture sounds, and a static gain to −14 LUFS plus a −1.5 dBTP limiter. |
 | `render.sh` | Parallel capture, then blend (motion blur), the optional lens pass, and the ffmpeg encode. |
 | `out/` | The rendered ads. |
 
 ## Voice
-Higgsfield **Seed Audio 1.0**, preset voice **Ainsley** (`731b4ffe-e95e-59f4-8c00-81608936091f`), `speech_rate` 40, one take
-(`audio/vo_take_ainsley.wav`). It is placed at 1.321×; Whisper transcribes all 34 words correctly from the stretched track.
+Higgsfield **Seed Audio 1.0**, preset voice **Ainsley** (`731b4ffe-e95e-59f4-8c00-81608936091f`), `speech_rate` 15, one take
+(`audio/vo_take_ainsley_natural.wav`), at natural speed. The script was shortened to fit the 8.4 s before the drop without stretching:
+*"Let me guess. Here, there, everywhere. Just to find that one TikTok audio. Slowed, sped up, bass boosted. Search no more."*
 
 ## Re-render
 The scripts need `TOOLS` to point at a folder holding the skill's `capture.mjs`, `blend.py`, `lens.py` and `sound_kit.py`,
@@ -26,7 +27,7 @@ and `HFT_BROWSER` at a Chromium binary. On Linux as root, that binary must be a 
 Rebuild the voiceover:
 
 ```bash
-python3 audio/build_vo.py audio/vo_take_ainsley.wav audio/vo_cuts_ainsley.json audio --end 8.33
+python3 audio/place_vo.py audio/vo_take_ainsley_natural.wav audio --onset 0.36 --at 0.05
 ```
 
 Rebuild the mix:
@@ -44,7 +45,7 @@ TOOLS=… HFT_BROWSER=… ./render.sh out/draft_nosound.mp4 1 4
 Render the final, with 4 sub-frames everywhere and 12 in the fast windows, plus the lens pass:
 
 ```bash
-LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.30-2.00,2.15-2.75,4.20-4.75,5.20-5.45,7.35-7.70,8.15-8.80,9.50-10.05,10.40-11.00,13.24-13.75,14.76-15.35,16.45-17.05"
+LENS=1 LENS_ARGS="--sched lens.json" TOOLS=… HFT_BROWSER=… ./render.sh out/final_nosound.mp4 4 4 12 "1.30-2.10,2.20-2.85,4.65-5.25,5.60-5.90,7.05-7.45,8.15-8.80,9.50-10.05,10.40-11.00,13.24-13.75,14.76-15.35,16.45-17.05"
 ```
 
 Then mux the mix onto the video:

@@ -5,14 +5,13 @@
    s4 grows into the search capsule. */
 (function () {
   const { E, p, el, clamp, lerp, settleShake } = FILM;
-  const T = K.T, T0 = T.audioEnd, T1 = 7.60;
+  const T = K.T, T0 = T.audioEnd, T1 = 7.30;
   const WX = 540, WY = 1240, WW = 1000, WH = 420;                   // resting waveform rect (centre, size)
   K.LINE = { x: 540, y: 960, w: 860 };                              // the flattened line that s4 turns into the capsule
   const WORDS = [
     { k: 'slowed', txt: 'slowed,', t: T.slowed, size: 196, pill: '0.8×' },
     { k: 'sped', txt: 'sped up,', t: T.sped, size: 196, pill: '1.25×' },
     { k: 'boost', txt: 'bass boosted,', t: T.bass, size: 150, pill: '+12 dB' },
-    { k: 'wrong', txt: 'doesn’t sound<br>right', t: T.or, size: 140, pill: '✕  wrong version' },
   ];
   const wgv = (t) => E.smooth(p(t, T.or - .08, T.or + .2));
   let S = {};
@@ -20,8 +19,6 @@
     id: 's3', t0: T0, t1: T1,
     zoom: (lt) => FILM.zoom(lt, 0, .34, K.WAVE0[2] * 1.6 / WW, 1, E.out(5)),
     build(root) {
-      S.its = el('div', `position:absolute;left:0;right:0;top:470px;text-align:center;font-size:70px;font-weight:600;color:${K.C.inkSoft}`, root);
-      S.its.className = 'disp'; S.wIts = K.words(S.its, 'It’s either');
       // the big words roll inside a band: they leave upward out of its mask instead of sliding through "It's either"
       S.band = el('div', 'position:absolute;left:0;right:0;top:548px;height:330px;overflow:hidden', root);
       S.w = WORDS.map((w) => {
@@ -34,8 +31,6 @@
       S.pills = WORDS.map((w) => el('div', `position:absolute;left:50%;top:${w.k === 'wrong' ? 1010 : 850}px;transform:translateX(-50%);padding:14px 34px;border-radius:999px;` +
         `font:700 46px Inter;letter-spacing:-.01em;white-space:nowrap;color:${w.k === 'wrong' || w.k === 'boost' ? '#fff' : K.C.ink};` +
         `background:${w.k === 'wrong' || w.k === 'boost' ? K.C.danger : '#fff'};box-shadow:0 14px 40px rgba(60,30,90,.14)`, root, w.pill));
-      S.app = el('div', `position:absolute;left:0;right:0;top:760px;text-align:center;font-size:66px;font-weight:600;color:${K.C.inkSoft}`, root);
-      S.app.className = 'disp'; S.wApp = K.words(S.app, 'on your app.');
       S.wrap = el('div', `position:absolute;left:${WX - WW / 2}px;top:${WY - WH / 2}px;width:${WW}px;height:${WH}px;transform-origin:${WW / 2}px ${WH / 2}px`, root);
       S.cv = el('canvas', `position:absolute;left:0;top:0;width:${WW}px;height:${WH}px`, S.wrap); S.cv.width = WW; S.cv.height = WH;
       S.cx = S.cv.getContext('2d');
@@ -54,7 +49,7 @@
       const amp = lerp(lerp(lerp(lerp(.95, .8, ws), .9, wp), 1.7, wb), 1, wg);
       sx *= lerp(lerp(1, 1.08, ws), 1, wp);
       // collapse into a line at the end: height → 0, width → the capsule's, centre → frame centre
-      const cl = E.in(2)(p(t, 7.40, T1));                              // still moving at the hand-off to s4
+      const cl = E.in(2)(p(t, 7.08, T1));                              // still moving at the hand-off to s4
       const fy = lerp(cy, K.LINE.y, cl), fsx = lerp(sx, K.LINE.w / WW, cl);
       const shake = settleShake(t, T.bass, 16, 7, 8) + settleShake(t, T.boosted, 12, 7, 8);
       S.wrap.style.transform = `translate(${cx - WX + shake * (1 - wg)}px,${fy - WY}px) scale(${fsx},${sy})`;
@@ -63,10 +58,8 @@
         S.cx.fillStyle = K.C.ink; S.cx.globalAlpha = cl; S.cx.beginPath(); S.cx.roundRect(0, WH / 2 - 3 / sy, WW, 6 / sy, 3); S.cx.fill(); S.cx.globalAlpha = 1;
       }
       // --- words ---
-      [4.40, 4.56].forEach((t0, i) => K.wordIn(S.wIts[i], t, t0, .38, 24));
-      const itsOut = K.wordOut(S.its, t, T.or - .06, .18, -70);
       WORDS.forEach((wd, i) => {
-        const d = S.w[i], nx = WORDS[i + 1], tEnd = nx ? nx.t : 7.52;
+        const d = S.w[i], nx = WORDS[i + 1], tEnd = nx ? nx.t : 7.08;
         const on = t >= wd.t - .08 && t < tEnd + .02;
         d.style.display = on ? 'block' : 'none'; S.pills[i].style.display = on ? 'block' : 'none';
         if (!on) return;
@@ -95,9 +88,6 @@
         S.pills[i].style.opacity = pe * (1 - clamp(out * 1.6));
         S.pills[i].style.transform = `translateX(-50%) translate(${ox}px,${(1 - pq) * 30 + oy}px) scale(${.9 + .1 * pq})`;
       });
-      [T.on - .05, T.your - .06, T.app - .1].forEach((t0, i) => K.wordIn(S.wApp[i], t, t0, .32, 22));
-      S.app.style.top = '858px';
-      const ao = K.wordOut(S.app, t, 7.50, .1, -60);
     },
   });
   FILM.cue('glitch', T.or, 'glitch'); FILM.cue('thump', T.bass, 'thump'); FILM.cue('thump', T.boosted, 'thump');

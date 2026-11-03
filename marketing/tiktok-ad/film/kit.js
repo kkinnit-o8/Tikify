@@ -15,14 +15,15 @@
   /* ---------- timing (film seconds; music starts at track 16.72 s) ---------- */
   // VO onsets from build_vo.py (energy) + Whisper word times inside phrases
   K.T = {
-    // voice: Higgsfield seed_audio preset "Ainsley", one take, phrases re-timed ×1.321 (audio/build_vo.py)
-    let: .05, me: .20, guess: .30, guessEnd: .62,
-    you: .84, have: .94, been: 1.04, looking: 1.16,
-    here: 1.40, there: 1.80, and: 2.20, every: 2.32, everyEnd: 2.73,
-    just: 2.85, to: 3.00, find: 3.14, that: 3.28, one: 3.48, tiktok: 3.70, audio: 4.08, audioEnd: 4.42,
-    its: 4.55, either: 4.70, slowed: 4.82, sped: 5.34, up: 5.52, bass: 5.84, boosted: 6.02,
-    or: 6.54, doesnt: 6.62, sound: 6.86, right: 7.00, on: 7.16, your: 7.28, app: 7.38, appEnd: 7.57,
-    search: 7.72, no: 7.94, more: 8.10, moreEnd: 8.33,
+    // voice: Higgsfield seed_audio preset "Ainsley", speech_rate 15, ONE natural take placed untouched (no stretch, no
+    // pause edits; audio/place_vo.py). "Let me guess. Here, there, everywhere. Just to find that one TikTok audio.
+    // Slowed, sped up, bass boosted. Search no more."  Phrase onsets from the energy envelope, words from Whisper.
+    let: .05, me: .20, guess: .34, guessEnd: .67,
+    here: 1.40, there: 1.90, and: 2.30, every: 2.42, everyEnd: 2.90,
+    just: 3.20, to: 3.34, find: 3.48, that: 3.64, one: 3.84, tiktok: 4.02, audio: 4.40, audioEnd: 4.91,
+    slowed: 5.16, sped: 5.70, up: 5.88, bass: 6.28, boosted: 6.48, boostEnd: 7.01,
+    or: 6.98,                                   // the waveform's glitch (no word: "or doesn't sound right" was cut)
+    search: 7.44, no: 7.72, more: 7.96, moreEnd: 8.33,
     drop: 8.47, b808: 8.73,
   };
   K.BEAT = 0.5294;                          // 113.3 BPM (slowed)

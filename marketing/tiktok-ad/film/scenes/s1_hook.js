@@ -17,20 +17,14 @@
       S.l1 = el('div', 'position:absolute;left:0;right:0;top:766px;text-align:center;font-size:144px;color:' + K.C.ink + ';transform-origin:540px 78px', S.null);
       S.l1.className = 'disp';
       S.w1 = K.words(S.l1, 'Let me guess…');
-      S.l2 = el('div', 'position:absolute;left:0;right:0;top:842px;text-align:center;font-size:92px;font-weight:600;color:' + K.C.ink, S.null);
-      S.l2.className = 'disp';
-      S.w2 = K.words(S.l2, 'you have been looking');
       S.cap = K.capsule(root, CAP.x, CAP.y, CAP.w, CAP.h);
     },
     update(lt) {
       S.null.style.transform = about(540, 960, FILM.zoom(lt, 0, CUT, 1, 1.035, E.glide));
       // line 1: three words on the VO, then carried up and quieted when line 2 starts
       [T.let, T.me, T.guess].forEach((t0, i) => K.wordIn(S.w1[i], lt, t0 - .05));
-      const up = E.smooth(p(lt, .74, 1.12));
-      S.l1.style.transform = `translateY(${-236 * up}px) scale(${1 - .42 * up})`;
-      S.l1.style.color = up > .5 ? K.C.inkSoft : K.C.ink;
-      S.l1.style.opacity = 1 - .35 * up;
-      [T.you, T.have, T.been, T.looking].forEach((t0, i) => K.wordIn(S.w2[i], lt, t0 - .05, .4, 30));
+      const up = E.smooth(p(lt, .72, 1.2));                           // lifts a little to make room for the search capsule
+      S.l1.style.transform = `translateY(${-90 * up}px)`;
       // whip out left (the capsule stays: it is the carried object)
       const wq = E.in(2)(p(lt, CUT - .14, CUT));
       const wx = -420 * wq;

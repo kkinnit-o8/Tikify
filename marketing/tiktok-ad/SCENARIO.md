@@ -2,7 +2,7 @@
 
 **Format:** 1080×1920 (9:16), 30 fps, ≈19.1 s. Code-rendered motion (HTML/CSS → headless Chromium → H.264) with motion blur.
 **Audio:** *We Do What We Want (Slowed)*, starting at **16.72 s** (on the beat, 0.28 s before the 17 s mark you asked for) + Higgsfield voiceover
-(Seed Audio, preset voice "Ainsley", 1.32× with the pitch preserved).
+(Seed Audio, preset voice "Ainsley", `speech_rate` 15, at natural speed with no stretching).
 **Music map (film time):** the bass fades out by 1.4 s. In the breakdown, claps land every 1.06 s (1.06 · 2.11 · 3.17 · 4.23 · 5.29 · 6.35 · 7.41).
 The **drop** kick is at **8.47 s**, with the 808 at 8.73 s. Post-drop bars start at 8.47 · 10.59 · 12.71 · 14.82 · 16.94, and the film ends on the bar at 19.06.
 **Reference taken from @thednyx:** its energy and structure. That means word-by-word kinetic type with blur entrances on an airy light
@@ -10,31 +10,32 @@ world, an "everywhere" collage wall, believable UI with taps, and a clean end ca
 tinted from Tikify's own pink, purple and cyan, and after the drop everything is Tikify's dark app world.
 
 ## Voiceover (as placed)
+One natural take, untouched: no time-stretch and no pause edits.
+
 | Film s | Line |
 |---|---|
-| 0.05–0.62 | Let me guess... |
-| 0.82–1.71 | you have been looking here, |
-| 1.79–2.10 | there, |
-| 2.19–2.73 | and everywhere... |
-| 2.85–4.42 | just to find that one TikTok audio. |
-| 4.54–5.26 | It's either slowed, |
-| 5.33–5.76 | sped up, |
-| 5.83–6.46 | bass boosted, |
-| 6.53–7.57 | or doesn't sound right on your app. |
-| 7.71–8.33 | Search no more. |
+| 0.05–0.67 | Let me guess. |
+| 1.37–1.75 | Here, |
+| 1.87–2.22 | there, |
+| 2.37–2.90 | everywhere. |
+| 3.18–4.91 | Just to find that one TikTok audio. |
+| 5.12–5.61 | Slowed, |
+| 5.69–6.05 | sped up, |
+| 6.23–7.01 | bass boosted. |
+| 7.41–8.33 | Search no more. |
 | **8.47** | **DROP → Tikify** |
 
 ## Shots
 | # | Time | Picture | Camera / transition | On-screen text |
 |---|---|---|---|---|
 | 1 | 0.00–0.80 | Light airy world (pale pink, lavender and aqua blobs). | Slow push-in. | **Let me guess…** (word by word, blur-to-sharp) |
-| 2 | 0.80–1.47 | A search bar (the hero object) slides up under the words and types *that one tiktok sound*. | Push continues. | you have been looking |
-| 3 | 1.47–1.84 | The search bar is carried into a music-app window labelled **Spotify** (plain text, no logo), with search results under it. | Whip in from the right. | **here,** |
-| 4 | 1.84–2.27 | Whip to a second window labelled **SoundCloud**. | Whip (same direction). | **there,** |
-| 5 | 2.27–2.88 | Pull back: that window becomes one tile in a wall of ~20 player windows (Spotify, SoundCloud, Apple Music, YouTube Music, Deezer, Tidal…), all showing the same search. | Fast zoom-out. | **everywhere** |
-| 6 | 2.88–4.42 | The wall keeps falling away. One card stays lit: a TikTok-style sound card (♫ original sound · @nightdrive.edits) with a live waveform. | Zoom-out continues, then settles. | just to find **that one TikTok audio.** |
-| 7 | 4.42–7.60 | **One waveform** acts out every problem: it stretches for *slowed*, compresses for *sped up*, clips and shakes for *bass boosted*, then glitches for *doesn't sound right*, under a generic player bar showing the wrong version and a red ✕. | In-scene drift; each word lands on its spoken syllable. | **slowed, sped up, bass boosted,** or doesn't sound right on your app. |
-| 8 | 7.60–8.47 | The waveform collapses back into the search bar, which types *Search*. **no more.** lands, then the camera dives INTO the bar. | Needle zoom, peaking on the cut. | Search **no more.** |
+| 2 | 0.80–1.40 | In the pause after "Let me guess", a search bar (the hero object) rises in under the words and types *that one tiktok sound*. | Push continues. | — |
+| 3 | 1.40–1.90 | A music-app window with the **Spotify** logo whips in around the search bar (the bar stays put: the app changes around it). | Whip in from the right. | **here,** |
+| 4 | 1.90–2.30 | The **SoundCloud** window enters from the right; Spotify is pushed into the slot to its left. | Mirrored whip. | **there,** |
+| 5 | 2.30–3.20 | Pull back: the wall of player windows assembles outward from SoundCloud. Spotify and SoundCloud stay lit; the rest dims. | Fast zoom-out. | **everywhere** |
+| 6 | 3.20–4.91 | The wall recedes and dims. A TikTok sound card (♫ original sound · @tikify.demo) grows out of the centre with a live waveform. | Zoom-out settles, then a dive into the waveform. | just to find **that one TikTok audio.** |
+| 7 | 4.91–7.30 | One waveform acts out each problem. It stretches for *slowed* and compresses for *sped up*; for *bass boosted* it clips red and shakes, then glitches and flattens into a line. Each word rolls in on its syllable. | In-scene. | **slowed, sped up, bass boosted,** |
+| 8 | 7.30–8.47 | The line grows into the search bar, which re-types its query. **Search no more.** lands and the query is struck through. The camera dives INTO the bar as its fill turns into Tikify's gradient. | Needle zoom, peaking on the cut. | Search **no more.** |
 | 9 | 8.47–9.53 | **DROP.** Tikify's dark world floods out of the bar. The Tikify icon flies in (continuing forward) with a brand-gradient bloom. The **Tikify** wordmark lands on the 808 (8.73). | Decelerating fly-in. | Tikify |
 | 10 | 9.53–12.71 | The icon opens into a big phone (820 px, so the app copy reads at phone size), revealed by an iris from the icon's centre. It runs the **real Tikify flow**: on **Add sound**, paste a TikTok link → **Find sound** → the preview card grows out of the button → play it → pick **Edits** → **Save to library** → the toast *Saved to Edits* and the "✓ original sound saved" panel → **Play now** → the mini player rises in. | The camera travels down the screen to each tap, with a punch-in on every kick. | **Paste any / TikTok link** · **Get the / exact sound** (word by word, 108 px) |
 | 11 | 12.71–14.82 | Tap the mini player → the full-screen player slides up (*Playing from Just added*), and the pause button pulses on the beat. | Reframe on the player, then a slow push. | **Play it / like music.** |

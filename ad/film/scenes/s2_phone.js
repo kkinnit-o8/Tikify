@@ -1,4 +1,4 @@
-/* 5.95–17.7  ONE PHONE running Tikify's real UI (styles.css + DOM snapshots in Shadow DOM).
+/* 5.70–13.85  ONE PHONE (every tap on a beat of the music; the cover floods the background on the drop, 9.473) running Tikify's real UI (styles.css + DOM snapshots in Shadow DOM).
    Ref beats → Tikify: "Lyrics, synced word by word" (dive into the window) → "Paste a link. Get the sound." (dive into the link box)
    "The cover becomes the background." → the same line: Tikify's player really blurs the cover into its background
    "Paste a link. Bring your playlist." / "Make it yours." → "Make playlists." (Library → Gym)
@@ -8,14 +8,15 @@
   const PS = 1.75, PX = 540 - 195 * PS, PY = 452, PH = L.PHONE_H;          // phone screen 390×760 CSS px → 682×1330 film px
   const CX = 540, CYP = PY + PH * PS / 2;
   const LINK = 'https://www.tiktok.com/@nova/video/7400000000000000001';
+  const B = L.B, H = L.P / 2;                       // beats of the track (lib.js); H = half a beat
   const T = {
-    enter: 5.95, paste: 6.95, link: 7.0, prev: 7.75, scroll0: 8.18, scroll1: 8.6, gym: 8.82, save: 9.2, saved: 9.25,
-    play: 9.66, playerUp: 9.7, close: 12.36, lib: 12.8, gymRow: 13.74, lock: 14.96, lockOn: 15.1, next: 16.46, exit: 17.28,
+    enter: 5.70, paste: B(10), link: B(10) + .04, prev: B(11), scroll0: 7.18, scroll1: 7.48, gym: B(12), save: B(13), saved: B(13) + .01,
+    play: B(14), playerUp: B(14) + .03, close: B(17), lib: B(17) + H, gymRow: B(19), lock: B(20), lockOn: B(20) + .13, next: B(21), exit: 13.48,
   };
-  L.GLOW.push([6.05, '#6c5ce7', .5, 540, CYP, 600, 820], [9.7, '#6c5ce7', .5, 540, CYP, 600, 820],
-    [10.25, '#e0457f', .78, 540, CYP - 60, 700, 960], [12.3, '#d0408a', .74, 540, CYP - 40, 680, 940], [12.75, '#6c5ce7', .48, 540, CYP, 600, 820],
-    [14.9, '#6c5ce7', .48, 540, CYP, 600, 820], [15.35, '#9b3a8f', .55, 540, CYP, 620, 860], [17.3, '#8a3a9a', .5, 540, CYP, 600, 820],
-    [17.75, '#6c5ce7', .5, 540, 900, 560, 520]);
+  L.GLOW.push([5.8, '#6c5ce7', .5, 540, CYP, 600, 820], [L.DROP - .03, '#6c5ce7', .5, 540, CYP, 600, 820],
+    [L.DROP + .1, '#e0457f', .84, 540, CYP - 60, 720, 980], [10.62, '#d0408a', .76, 540, CYP - 40, 680, 940], [11.05, '#6c5ce7', .5, 540, CYP, 600, 820],
+    [B(20) - .1, '#6c5ce7', .5, 540, CYP, 600, 820], [B(20) + .3, '#9b3a8f', .58, 540, CYP, 620, 860], [13.45, '#8a3a9a', .52, 540, CYP, 600, 820],
+    [13.9, '#6c5ce7', .5, 540, 900, 560, 520]);
 
   const lockHTML = `
     <div style="position:absolute;inset:0;background:
@@ -43,18 +44,18 @@
     <div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:rgba(255,255,255,.72)"></div>`;
 
   const camAt = (t, R) => kf(t, [
-    [5.95, [CX, CYP, 1]], [6.72, [CX, CYP, 1]], [7.16, [R.inX, R.inY, 1.34], E.smooth], [7.66, [R.inX, R.inY, 1.37], E.lin],
-    [8.2, [CX, CYP, 1.0], E.smooth], [9.62, [CX, CYP, 1.025], E.glide], [10.1, [CX, R.coverY, 1.03], E.smooth], [12.3, [CX, R.coverY, 1.1], E.glide],
-    [12.72, [CX, CYP, 1.0], E.smooth], [14.9, [CX, CYP - 120, 1.045], E.glide], [15.12, [CX, CYP, 1.0], E.smooth], [17.3, [CX, R.npY, 1.06], E.glide]]);
+    [5.70, [CX, CYP, 1]], [6.22, [CX, CYP, 1]], [6.62, [R.inX, R.inY, 1.34], E.smooth], [6.97, [R.inX, R.inY, 1.36], E.lin],
+    [7.38, [CX, CYP, 1.0], E.smooth], [8.85, [CX, CYP, 1.02], E.glide], [9.3, [CX, R.coverY, 1.03], E.smooth], [10.68, [CX, R.coverY, 1.1], E.glide],
+    [11.06, [CX, CYP, 1.0], E.smooth], [12.5, [CX, CYP - 120, 1.04], E.glide], [12.74, [CX, CYP, 1.0], E.smooth], [13.48, [CX, R.npY, 1.05], E.glide]]);
 
-  FILM.scene({ id: 's2', t0: 5.95, t1: 17.7, pre: 0, post: .05,
+  FILM.scene({ id: 's2', t0: T.enter, t1: T.exit + .36, pre: 0, post: .05,
     build(root) {
       const ST = window.APP_STATES;
       this.caps = [
-        [L.caption(root, 'Paste a link. Get the sound.', { y: 300 }), 6.15, 9.74],
-        [L.caption(root, 'The cover becomes the background.', { y: 300 }), 10.02, 12.38],
-        [L.caption(root, 'Make playlists.', { y: 300 }), 12.62, 14.92],
-        [L.caption(root, 'Plays with your screen locked.', { y: 300 }), 15.12, 17.32],
+        [L.caption(root, 'Paste a link. Get the sound.', { y: 300 }), 5.84, 8.9],
+        [L.caption(root, 'The cover becomes the background.', { y: 300 }), 8.98, 10.68],
+        [L.caption(root, 'Make playlists.', { y: 300 }), 10.86, 12.47],
+        [L.caption(root, 'Plays with your screen locked.', { y: 300 }), 12.56, 13.46],
       ];
       this.cam = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
       this.ent = el('div', `position:absolute;inset:0;transform-origin:${CX}px ${CYP}px`, this.cam);
@@ -119,12 +120,12 @@
       const eq = E.out(3)(p(t, T.enter, T.enter + .65)), xq = E.in(2)(p(t, T.exit, T.exit + .35));
       const es = FILM.zoom(eq, 0, 1, .8, 1, E.lin) * FILM.zoom(xq, 0, 1, 1, .84, E.lin);
       this.ent.style.transform = `perspective(1800px) translateY(${(1 - eq) * 170}px) rotateX(${(1 - eq) * 24}deg) scale(${es})`;
-      const bl = (1 - eq) * 14 + xq * 16;
-      this.ent.style.filter = bl > .3 ? `blur(${bl}px)` : 'none';
+      const bl = (1 - eq) * 14 + xq * 16, ex = t >= L.DROP ? .3 * Math.exp(-(t - L.DROP) / .12) : 0;   // exposure lift on the bass drop
+      this.ent.style.filter = [bl > .3 ? `blur(${bl}px)` : '', ex > .01 ? `brightness(${1 + ex})` : ''].join(' ').trim() || 'none';
       this.ent.style.opacity = clamp((t - T.enter) / .22) * (1 - E.in(2)(p(t, T.exit + .15, T.exit + .35)));
       this.wrap.style.transform = `scale(${PS})`;
       // which screen is on
-      const onA = t < T.lib + .05, onB = t >= T.lib + .05 && t < T.gymRow + .08, onC = t >= T.gymRow + .08 && t < T.lockOn, onD = t >= T.lockOn;
+      const onA = t < T.lib + .02, onB = t >= T.lib + .02 && t < T.gymRow + .02, onC = t >= T.gymRow + .02 && t < T.lockOn, onD = t >= T.lockOn;
       this.A.h.style.display = onA ? 'block' : 'none'; this.B.h.style.display = onB ? 'block' : 'none';
       this.C.h.style.display = onC ? 'block' : 'none'; this.D.style.display = onD ? 'block' : 'none';
       // ---- A: paste → finding → found → Gym → Save → saved + toast → Play now → player slides up … and down
@@ -149,7 +150,7 @@
         a.toast.style.opacity = tq * (1 - tx); a.toast.style.transform = `translateY(${(1 - tq) * 14}px)`;
         if (t >= T.playerUp) a.mini.removeAttribute('hidden'); else a.mini.setAttribute('hidden', '');
         this.A.h.classList.toggle('has-mini', t >= T.playerUp);
-        const up = E.out(3)(p(t, T.playerUp, T.playerUp + .38)), down = E.smooth(p(t, T.close + .04, T.close + .34));
+        const up = E.out(3)(p(t, T.playerUp, T.playerUp + .38)), down = E.out(3)(p(t, T.close, T.close + .3));
         const pv = up * (1 - down);
         a.player.style.display = pv > .001 ? '' : 'none';
         a.player.style.transform = `translateY(${(1 - pv) * 100}%)`;
@@ -162,12 +163,12 @@
       }
       // ---- B: Library — rows rise in, tap Gym
       if (onB) {
-        L.apply(b.chip, L.enter(b.chip, t, T.lib + .05, .45, { dy: 14, blur: 6 }));
-        b.rows.forEach((r, i) => { const st = L.enter(r, t, T.lib + .1 + i * .065, .5, { dy: 22, blur: 8 }); L.apply(r, st, r === b.gym ? ` scale(${L.press(t, T.gymRow, .03)})` : ''); });
+        L.apply(b.chip, L.enter(b.chip, t, T.lib + .02, .45, { dy: 14, blur: 6 }));
+        b.rows.forEach((r, i) => { const st = L.enter(r, t, T.lib + .05 + i * .065, .5, { dy: 22, blur: 8 }); L.apply(r, st, r === b.gym ? ` scale(${L.press(t, T.gymRow, .03)})` : ''); });
       }
       // ---- C: the Gym playlist slides in
       if (onC) {
-        const q = E.soft(p(t, T.gymRow + .08, T.gymRow + .5));
+        const q = E.soft(p(t, T.gymRow + .02, T.gymRow + .44));
         this.c.view.style.transform = `translateX(${(1 - q) * 26}px)`; this.c.view.style.opacity = clamp(q * 2.2);
       }
       // ---- lock: the screen goes dark, then the lock screen wakes with the sound still playing; Next skips to the next sound

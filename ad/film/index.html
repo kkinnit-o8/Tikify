@@ -23,6 +23,9 @@
 <script>
   FILM.fonts = ['400 100px Inter', '500 100px Inter', '600 100px Inter', '700 100px Inter', '800 100px Inter'];
   L.GLOW.sort((a, b) => a[0] - b[0]);
-  FILM.start({ dur: 24, fps: 30, W: 1080, H: 1920 });
+  // zoom punches on the music: the bass drop and the downbeats after it (the whole frame kicks in and settles)
+  FILM.CAM = [{ t0: 0, t1: .001, a: {}, b: {} }].concat([[L.DROP, .05, .45], [L.B(19), .022, .35], [L.B(23), .03, .4], [L.B(27), .03, .45]]
+    .map(([t, k, d]) => ({ t0: t, t1: t + d, a: { s: 1 + k }, b: {}, ease: FILM.E.out(3) })));
+  FILM.start({ dur: 18.84, fps: 30, W: 1080, H: 1920 });   // = the track, BLAIR (BP edit audio)
 </script>
 </body></html>

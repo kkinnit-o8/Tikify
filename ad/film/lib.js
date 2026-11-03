@@ -4,6 +4,13 @@
   const { p, tw, kf, E, el, clamp, lerp, hash } = FILM;
   const L = window.L = {};
 
+  /* ---------- the music's beat grid: "BLAIR (BP edit audio)", 96.9 BPM, measured from the track ----------
+     beat k at 0.188 + 0.619·k; downbeats are k = 3, 7, 11, 15 …; the bass drops on beat 15 (9.473 s). */
+  L.BEAT0 = .188; L.P = .619; L.B = (k) => L.BEAT0 + L.P * k; L.DROP = L.B(15);
+  // glow pulse on every beat from the drop to the end card (downbeats stronger): 2-frame attack, 0.16 s decay
+  L.pulse = (t) => { let v = 0; for (let k = 15; k <= 27; k++) { const b = L.B(k), a = t - b, w = (k - 3) % 4 === 0 ? 1 : .55;
+    if (a > -.07 && a < .8) v = Math.max(v, w * (a < 0 ? 1 - (-a / .07) : Math.exp(-a / .16))); } return v; };
+
   /* ---------- colour ---------- */
   const hex = (h) => { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
   L.mix = (a, b, q) => { const A = hex(a), B = hex(b); return A.map((v, i) => Math.round(v + (B[i] - v) * q)); };
@@ -24,10 +31,11 @@
       const a = G[i], b = G[Math.min(i + 1, G.length - 1)];
       const q = b === a ? 0 : E.smooth(p(t, a[0], b[0]));
       const col = L.mix(a[1], b[1], q), al = lerp(a[2], b[2], q), cx = lerp(a[3], b[3], q), cy = lerp(a[4], b[4], q), rx = lerp(a[5], b[5], q), ry = lerp(a[6], b[6], q);
-      const breath = 1 + .025 * Math.sin(t * 1.9);
+      const pu = L.pulse(t), breath = (1 + .025 * Math.sin(t * 1.9)) * (1 + .05 * pu);
       x.save(); x.translate(cx, cy); x.scale(rx * breath, ry * breath);
       const g = x.createRadialGradient(0, 0, 0, 0, 0, 1);
-      g.addColorStop(0, L.rgba(col, al)); g.addColorStop(.38, L.rgba(col, al * .62)); g.addColorStop(.7, L.rgba(col, al * .2)); g.addColorStop(1, L.rgba(col, 0));
+      const A0 = Math.min(1, al * (1 + .32 * pu));
+      g.addColorStop(0, L.rgba(col, A0)); g.addColorStop(.38, L.rgba(col, A0 * .62)); g.addColorStop(.7, L.rgba(col, A0 * .2)); g.addColorStop(1, L.rgba(col, 0));
       x.fillStyle = g; x.beginPath(); x.arc(0, 0, 1, 0, 6.2832); x.fill(); x.restore();
       if (L.STREAK && t > L.STREAK.t0 - .05) this.streak(t - L.STREAK.t0);
     },

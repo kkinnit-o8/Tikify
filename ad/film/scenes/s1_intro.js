@@ -1,4 +1,4 @@
-/* 0.0–6.2  INTRO — ref beat: glowing app icons one by one → "All in one place." → icons collapse into a dot on a line → wordmark.
+/* 0.0–5.78  INTRO (on the music: one sound per beat 0–4, knob on beat 6, wordmark on the downbeat 4.521) — ref beat: glowing app icons one by one → "All in one place." → icons collapse into a dot on a line → wordmark.
    Tikify: five TikTok sounds (cover + name) slide through a carousel, each lighting the glow in its own colour → the row
    → they collapse into the seek-bar knob → the knob plays the bar to its end on the drop (4.5) → the bar becomes the wordmark. */
 (function () {
@@ -10,20 +10,21 @@
     ['c4', 'that one audio', '#25c8f4'],
     ['c5', 'gym phonk', '#ff9a2a'],
   ];
-  const CY = 860, TILE = 300, GAP = 380, ROWZ = .47;
+  const CY = 860, TILE = 300, GAP = 380, ROWZ = .47, B = L.B;
+  const ARR = [0, 1, 2, 3, 4].map(B);                                  // each sound lands on a beat: 0.188 … 2.664
+  const ROW0 = 2.85, ROW1 = 3.42, COL1 = 3.89, KNOB = B(6), WM = B(7), FLY0 = 5.42, FLY1 = B(9);
   // glow follows the centred sound; then neutral violet for the row and the wordmark
-  L.GLOW.push([0, '#ff6a3d', .3, 540, CY, 420, 460], [.25, '#ff6a3d', .62, 540, CY, 470, 520]);
-  SOUNDS.forEach((s, i) => { if (i) L.GLOW.push([.5 * i - .12, SOUNDS[i - 1][2], .62, 540, CY, 470, 520], [.5 * i + .06, s[2], .64, 540, CY, 470, 520]); });
-  L.GLOW.push([2.42, '#ff9a2a', .62, 540, CY, 470, 520], [3.0, '#6c5ce7', .55, 540, CY, 620, 520], [3.55, '#6c5ce7', .5, 540, CY, 560, 470],
-    [4.05, '#7d6cf0', .3, 540, CY, 380, 320], [4.5, '#7d6cf0', .62, 540, CY, 640, 560], [5.9, '#6c5ce7', .52, 540, CY + 40, 600, 600]);
+  L.GLOW.push([0, '#ff6a3d', .34, 540, CY, 420, 460], [.2, '#ff6a3d', .64, 540, CY, 470, 520]);
+  SOUNDS.forEach((s, i) => { if (i) L.GLOW.push([ARR[i] - .14, SOUNDS[i - 1][2], .62, 540, CY, 470, 520], [ARR[i] + .04, s[2], .66, 540, CY, 470, 520]); });
+  L.GLOW.push([ROW0, '#ff9a2a', .62, 540, CY, 470, 520], [ROW1, '#6c5ce7', .55, 540, CY, 620, 520], [3.5, '#6c5ce7', .5, 540, CY, 560, 470],
+    [KNOB, '#7d6cf0', .3, 540, CY, 380, 320], [WM, '#7d6cf0', .64, 540, CY, 640, 560], [FLY0, '#6c5ce7', .54, 540, CY + 40, 600, 600]);
 
-  // carousel position (which sound is centred): 0.28 s moves that land on the beat (0.5, 1.0, 1.5, 2.0)
-  const posAt = (t) => kf(t, [[0, 0], [.22, 0], [.5, 1, E.smooth], [.72, 1], [1.0, 2, E.smooth], [1.22, 2], [1.5, 3, E.smooth], [1.72, 3], [2.0, 4, E.smooth],
-    [2.42, 4], [3.02, 2, E.smooth]]);
-  const zoomAt = (t) => FILM.zoom(t, 2.42, 3.02, 1, ROWZ, E.smooth);
-  const rowQ = (t) => E.smooth(p(t, 2.42, 3.02));
+  // carousel position (which sound is centred): 0.3 s moves whose PEAK SPEED sits on the beat (E.smooth peaks at ~42 %)
+  const posAt = (t) => kf(t, [[0, 0], ...[1, 2, 3, 4].flatMap((i) => [[ARR[i] - .13, i - 1], [ARR[i] + .17, i, E.smooth]]), [ROW0, 4], [ROW1, 2, E.smooth]]);
+  const zoomAt = (t) => FILM.zoom(t, ROW0, ROW1, 1, ROWZ, E.smooth);
+  const rowQ = (t) => E.smooth(p(t, ROW0, ROW1));
 
-  FILM.scene({ id: 's1', t0: 0, t1: 6.2, post: .05,
+  FILM.scene({ id: 's1', t0: 0, t1: FLY1 + .02, post: .05,
     build(root) {
       this.cam = el('div', 'position:absolute;inset:0;transform-origin:0 0', root);
       this.tiles = SOUNDS.map(([c, name, col], i) => {
@@ -53,52 +54,51 @@
     },
     update(lt, t) {
       const pos = posAt(t), Z = zoomAt(t), rq = rowQ(t);
-      const k0 = E.soft(p(t, -.18, .42));                                // first sound already 30 % in on frame 0
+      const k0 = E.soft(p(t, -.22, ARR[0] + .22));                       // first sound already ~35 % in on frame 0, settled by the first beat
       this.tiles.forEach((o, i) => {
         const d = Math.abs(i - pos), dim = 1 - rq;
         let x = 540 + (i - pos) * GAP * Z, y = CY, s = Z * (1 - .24 * Math.min(d, 1.5) * dim);
         let op = lerp(d < 1 ? 1 - .72 * d : .28 * (1 - clamp(d - 1)), 1, rq), bl = 7 * Math.min(d, 1) * dim;
         if (i === 0) { s *= lerp(.84, 1, k0); bl += 14 * (1 - k0); }
         op *= i === 0 ? clamp(k0 * 1.6) : clamp((t + .1) / .4);
-        // collapse into the knob: outer tiles leave first, all land on the centre at 4.02
-        const c0 = 3.5 + .05 * (2 - Math.abs(i - 2)), cq = E.in(3)(p(t, c0, 4.02));
+        // collapse into the knob: outer tiles leave first, all land on the centre just before beat 6 (the knob)
+        const c0 = 3.44 + .05 * (2 - Math.abs(i - 2)), cq = E.in(3)(p(t, c0, COL1));
         if (t > c0) { x = lerp(x, 540, cq); s = lerp(s, 34 / TILE, cq); bl = lerp(bl, 0, cq); }
-        o.w.style.display = op < .01 || t > 4.06 ? 'none' : 'block';
+        o.w.style.display = op < .01 || t > COL1 + .04 ? 'none' : 'block';
         o.w.style.opacity = op; o.w.style.filter = bl > .3 ? `blur(${bl}px)` : 'none';
         o.w.style.transform = `translate(${x}px,${y}px) scale(${s})`;
-        o.img.style.borderRadius = `${lerp(68, TILE / 2, E.smooth(p(t, c0, 3.95)))}px`;
-        o.white.style.opacity = E.in(2)(p(t, c0 + .1, 4.0));
+        o.img.style.borderRadius = `${lerp(68, TILE / 2, E.smooth(p(t, c0, COL1 - .05)))}px`;
+        o.white.style.opacity = E.in(2)(p(t, c0 + .08, COL1 - .02));
         o.note.style.opacity = 1 - p(t, c0, c0 + .25);
         o.lab.style.opacity = Math.max(0, 1 - 1.9 * d) * (1 - rq);
         o.img.style.boxShadow = `0 30px 80px rgba(0,0,0,.55), 0 0 ${120 * (1 - Math.min(d, 1)) * (1 - cq)}px ${L.rgba(L.mix(o.col, o.col, 0), .45 * (1 - rq))}`;
       });
-      L.capUpdate(this.cap, t, 2.72, 3.42);
-      // knob + bar 4.0 → 4.62
-      const on = t >= 4.0 && t < 4.7;
+      L.capUpdate(this.cap, t, 2.9, 3.64);
+      // knob (beat 6) + bar; the knob runs the bar to its end ON the downbeat (4.521), where the wordmark grows out of it
+      const on = t >= COL1 - .01 && t < WM + .18;
       this.bar.style.display = on ? 'block' : 'none';
       if (on) {
-        const W = 640 * E.soft(p(t, 4.0, 4.34)), left = -W / 2;
-        const kx = t < 4.26 ? lerp(0, -320, E.soft(p(t, 4.0, 4.26))) : lerp(-320, 320, E.in(2)(p(t, 4.26, 4.5)));
-        const sq = E.in(3)(p(t, 4.5, 4.64));                                 // the bar snaps shut into the wordmark's centre
+        const W = 640 * E.soft(p(t, KNOB - .02, KNOB + .3)), left = -W / 2;
+        const kx = t < KNOB + .22 ? lerp(0, -320, E.soft(p(t, KNOB - .02, KNOB + .22))) : lerp(-320, 320, E.in(2)(p(t, KNOB + .22, WM)));
+        const sq = E.in(3)(p(t, WM, WM + .14));                              // the bar snaps shut into the wordmark's centre
         this.bar.style.transform = `scaleX(${1 - sq})`; this.bar.style.opacity = 1 - sq * .6;
         this.track.style.left = left + 'px'; this.track.style.width = W + 'px';
         this.fill.style.left = left + 'px'; this.fill.style.width = Math.max(0, kx - left) + 'px';
-        this.knob.style.transform = `translateX(${kx}px) scale(${1 + .25 * Math.exp(-(((t - 4.5) / .05) ** 2))})`;
+        this.knob.style.transform = `translateX(${kx}px) scale(${1 + .25 * Math.exp(-(((t - WM) / .05) ** 2))})`;
       }
       // wordmark: grows out of the bar's centre on the drop, letters rise; then flies at the camera into the phone shot
-      const wq = E.soft(p(t, 4.48, 5.05)), fly = E.in(3)(p(t, 5.86, 6.2));
-      this.wm.style.display = t < 4.46 || t > 6.2 ? 'none' : 'block';
-      const ws = lerp(.72, 1, wq) * lerp(1, 1.035, E.glide(p(t, 4.6, 5.9))) * FILM.zoom(fly, 0, 1, 1, 1.9, E.lin);
+      const wq = E.soft(p(t, WM - .02, WM + .55)), fly = E.in(3)(p(t, FLY0, FLY1));
+      this.wm.style.display = t < WM - .04 || t > FLY1 ? 'none' : 'block';
+      const ws = lerp(.72, 1, wq) * lerp(1, 1.035, E.glide(p(t, WM + .08, FLY0))) * FILM.zoom(fly, 0, 1, 1, 1.9, E.lin);
       this.wm.style.transform = `scale(${ws})`;
       this.wm.style.filter = (fly > .02 || wq < .98) ? `blur(${(1 - wq) * 14 + fly * 18}px)` : 'none';
-      this.wm.style.opacity = clamp(wq * 2) * (1 - E.in(2)(p(t, 6.0, 6.2)));
-      const iq = E.soft(p(t, 4.53, 5.0)); this.icon.style.transform = `scale(${lerp(.3, 1, iq)}) rotate(${lerp(-14, 0, iq)}deg)`; this.icon.style.opacity = clamp(iq * 3);
-      FILM.riseGlyphs(this.letters, t, 4.56, .035, .55, 140);
-      L.capUpdate(this.sub, t, 4.9, 9, .06, '#c9c9d2');
+      this.wm.style.opacity = clamp(wq * 2) * (1 - E.in(2)(p(t, FLY1 - .17, FLY1)));
+      const iq = E.soft(p(t, WM + .01, WM + .48)); this.icon.style.transform = `scale(${lerp(.3, 1, iq)}) rotate(${lerp(-14, 0, iq)}deg)`; this.icon.style.opacity = clamp(iq * 3);
+      FILM.riseGlyphs(this.letters, t, WM + .04, .035, .55, 140);
+      L.capUpdate(this.sub, t, WM + .3, 99, .06, '#c9c9d2');
     },
-    zoom(lt) { return lt < 3 ? zoomAt(lt) : FILM.zoom(lt, 5.86, 6.2, 1, 1.9, E.in(3)); },
+    zoom(lt) { return lt < 3.5 ? zoomAt(lt) : FILM.zoom(lt, FLY0, FLY1, 1, 1.9, E.in(3)); },
   });
-  [0, .5, 1, 1.5, 2].forEach((t, i) => FILM.cue('tile' + i, t, 'pluck'));
-  FILM.cue('row', 2.45, 'whoosh'); FILM.cue('collapse', 3.5, 'riser'); FILM.cue('knob', 4.0, 'pop'); FILM.cue('drop', 4.5, 'hit');
-  FILM.cue('fly', 5.86, 'whoosh');
+  ARR.forEach((t, i) => FILM.cue('tile' + i, t, 'beat'));
+  FILM.cue('knob', KNOB, 'beat'); FILM.cue('wordmark', WM, 'beat'); FILM.cue('phone', FLY1, 'beat');
 })();

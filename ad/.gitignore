@@ -2,3 +2,6 @@ out/*.work/
 out/draft*
 film/cues.json
 __pycache__/
+out/*blair*
+out/master*
+*.mp3

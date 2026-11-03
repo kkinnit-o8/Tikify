@@ -1,11 +1,11 @@
-/* 21.0–24.0  END CARD — ref: light streak, "Riff" lockup, riff.hs.vc, platform icons, @handle.
+/* 16.90–18.84  END CARD (on the last downbeat, held through the track's fade) — ref: light streak, "Riff" lockup, riff.hs.vc, platform icons, @handle.
    Tikify: brand-gradient streak (pink → violet → cyan), icon + Tikify, tikify.no, where it installs, the free pitch. */
 (function () {
   const { p, E, el, clamp, lerp } = FILM;
-  const T0 = 21.0;
+  const T0 = L.B(27);
   L.STREAK = { t0: T0 };
-  L.GLOW.push([21.1, '#7b2cbf', .34, 540, 980, 640, 520], [24, '#7b2cbf', .3, 540, 980, 660, 540]);
-  FILM.scene({ id: 's5', t0: T0, t1: 24, pre: 0,
+  L.GLOW.push([17.0, '#7b2cbf', .34, 540, 980, 640, 520], [18.84, '#7b2cbf', .3, 540, 980, 660, 540]);
+  FILM.scene({ id: 's5', t0: T0, t1: 18.84, pre: 0,
     build(root) {
       const sh = 'text-shadow:0 8px 48px rgba(0,0,0,.45)';
       this.wm = el('div', `position:absolute;left:0;top:800px;width:1080px;display:flex;justify-content:center;align-items:center;gap:26px;transform:translateY(-50%)`, root);
@@ -27,5 +27,5 @@
       L.apply(this.cta, L.enter(this.cta, t, T0 + .72, .55, { dy: 22, blur: 10 }));
     },
   });
-  FILM.cue('end', T0, 'hit'); FILM.cue('url', T0 + .24, 'sparkle');
+  FILM.cue('end', T0, 'beat');
 })();

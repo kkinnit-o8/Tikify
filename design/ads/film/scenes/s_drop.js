@@ -4,7 +4,7 @@
   const E = FILM.E, el = FILM.el, p = FILM.p, clamp = FILM.clamp;
   const T = TL, B = T.bars, BT = T.beats, DROP = T.DROP, END = T.dur;
   const beat = (bar, n) => B[bar - 1] + (n - 1) * T.BEAT;          // bar 1-based, beat 1-based
-  const KICKS = [beat(5, 2), beat(8, 2), beat(9, 2), beat(10, 2), beat(12, 2), beat(13, 2), beat(14, 2)];
+  const KICKS = [B[4], B[7], B[8], B[9], B[11], B[12], B[13]];   // the track's strongest transients sit on these downbeats
   const SNARES = [B[0], B[3], B[8], B[12], B[14]];
   const PW = 560, PL = 260, PT = 440;                                   // drop phone rect (mockup hand-off across cuts)
   const needle = (t, cut, a = 1, b = 1.12) => FILM.needle(t, cut, a, b, .2);
@@ -62,7 +62,7 @@
 
   /* ---------- 2. paste → find → save (bars 2–5) on the real Add flow ---------- */
   let ph2, g2, tapAdd, tapPaste, tapChip, tapSave, w2a, w2b, w2c, pressed;
-  const CUT_ADD = beat(2, 3), T_PASTE = beat(2, 4) + .02, T_FOUND = B[3], T_CHIP = beat(4, 3) - .05, T_SCROLL = beat(4, 3) + .22, T_SAVE = beat(4, 4) + .08, T_SAVED = beat(5, 2);
+  const CUT_ADD = beat(2, 3), T_PASTE = beat(2, 4) + .02, T_FOUND = B[3], T_CHIP = beat(4, 3) - .05, T_SCROLL = beat(4, 3) + .22, T_SAVE = beat(4, 4) + .06, T_SAVED = B[4];
   const SCR_W = 532 / 1170, SCR_H = 1151 / 2532;
   FILM.scene({
     id: 'add', t0: B[1], t1: B[5],
@@ -133,7 +133,7 @@
       const inN = needle(t, B[5], 1, 1.12) / FILM.zoom(t, B[5] + .25, B[5] + 1.0, 1, 1.12, E.smooth);
       const push = FILM.zoom(t, B[6] + .1, B[7], 1, 1.14, E.glide);
       const outN = needle(t, B[8], 1, 1.12);
-      const kick = UI.punch(t, beat(5, 2) + 0, 1.0) * UI.punch(t, T_PLAY, 1.04, .3) * UI.punch(t, T_SHUF, 1.03, .25) * UI.punch(t, T_REP, 1.04, .25) * UI.punch(t, T_REP1, 1.03, .25) * UI.punch(t, T_NEXT, 1.05, .3);
+      const kick = UI.punch(t, B[5], 1.05, .3) * UI.punch(t, T_PLAY, 1.04, .3) * UI.punch(t, T_SHUF, 1.03, .25) * UI.punch(t, T_REP, 1.04, .25) * UI.punch(t, T_REP1, 1.03, .25) * UI.punch(t, T_NEXT, 1.05, .3);
       g3.style.transform = `scale(${inN * push * kick * outN})`;
       g3.style.transformOrigin = t >= B[6] ? '540px 900px' : '540px 1030px';
       // mirrored whip inside the screen: Add (saved) pans out left, playlist pans in from the right — equal speed across the cut
@@ -204,16 +204,16 @@
       fan = el('div', 'position:absolute;inset:0;transform-style:preserve-3d;transform-origin:540px 1200px;will-change:transform', g5);
       const specs = [['playlist_playing', -300, 34, -260], ['library_after', 0, 0, 0], ['player', 300, -34, -260]];
       phones5 = specs.map(([name, dx, ry, dz]) => { const w = el('div', `position:absolute;inset:0;transform-style:preserve-3d;transform:translate3d(${dx}px,0,${dz}px) rotateY(${ry}deg);will-change:transform`, fan); const ph = UI.phone(w, 400, 340, 790); UI.still(ph, name); return { w, ph, dx, ry, dz }; });
-      UI.blurWin(beat(13, 2) - .02, beat(13, 2) + .45, 8); UI.blurWin(beat(14, 2) - .02, beat(14, 2) + .45, 8); UI.blurWin(B[14] - .22, B[14] + .22, 10);
+      UI.blurWin(beat(13, 3) - .02, beat(13, 3) + .45, 8); UI.blurWin(B[13] - .02, B[13] + .45, 8); UI.blurWin(B[14] - .22, B[14] + .22, 10);
     },
     update(lt, t) {
       const inN = needle(t, B[12], 1, 1.12) / FILM.zoom(t, B[12] + .25, B[12] + .9, 1, 1.12, E.smooth);
       const outZ = FILM.zoom(t, B[14] - .22, B[14], 1, 1.45, E.in(3));
       g5.style.transform = `scale(${inN * outZ})`;
-      const r1 = 14 * E.smooth(p(t, beat(13, 2), beat(13, 2) + .45)), r2 = -28 * E.smooth(p(t, beat(14, 2), beat(14, 2) + .45));
+      const r1 = 14 * E.smooth(p(t, beat(13, 3), beat(13, 3) + .45)), r2 = -28 * E.smooth(p(t, B[13], B[13] + .45));
       const sway = 2.5 * Math.sin((t - B[12]) * 1.2);
       fan.style.transform = `rotateY(${r1 + r2 + sway}deg) rotateX(${4 * Math.sin((t - B[12]) * .9)}deg)`;
-      const kq = UI.punch(t, beat(13, 2), 1.05, .3) * UI.punch(t, beat(14, 2), 1.05, .3);
+      const kq = UI.punch(t, beat(13, 3), 1.05, .3) * UI.punch(t, B[13], 1.06, .3);
       phones5.forEach((o, i) => { const q = E.out(3)(p(t, B[12] + .04 * Math.abs(i - 1), B[12] + .5)); o.w.style.transform = `translate3d(${o.dx * q}px,${(1 - q) * 160}px,${o.dz * q}px) rotateY(${o.ry * q}deg) scale(${kq})`; });
       UI.rise(w5b, t, B[12] + .25, .012, .45); w5b.box.style.opacity = t >= B[12] + .2 ? 1 : 0;
       const q5 = E.out(3)(p(t, B[12], B[12] + .45)); w5.box.style.transform = `translate(0,${(1 - q5) * -120}px) scale(${.7 + .3 * q5})`; w5.blur(w5.box, 0, (1 - q5) * 26); w5.box.style.opacity = 1;

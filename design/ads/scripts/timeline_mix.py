@@ -4,13 +4,14 @@ import json, numpy as np, subprocess, os
 SR = 48000
 BASE = '/tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad'
 AUD = BASE + '/audio'; VOI = BASE + '/voice'
-DROP_SONG = 11.29          # first downbeat of the drop in the song
+DROP_SONG = 11.29          # crash hit one beat before the drop (visual grid anchor)
+SLAM_SONG = 11.687         # the real drop: bass + full loudness slam in
 BPM = 168.9; BEAT = 60 / BPM; BAR = 4 * BEAT
 DROP_V = 9.15              # where the drop lands in the video
-S0 = DROP_SONG - DROP_V    # song time at video 0
+S0 = SLAM_SONG - (DROP_V + 0.022)   # song time at video 0: the slam lands 22 ms after the cut, the later transients ~20 ms before the bar cuts
 BARS = 16
-END_SONG = DROP_SONG + BARS * BAR          # 34.03
-END_V = END_SONG - S0                       # 31.89
+END_V = DROP_V + BARS * BAR                 # 31.89 (video grid)
+END_SONG = END_V + S0
 DUR = round(END_V + 0.06, 2)                # 31.95
 V1 = 0.30   # voice line 1 start (file v1.wav)
 V2 = 6.94   # voice line 2 start (file v2.wav)
@@ -41,7 +42,7 @@ beats = [round(DROP_V + i * BEAT, 4) for i in range(BARS * 4 + 1)]
 timeline = dict(fps=30, W=1080, H=1920, dur=DUR, S0=S0, DROP=DROP_V, BPM=BPM, BEAT=BEAT, BAR=BAR, END=round(END_V, 4),
                 V1=V1, V2=V2, text1=T1, chars1=C1, text2=T2, chars2=C2, send1=SEND1, typingOn=round(TYPING_ON, 3), typingOff=TYPING_OFF,
                 reply=REPLY, send2=SEND2, dive0=round(DIVE0, 3), bars=bars, beats=beats,
-                vocal1=[round(22.52 - S0, 3), round(25.14 - S0, 3)], vocal2=[round(25.14 - S0, 3), round(28.82 - S0, 3)])
+                vocal1=[round(22.52 - S0, 3), round(25.14 - S0, 3)], vocal2=[round(25.14 - S0, 3), round(28.82 - S0, 3)], slam=round(SLAM_SONG - S0, 3), hit=round(DROP_SONG - S0, 3))
 json.dump(timeline, open(BASE + '/timeline.json', 'w'), indent=1)
 print({k: v for k, v in timeline.items() if k not in ('chars1', 'chars2', 'bars', 'beats')})
 print('bars', bars)
@@ -64,7 +65,8 @@ db = lambda d: 10 ** (d / 20)
 hold(0, DUR, 1.0)
 hold(0, V1 + 0.45, db(-4)); ramp(V1 + 0.45, V1 + 0.75, db(-4), db(-11)); hold(V1 + 0.75, SEND1, db(-11))
 ramp(SEND1, SEND1 + 0.4, db(-11), db(-5)); hold(SEND1 + 0.4, V2 + 0.55, db(-5)); ramp(V2 + 0.55, V2 + 0.8, db(-5), db(-11))
-hold(V2 + 0.8, DIVE0, db(-11)); ramp(DIVE0, DROP_V - 0.02, db(-11), 1.0); hold(DROP_V - 0.02, DUR, 1.0)
+HIT_V = DROP_SONG - S0                      # the crash hit, just before the dive
+hold(V2 + 0.8, HIT_V - 0.12, db(-11)); ramp(HIT_V - 0.12, HIT_V - 0.01, db(-11), 1.0); hold(HIT_V - 0.01, DUR, 1.0)
 fade_in = np.clip(t / 0.5, 0, 1); gain *= fade_in
 end_fade = np.clip((DUR - t) / 0.09, 0, 1); gain *= end_fade        # tiny fade at the very end (bar 16 ends at END_V)
 mix += seg * gain[:, None]

@@ -21,6 +21,8 @@ const SHELL = [
   'icons/maskable-512.png',
   'icons/apple-touch-icon.png',
   'icons/favicon-32.png',
+  'fonts/Inter-Variable.woff2',
+  'fonts/InstrumentSerif-Italic.woff2',
 ];
 const abs = (u) => new URL(u, self.location).href;
 const SHELL_URLS = new Set(SHELL.map(abs));

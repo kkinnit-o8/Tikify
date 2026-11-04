@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script>
+<style>
+  .step { position: absolute; left: 64px; width: 470px; z-index: 8; display: flex; gap: 22px; align-items: flex-start; }
+  .step .n { width: 76px; height: 76px; border-radius: 24px; flex: none; display: grid; place-items: center; font-size: 36px; font-weight: 800;
+    background: linear-gradient(180deg, rgba(44,30,56,.95), rgba(26,20,34,.95)); border: 1.5px solid rgba(255,255,255,.14); }
+  .step .n.g { background: var(--glow); border-color: transparent; box-shadow: 0 16px 40px rgba(255,45,122,.45); }
+  .step b { display: block; font-size: 40px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; margin-top: 4px; }
+  .step span { display: block; font-size: 25px; color: var(--muted); margin-top: 10px; line-height: 1.35; }
+</style></head>
+<body>
+<div class="board" id="b" style="width:1080px;height:1920px"></div>
+<script>
+document.getElementById('b').innerHTML = `
+  ${glow(880, 900, 520, '#ff2d7a', .42)}${glow(200, 1300, 420, '#8b5cff', .5)}${glow(900, 300, 320, '#ff6a3d', .4)}
+  <div style="position:absolute;top:150px;left:64px">
+    <div class="lockup" style="font-size:40px;margin-bottom:56px">${mark(58)}Tikify</div>
+    <div class="h-sans" style="font-size:112px">Copy. Paste.</div>
+    <div class="h-serif grad-text" style="font-size:148px;margin-top:4px;padding-bottom:12px">Play anywhere.</div>
+  </div>
+  ${phone('add', { x: 560, y: 690, scale: 1.0, rotate: -4, z: 2 })}
+  <div class="step" style="top:760px"><div class="n">1</div><div><b>Copy a TikTok link</b><span>Share → Copy link,<br>on any video</span></div></div>
+  <div class="step" style="top:1010px"><div class="n">2</div><div><b>Paste it in Tikify</b><span>We find the sound and<br>save it to your phone</span></div></div>
+  <div class="step" style="top:1260px"><div class="n g">3</div><div><b>Play it like music</b><span>Playlists, offline,<br>screen locked</span></div></div>
+  <div style="position:absolute;left:0;right:0;top:1500px;height:420px;background:linear-gradient(180deg,rgba(8,7,11,0),rgba(8,7,11,.93) 40%,var(--ink));z-index:5"></div>
+  <div style="position:absolute;left:64px;top:1600px;z-index:6">
+    <div class="cta">Try it free at tikify.no</div>
+    <div class="fine" style="margin-top:24px">No account · No app store · Not affiliated with TikTok</div>
+  </div>
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="shared.js"></script>
+<style>
+  .bgart { position: absolute; inset: -120px; background: url(../covers/midnight.png) center/cover; filter: blur(80px) saturate(1.7) brightness(.9); }
+  .bgfade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,7,11,.25), rgba(8,7,11,.35) 40%, rgba(8,7,11,.82) 75%, rgba(8,7,11,.92)); }
+  .top { position: absolute; top: 58px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .ctx { text-align: center; }
+  .ctx .eyebrow { font-size: 10px; color: rgba(255,255,255,.62); }
+  .ctx b { display: block; font-size: 14px; font-weight: 700; margin-top: 3px; letter-spacing: -.2px; }
+  .glowc { position: absolute; top: 150px; left: 40px; width: 313px; height: 313px; background: url(../covers/midnight.png) center/cover; filter: blur(40px) saturate(1.8); opacity: .8; border-radius: 40px; }
+  .cov { position: absolute; top: 122px; left: 24px; width: 345px; height: 345px; border-radius: 28px; box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.1); }
+  .meta { position: absolute; top: 500px; left: 24px; right: 24px; display: flex; align-items: center; gap: 12px; }
+  .meta .m { flex: 1; min-width: 0; }
+  .meta .t { font-size: 24px; font-weight: 780; letter-spacing: -.7px; }
+  .meta .s { font-size: 16px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+  .saved { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--glass-2); border: 1px solid var(--hair); }
+  .saved svg { width: 22px; height: 22px; color: var(--accent); }
+  .scrub { position: absolute; top: 582px; left: 24px; right: 24px; }
+  .times { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .ctrls { position: absolute; top: 664px; left: 24px; right: 24px; display: flex; align-items: center; justify-content: space-between; }
+  .ctrls .big svg { width: 38px; height: 38px; }
+  .pbtn { width: 80px; height: 80px; border-radius: 50%; background: #fff; color: #0a090d; display: grid; place-items: center; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .pbtn svg { width: 36px; height: 36px; }
+  .on { color: var(--accent); position: relative; }
+  .on::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--accent); }
+  .foot { position: absolute; top: 776px; left: 24px; right: 24px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 650; color: var(--text); background: var(--glass); border: 1px solid var(--hair); height: 30px; padding: 0 12px 0 8px; border-radius: 999px; }
+  .pill svg { width: 16px; height: 16px; color: var(--accent); }
+  .foot .r { display: flex; gap: 22px; }
+  .foot .r svg { width: 22px; height: 22px; }
+</style></head>
+<body>
+<div class="screen" id="s"></div>
+<script>
+document.getElementById('s').innerHTML = `
+  <div class="bgart"></div><div class="bgfade"></div>
+  ${statusBar()}
+  <div class="top"><div class="glass-btn">${ic('down')}</div>
+    <div class="ctx"><div class="eyebrow">Playing from playlist</div><b>Late Night Drive</b></div>
+    <div class="glass-btn">${ic('more')}</div></div>
+  <div class="glowc"></div>
+  <img class="cov cover" src="../covers/midnight.png">
+  <div class="meta"><div class="m"><div class="t">Midnight Drive (sped up)</div><div class="s">@noctra</div></div><div class="saved">${ic('heart')}</div></div>
+  <div class="scrub">${wave(58, .38, { h: 40, w: 3.2, gap: 2.6, rest: 'rgba(255,255,255,.25)', seed: 11 })}
+    <div class="times"><span>1:07</span><span>−1:51</span></div></div>
+  <div class="ctrls">
+    <span class="on">${ic('shuffle')}</span>
+    <span class="big">${ic('prev')}</span>
+    <div class="pbtn">${ic('pause')}</div>
+    <span class="big">${ic('next')}</span>
+    <span>${ic('repeat')}</span>
+  </div>
+  <div class="foot"><span class="pill">${ic('offline')}Saved offline</span><span class="r">${ic('share')}${ic('queue')}</span></div>
+  <div class="home-ind"></div>
+`;
+</script>
+</body></html>

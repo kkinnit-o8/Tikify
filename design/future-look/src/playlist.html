@@ -1,0 +1,61 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="shared.js"></script>
+<style>
+  .bgart { position: absolute; left: -60px; right: -60px; top: -80px; height: 620px; background: url(../covers/pl-night.png) center/cover; filter: blur(70px) saturate(1.6); opacity: .75; }
+  .bgfade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,7,11,.1) 0, rgba(8,7,11,.55) 300px, var(--ink) 520px); }
+  .top { position: absolute; top: 58px; left: 16px; right: 16px; display: flex; justify-content: space-between; }
+  .cov { position: absolute; top: 108px; left: 50%; transform: translateX(-50%); width: 238px; height: 238px; border-radius: 24px; box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+  .info { position: absolute; top: 368px; left: 20px; right: 20px; }
+  .info h1 { margin: 0; font-size: 29px; font-weight: 800; letter-spacing: -1px; }
+  .by { display: flex; align-items: center; gap: 7px; margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+  .by b { color: var(--text); font-weight: 650; }
+  .acts { position: absolute; top: 448px; left: 20px; right: 20px; display: flex; align-items: center; gap: 18px; }
+  .acts .grow { flex: 1; }
+  .acts svg { width: 26px; height: 26px; }
+  .off { width: 30px; height: 30px; border-radius: 50%; background: var(--glow); display: grid; place-items: center; }
+  .off svg { width: 18px; height: 18px; color: #fff; }
+  .list { position: absolute; top: 522px; left: 20px; right: 16px; }
+  .tr { display: flex; align-items: center; gap: 13px; height: 64px; }
+  .tr img { width: 50px; height: 50px; border-radius: 11px; }
+  .tr .m { flex: 1; min-width: 0; }
+  .tr .t { font-weight: 620; font-size: 15.5px; letter-spacing: -.25px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tr .s { font-size: 13px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 5px; }
+  .tr .s svg { width: 13px; height: 13px; color: var(--accent); }
+  .tr > svg { color: var(--faint); }
+</style></head>
+<body>
+<div class="screen" id="s"></div>
+<script>
+const T = [
+  ['midnight', 'Midnight Drive (sped up)', '@noctra', '2:58', true],
+  ['neon', 'after hours', '@citylights', '3:12'],
+  ['velvet', 'velvet (slowed + reverb)', '@rose.mp3', '2:47'],
+  ['golden', 'golden hour, but sad', '@sunnie.wav', '1:54'],
+  ['rain', 'rainy café', '@mono.loft', '3:30'],
+];
+document.getElementById('s').innerHTML = `
+  <div class="bgart"></div><div class="bgfade"></div>
+  ${statusBar()}
+  <div class="top"><div class="glass-btn">${ic('back')}</div><div class="glass-btn">${ic('more')}</div></div>
+  <img class="cov cover" src="../covers/pl-night.png">
+  <div class="info">
+    <h1>Late Night Drive</h1>
+    <div class="by">${mark(20)}<b>Your playlist</b> · 18 sounds · 52 min</div>
+  </div>
+  <div class="acts">
+    <div class="off">${ic('offline')}</div>
+    ${ic('heartO')}
+    ${ic('share')}
+    <div class="grow"></div>
+    <span style="color:var(--accent)">${ic('shuffle')}</span>
+    <div class="play-xl" style="width:60px;height:60px">${ic('pause').replace('class="i "', 'class="i" style="width:28px;height:28px"')}</div>
+  </div>
+  <div class="list">
+    ${T.map(([c, t, a, d, on]) => `<div class="tr"><img class="cover" src="../covers/${c}.png">
+      <div class="m"><div class="t">${on ? eq() + `<span class="grad-text">${t}</span>` : t}</div>
+      <div class="s">${ic('offline')}${a} · ${d}</div></div>${ic('more')}</div>`).join('')}
+  </div>
+  ${dock({ tab: 'library', mini: { cover: 'midnight', title: 'Midnight Drive (sped up)', artist: '@noctra' } })}
+`;
+</script>
+</body></html>

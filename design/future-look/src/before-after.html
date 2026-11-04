@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script>
+<style>
+  .lbl { position: absolute; font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); }
+  .lbl.n { color: var(--text); }
+  .lbl.n span { background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
+</style></head>
+<body>
+<div class="board" id="b" style="width:1800px;height:1200px"></div>
+<script>
+const S = .9, W = 417 * S;          // a phone's width on this board
+const X = [60, 60 + W + 40, 1800 - 60 - 2 * W - 40, 1800 - 60 - W];
+const Y = 300;
+document.getElementById('b').innerHTML = `
+  ${glow(560, 760, 380, '#ff2d7a', .22)}${glow(1500, 760, 420, '#8b5cff', .3)}${glow(1180, 500, 300, '#ff6a3d', .2)}
+  <div style="position:absolute;left:60px;top:70px">
+    <div class="h-sans" style="font-size:72px">Tikify, today vs. <span class="h-serif grad-text" style="font-size:90px;padding-right:8px">Afterglow</span></div>
+    <div style="font-size:24px;color:var(--muted);margin-top:14px">Same app, same features. Its own identity instead of Spotify green, and a look that holds up in an ad.</div>
+  </div>
+  <div class="lbl" style="left:${X[0] + 10}px;top:${Y - 44}px">Today</div>
+  <div class="lbl n" style="left:${X[1] + 10}px;top:${Y - 44}px"><span>Concept</span></div>
+  <div class="lbl" style="left:${X[2] + 10}px;top:${Y - 44}px">Today</div>
+  <div class="lbl n" style="left:${X[3] + 10}px;top:${Y - 44}px"><span>Concept</span></div>
+  ${phone(null, { x: X[0], y: Y, scale: S, src: '../../../screenshots/library.jpg', h: 699 })}
+  ${phone('library', { x: X[1], y: Y, scale: S })}
+  ${phone(null, { x: X[2], y: Y, scale: S, src: '../../../screenshots/player.jpg', h: 699 })}
+  ${phone('player', { x: X[3], y: Y, scale: S })}
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

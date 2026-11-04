@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script></head>
+<body>
+<div class="board" id="b" style="width:1080px;height:1350px"></div>
+<script>
+const feat = (i, t) => `<div style="display:flex;align-items:center;gap:12px;font-size:25px;font-weight:700;letter-spacing:-.01em"><span class="pill" style="position:static;padding:0;width:52px;height:52px;justify-content:center;box-shadow:none">${ic(i).replace('class="i "', 'class="i" style="width:26px;height:26px;color:#ff4f7b"')}</span>${t}</div>`;
+document.getElementById('b').innerHTML = `
+  ${glow(540, 760, 560, '#ff2d7a', .42)}${glow(150, 980, 360, '#ff6a3d', .45)}${glow(940, 1000, 380, '#8b5cff', .6)}
+  <div style="position:absolute;top:84px;left:0;right:0;text-align:center">
+    <div class="h-sans" style="font-size:84px">Every sound you love.</div>
+    <div class="h-serif grad-text" style="font-size:112px;margin-top:4px;padding-bottom:10px">Finally, a library.</div>
+  </div>
+  ${phone('playlist', { x: 40, y: 440, scale: .86, rotate: -9, z: 1 })}
+  ${phone('player', { x: 668, y: 384, scale: .86, rotate: 9, z: 1 })}
+  ${phone('library', { x: 340, y: 360, scale: .96, z: 3 })}
+  <div style="position:absolute;left:0;right:0;top:1060px;height:290px;background:linear-gradient(180deg,rgba(8,7,11,0),rgba(8,7,11,.94) 42%,var(--ink));z-index:5"></div>
+  <div style="position:absolute;left:0;right:0;top:1180px;display:flex;justify-content:center;gap:40px;z-index:6">
+    ${feat('library', 'Playlists')}${feat('offline', 'Offline')}${feat('lock', 'Screen-off play')}${feat('check', 'Free')}
+  </div>
+  <div class="fine" style="position:absolute;left:0;right:0;bottom:30px;text-align:center;z-index:6;font-size:16px">tikify.no · Not affiliated with TikTok</div>
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

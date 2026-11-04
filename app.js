@@ -811,6 +811,7 @@ function render() {
   lastRoute = route;
   lastDepth = depth;
   view._sync = null;
+  setGlow(null); // renderPlaylist sets its cover's
 
   if (r.name === 'playlist') renderPlaylist(view, r.id);
   else if (r.name === 'all') renderPlaylist(view, null);
@@ -837,6 +838,15 @@ function render() {
 }
 
 // ---------- views ----------
+// The glow behind the top of the screen: a cover (blurred), or the brand's colours with none.
+function setGlow(src) {
+  const g = $('#glow');
+  if (!g) return;
+  g.classList.toggle('art', !!src);
+  if (src) g.style.setProperty('--glow-art', `url(${JSON.stringify(src)})`); // quotes in a URL can't break out
+  else g.style.removeProperty('--glow-art');
+}
+
 function mosaic(ids, cls = '') {
   const covers = ids.slice(0, 4).map((id) => coverSrc(state.sounds.get(id)));
   if (covers.length === 0) return `<div class="cover ${cls} empty">${ICON.note}</div>`;
@@ -861,7 +871,7 @@ function libraryIntro() {
   if (isStandalone()) return '';
   return `
     <section class="intro" aria-labelledby="introTitle">
-      <h2 id="introTitle">Save TikTok sounds. Play them like music.</h2>
+      <h2 id="introTitle">Save TikTok sounds. <span class="serif">Play them like music.</span></h2>
       <p>Tikify keeps the sounds you love from TikTok in your own library, so you can listen to them
         like songs: in playlists, offline and with your phone locked. Free, no account.</p>
       <h3>How it works</h3>
@@ -917,15 +927,15 @@ function renderLibrary(view) {
     <div class="lib-actions">
       <button class="chip" id="newPl">${ICON.plus}<span>New playlist</span></button>
     </div>
-    <div class="list">
-      <button class="row" data-go="#/all" aria-label="All sounds, playlist, ${plural(count, 'sound')}">
+    <div class="pl-grid">
+      <button class="pl-card" data-go="#/all" aria-label="All sounds, playlist, ${plural(count, 'sound')}">
         <div class="cover all-sounds">${ICON.heart}</div>
-        <div class="meta"><div class="t">All sounds</div><div class="s">Playlist · ${count} sound${count === 1 ? '' : 's'}</div></div>
+        <div class="t">All sounds</div><div class="s">${plural(count, 'sound')}</div>
       </button>
       ${state.playlists.map((p) => `
-        <button class="row" data-go="#/playlist/${encodeURIComponent(p.id)}" aria-label="${esc(p.name)}, playlist, ${plural(p.soundIds.length, 'sound')}">
+        <button class="pl-card" data-go="#/playlist/${encodeURIComponent(p.id)}" aria-label="${esc(p.name)}, playlist, ${plural(p.soundIds.length, 'sound')}">
           ${mosaic(p.soundIds)}
-          <div class="meta"><div class="t">${esc(p.name)}</div><div class="s">Playlist · ${p.soundIds.length} sound${p.soundIds.length === 1 ? '' : 's'}</div></div>
+          <div class="t">${esc(p.name)}</div><div class="s">${plural(p.soundIds.length, 'sound')}</div>
         </button>`).join('')}
     </div>
     ${count === 0 && !storageFailure ? `
@@ -987,6 +997,7 @@ function renderPlaylist(view, playlistId) {
   const ctx = { id: isAll ? 'all' : 'pl:' + p.id, label: name };
 
   setTop(name, { back: true, menu: isAll ? null : () => playlistMenu(p), scrollTitle: true });
+  if (!isAll && ids.length) setGlow(coverSrc(state.sounds.get(ids[0])));
 
   view.innerHTML = `
     <div class="pl-header ${isAll ? 'is-all' : ''}">
@@ -997,7 +1008,7 @@ function renderPlaylist(view, playlistId) {
         ${isAll ? '' : `<button class="icon-btn" id="plAdd" aria-label="Add sounds">${ICON.plus}</button>`}
         <span class="grow"></span>
         <button class="icon-btn ${state.shuffle ? 'on' : ''}" id="plShuffle" aria-label="Shuffle" aria-pressed="${state.shuffle}">${ICON.shuffle}</button>
-        <button class="play-btn green" id="plPlay" aria-label="Play" ${ids.length ? '' : 'disabled'}>${ICON.play}</button>
+        <button class="play-btn brand" id="plPlay" aria-label="Play" ${ids.length ? '' : 'disabled'}>${ICON.play}</button>
       </div>
     </div>
     <div class="list tracks" data-ctx="${esc(ctx.id)}">
@@ -1360,7 +1371,7 @@ async function lookupAndPreview(url, presetPlaylist) {
       <h2 class="sr-only" tabindex="-1">${dup ? 'Already in your library' : 'Found'}: ${esc(info.title)}</h2>
       <div class="preview-top">
         <img class="cover lg" src="${esc(webUrl(info.coverUrl) || NO_COVER)}" alt="" referrerpolicy="no-referrer">
-        <button class="play-btn green" id="previewPlay" aria-label="Play preview">${ICON.play}</button>
+        <button class="play-btn brand" id="previewPlay" aria-label="Play preview">${ICON.play}</button>
       </div>
       ${dup ? `<div class="note">Already in your library as “${esc(dup.title)}”.</div>` : ''}
       <label class="lbl" for="pTitle">Title</label>
@@ -1596,7 +1607,7 @@ async function settingsMenu() {
 }
 
 // Shown in About, so a screenshot tells which release a phone runs and how it lays out the screen.
-const VERSION = '1.4.0';
+const VERSION = '1.5.0';
 function aboutTech() {
   const v = measureViewport();
   const where = isStandalone() ? 'Home Screen app' : 'browser';
@@ -2231,7 +2242,10 @@ function updateNowPlaying() {
   $('#playerBg').style.backgroundImage = `url(${JSON.stringify(art.src)})`; // quotes in a URL can't break out
   $('#playerTitle').textContent = sound.title;
   $('#playerArtist').textContent = sound.artist;
-  $('#playerContext').textContent = label ? 'Playing from ' + label : 'Playing';
+  // Two lines; its text (the dialog's name) still reads "Playing from <name>".
+  $('#playerContext').innerHTML = label
+    ? `<span class="ctx-from">Playing from</span> <span class="ctx-name">${esc(label)}</span>`
+    : '<span class="ctx-name">Playing</span>';
   const link = $('#openTiktok');
   link.hidden = !sound.sourceUrl;
   link.href = sound.sourceUrl || '#';

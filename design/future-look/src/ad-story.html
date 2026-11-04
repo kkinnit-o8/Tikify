@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script></head>
+<body>
+<div class="board" id="b" style="width:1080px;height:1920px"></div>
+<script>
+document.getElementById('b').innerHTML = `
+  ${glow(160, 520, 420, '#ff6a3d', .42)}${glow(960, 860, 480, '#8b5cff', .55)}${glow(540, 1250, 520, '#ff2d7a', .38)}
+  <div style="position:absolute;top:120px;left:0;right:0;display:flex;justify-content:center"><div class="lockup" style="font-size:46px">${mark(64)}Tikify</div></div>
+  <div style="position:absolute;top:238px;left:0;right:0;text-align:center">
+    <div class="h-sans" style="font-size:100px">Your TikTok sounds.</div>
+    <div class="h-serif grad-text" style="font-size:138px;margin-top:6px;padding-bottom:12px">Played like music.</div>
+  </div>
+  ${phone('player', { x: 310, y: 566, scale: 1.1 })}
+  <div class="pill" style="left:52px;top:772px">${'<span class="ico">' + ic('offline') + '</span>'}Plays offline</div>
+  <div class="pill" style="right:44px;top:968px">${'<span class="ico">' + ic('lock') + '</span>'}Keeps playing, screen locked</div>
+  <div style="position:absolute;left:0;right:0;top:1440px;height:480px;background:linear-gradient(180deg,rgba(8,7,11,0),rgba(8,7,11,.92) 38%,var(--ink));z-index:5"></div>
+  <div style="position:absolute;left:0;right:0;top:1586px;text-align:center;z-index:6">
+    <div class="cta">Get Tikify. It’s free.</div>
+    <div class="fine" style="margin-top:26px">tikify.no · No account needed · Not affiliated with TikTok</div>
+  </div>
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

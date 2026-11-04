@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script>
+<style>
+  .lbl { position: absolute; font-size: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .sw { display: flex; flex-direction: column; gap: 12px; font-size: 18px; font-weight: 650; }
+  .sw i { width: 150px; height: 96px; border-radius: 22px; display: block; border: 1px solid rgba(255,255,255,.12); }
+  .sw small { display: block; color: var(--faint); font-size: 15px; font-weight: 500; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+</style></head>
+<body>
+<div class="board" id="b" style="width:2400px;height:1600px"></div>
+<script>
+const S = .95, W = 417 * S, G = 56, X0 = (2400 - (5 * W + 4 * G)) / 2, Y = 330;
+const names = [['library', 'Library'], ['playlist', 'Playlist'], ['player', 'Now playing'], ['add', 'Add a sound'], ['lock', 'Lock screen']];
+document.getElementById('b').innerHTML = `
+  ${glow(500, 700, 500, '#ff6a3d', .22)}${glow(1200, 800, 560, '#ff2d7a', .25)}${glow(1950, 700, 520, '#8b5cff', .32)}
+  <div style="position:absolute;left:${X0}px;top:90px;display:flex;align-items:flex-end;gap:30px">
+    ${mark(120)}
+    <div><div class="eyebrow" style="font-size:18px;margin-bottom:10px">Tikify · design concept</div>
+    <div class="h-sans" style="font-size:84px">Afterglow <span class="h-serif grad-text" style="font-size:100px;padding-right:10px">— premium, ad-ready</span></div></div>
+  </div>
+  ${names.map(([s, l], i) => `<div class="lbl" style="left:${X0 + i * (W + G) + 12}px;top:${Y - 6}px">${l}</div>` + phone(s, { x: X0 + i * (W + G), y: Y + 36, scale: S })).join('')}
+  <div style="position:absolute;left:${X0}px;top:1300px;display:flex;gap:28px;align-items:flex-start">
+    <div class="sw"><i style="background:#08070b"></i>Ink<small>#08070B</small></div>
+    <div class="sw"><i style="background:#ff6a3d"></i>Ember<small>#FF6A3D</small></div>
+    <div class="sw"><i style="background:#ff2d7a"></i>Magenta<small>#FF2D7A</small></div>
+    <div class="sw"><i style="background:#8b5cff"></i>Violet<small>#8B5CFF</small></div>
+    <div class="sw"><i style="background:var(--glow);width:320px"></i>Afterglow<small>the one signature gradient</small></div>
+  </div>
+  <div style="position:absolute;right:${X0}px;top:1300px;text-align:right">
+    <div style="font-size:64px;font-weight:800;letter-spacing:-2.5px;line-height:1">Inter Display <span class="h-serif" style="font-size:76px">&amp; Instrument Serif</span></div>
+    <div style="font-size:20px;color:var(--muted);margin-top:16px">Tight, heavy sans for the interface. One serif italic, used only for the emotional line in ads and headers.</div>
+  </div>
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

@@ -64,6 +64,20 @@ app's identity on Android, and a different one makes Chrome stop updating instal
   clears the app's data), uninstall Tikify, install it again from Chrome, and import the backup if your
   sounds are gone.
 
+## Look
+The "Afterglow" design: a warm, deep black (`#08070B`) and one gradient, ember → magenta → violet,
+used for the mark, play buttons and progress. The colours are the custom properties at the top of
+`styles.css` (and `pages.css` for the guide pages); the concept boards are in `design/future-look/`.
+- **Fonts** are self-hosted in `fonts/` (Inter, and Instrument Serif italic for one line here and there)
+  and listed in `sw.js`'s `SHELL`, so the app looks the same offline.
+- **Keep `background_color` in `manifest.webmanifest` equal to `--strip` in `styles.css`** (`#121212`).
+  On iOS 26 that colour fills the strip under the tab bar of a Home Screen app, and iOS keeps the one it
+  read when the app was added, so changing it would leave older installs with a mismatched band.
+- **Icons and the link preview** (`icons/`) are drawn by `design/future-look/src/brand.html`:
+  `node design/future-look/render.js brand`.
+- **Store screenshots** (`screenshots/`) come from the real app filled with a demo library:
+  run `node design/future-look/render.js covers`, serve the app as below, then `node design/screenshots.js`.
+
 ## Notes
 - No server or build step: it's plain HTML, CSS and JavaScript.
 - Sound lookups use the free public [tikwm.com](https://www.tikwm.com) API. If it's down or rate-limited, try again in a moment.

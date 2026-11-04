@@ -1,5 +1,10 @@
 # Tikify TikTok ad (9:16)
 
+`tikify-tiktok-ad-10s.mp4` — the **10.9 s cut**: hook 0–4.6 s (faster voice takes), then four bars of the drop
+(logo hit → paste / found / saved → player → end card). Everything keeps moving: the phone orbits and floats, words drift
+after landing, the camera pushes, the end card breathes. Source in `film10/` (shares `film/ui.js` + `film/engine.js`),
+timeline and mix in `scripts/timeline_short.py`.
+
 `tikify-tiktok-ad.mp4` — 1080×1920, 30 fps, ~32 s, H.264 + AAC. Built from **real app captures** (Playwright drives the
 app served from this repo with a demo library; the TikTok lookup is mocked with demo data so the Add flow works offline)
 and a code-rendered film (`film/`): one HTML page whose `__seek(t)` draws any frame, captured with sub-frame motion blur.

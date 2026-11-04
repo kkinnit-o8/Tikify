@@ -12,7 +12,7 @@ const outDir = resolve(args[0]);
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const FROM = parseInt(opt('--from', '0')), TO = opt('--to', null), EVERY = parseInt(opt('--every', '1')), OFFSET = parseInt(opt('--offset', '0'));
 const STILLS = opt('--stills', null); const SUB = parseInt(opt('--sub', '2')); const SHUT = parseFloat(opt('--shutter', '0.5')); const QA = args.includes('--qa');
-const PAGE = 'file:///tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad/film/index.html';
+const PAGE = 'file://' + resolve(opt('--page', '/tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad/film/index.html'));
 mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({ args: ['--allow-file-access-from-files', '--autoplay-policy=no-user-gesture-required', '--force-color-profile=srgb', '--disable-lcd-text'] });

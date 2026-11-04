@@ -3,7 +3,7 @@ import sys, os, re, subprocess, numpy as np
 from PIL import Image
 from multiprocessing import Pool
 SUB, FRAMES, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
-MIX = '/tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad/mix.wav'
+MIX = next((a for a in sys.argv[4:] if a.endswith('.wav')), '/tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad/mix.wav')
 os.makedirs(FRAMES, exist_ok=True)
 
 def blend(f):

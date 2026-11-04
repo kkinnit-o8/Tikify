@@ -1,6 +1,7 @@
 // Renders the Tikify concept images with Playwright.
 //   node design/future-look/render.js            → everything
-//   node design/future-look/render.js covers     → only one stage (covers | screens | ads | brand)
+//   node design/future-look/render.js covers     → only one stage (covers | screens | ads | brand | logo)
+// "logo" renders design/logo/*.svg (made by design/logo/make_logo.py) to transparent PNGs beside them.
 // "brand" redraws the app's own icons and link preview in icons/ (not part of "everything"); its
 // og.png frames screenshots/player.jpg, so take the store screenshots first (design/screenshots.js).
 const { chromium } = require('playwright');
@@ -77,6 +78,18 @@ async function main() {
     await page.locator('.board').screenshot({ path: path.join(ICONS, 'og.png') });
     await page.close();
     console.log('brand done');
+  }
+  if (only === 'logo') {
+    const LOGO = path.join(ROOT, '..', 'logo');
+    for (const f of fs.readdirSync(LOGO).filter((f) => f.endsWith('.svg'))) {
+      const file = path.join(LOGO, f);
+      const [, w, h] = fs.readFileSync(file, 'utf8').match(/width="(\d+)" height="(\d+)"/).map(Number);
+      const page = await browser.newPage({ viewport: { width: w, height: h } });
+      await page.goto('file://' + file);
+      await page.screenshot({ path: file.replace(/\.svg$/, '.png'), omitBackground: true, clip: { x: 0, y: 0, width: w, height: h } });
+      await page.close();
+    }
+    console.log('logo done');
   }
   await browser.close();
 }

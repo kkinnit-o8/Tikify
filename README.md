@@ -73,6 +73,8 @@ used for the mark, play buttons and progress. The colours are the custom propert
 - **Keep `background_color` in `manifest.webmanifest` equal to `--strip` in `styles.css`** (`#121212`).
   On iOS 26 that colour fills the strip under the tab bar of a Home Screen app, and iOS keeps the one it
   read when the app was added, so changing it would leave older installs with a mismatched band.
+- **Logo files** for use outside the app (icon, mark, lockups, wordmark; SVG and transparent PNG) are in
+  `design/logo/`: `python3 design/logo/make_logo.py`, then `node design/future-look/render.js logo`.
 - **Icons and the link preview** (`icons/`) are drawn by `design/future-look/src/brand.html`:
   `node design/future-look/render.js brand`.
 - **Store screenshots** (`screenshots/`) come from the real app filled with a demo library:

@@ -1,0 +1,60 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="shared.js"></script>
+<style>
+  .hdr { position: absolute; top: 62px; left: 20px; right: 20px; display: flex; align-items: flex-end; justify-content: space-between; }
+  .hdr .btns { display: flex; gap: 10px; margin-bottom: 4px; }
+  .hero { position: absolute; top: 140px; left: 16px; right: 16px; height: 148px; border-radius: 26px; overflow: hidden; border: 1px solid rgba(255,255,255,.1);
+    box-shadow: 0 24px 60px rgba(60,10,80,.45); }
+  .hero .bg { position: absolute; inset: -40px; background: url(../covers/midnight.png) center/cover; filter: blur(34px) saturate(1.5) brightness(.75); }
+  .hero .sh { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,7,11,.15), rgba(8,7,11,.55)); }
+  .hero .in { position: absolute; inset: 0; display: flex; gap: 14px; padding: 16px; align-items: center; }
+  .hero img { width: 116px; height: 116px; border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+  .hero .m { flex: 1; min-width: 0; }
+  .hero .t { font-size: 18px; font-weight: 750; letter-spacing: -.4px; margin-top: 6px; line-height: 1.15; }
+  .hero .s { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .hero .row { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .chips { position: absolute; top: 306px; left: 16px; display: flex; gap: 8px; }
+  .sec { position: absolute; top: 360px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: baseline; }
+  .sec h2 { margin: 0; font-size: 21px; font-weight: 750; letter-spacing: -.5px; }
+  .grid { position: absolute; top: 398px; left: 16px; right: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
+  .card img, .card .liked { width: 100%; aspect-ratio: 1; border-radius: 20px; box-shadow: 0 14px 34px rgba(0,0,0,.45); }
+  .card .liked { background: var(--glow); display: grid; place-items: center; position: relative; overflow: hidden; }
+  .card .liked::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 25% 15%, rgba(255,255,255,.35), transparent 55%); }
+  .card .liked svg { width: 64px; height: 64px; color: #fff; filter: drop-shadow(0 6px 18px rgba(0,0,0,.25)); }
+  .card .t { font-weight: 650; font-size: 15px; letter-spacing: -.2px; margin-top: 10px; }
+  .card .s { font-size: 12.5px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 5px; }
+  .card .s svg { width: 13px; height: 13px; color: var(--accent); }
+</style></head>
+<body>
+<div class="screen" id="s"></div>
+<script>
+document.getElementById('s').innerHTML = `
+  <div class="ambient" style="background-image:url(../covers/midnight.png); opacity:.28; inset:-30% -30% 55% -30%"></div>
+  ${statusBar()}
+  <div class="hdr">
+    <div><div class="eyebrow" style="margin-bottom:6px">Good evening</div><div class="title-xl">Your Library</div></div>
+    <div class="btns"><div class="glass-btn">${ic('plus')}</div><div class="glass-btn">${ic('more')}</div></div>
+  </div>
+  <div class="hero"><div class="bg"></div><div class="sh"></div>
+    <div class="in">
+      <img src="../covers/midnight.png">
+      <div class="m">
+        <div class="eyebrow" style="font-size:10.5px;color:rgba(255,255,255,.7)">Jump back in</div>
+        <div class="t">Midnight Drive<br>(sped up)</div>
+        <div class="s">@noctra · 1:51 left</div>
+        <div class="row"><div class="play-xl" style="width:38px;height:38px">${ic('play')}</div><div style="flex:1">${wave(26, .38, { h: 22, w: 2.6, gap: 2.4 })}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="chips"><span class="chip on">Playlists</span><span class="chip">Sounds</span><span class="chip">${ic('offline')}Offline</span><span class="chip">Recent</span></div>
+  <div class="sec"><h2>Playlists</h2><span class="muted" style="font-size:13px;font-weight:600">Recently played</span></div>
+  <div class="grid">
+    <div class="card"><div class="liked">${ic('heart')}</div><div class="t">Liked sounds</div><div class="s">${ic('offline')}128 sounds</div></div>
+    <div class="card"><img src="../covers/pl-night.png"><div class="t">Late Night Drive</div><div class="s">${ic('offline')}18 sounds · 52 min</div></div>
+    <div class="card"><img src="../covers/pl-soft.png"><div class="t">Soft Hours</div><div class="s">31 sounds</div></div>
+    <div class="card"><img src="../covers/pl-summer.png"><div class="t">Summer ’26</div><div class="s">24 sounds</div></div>
+  </div>
+  ${dock({ tab: 'library', mini: { cover: 'midnight', title: 'Midnight Drive (sped up)', artist: '@noctra' } })}
+`;
+</script>
+</body></html>

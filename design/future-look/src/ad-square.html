@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script></head>
+<body>
+<div class="board" id="b" style="width:1080px;height:1080px"></div>
+<script>
+document.getElementById('b').innerHTML = `
+  ${glow(820, 520, 420, '#ff2d7a', .5)}${glow(960, 160, 300, '#ff6a3d', .4)}${glow(700, 980, 360, '#8b5cff', .55)}
+  <div style="position:absolute;left:72px;top:96px" class="lockup" >${mark(52)}<span style="font-size:36px">Tikify</span></div>
+  <div style="position:absolute;left:72px;top:260px;width:560px">
+    <div class="h-sans" style="font-size:104px">Screen off.</div>
+    <div class="h-serif grad-text" style="font-size:132px;margin-top:4px;padding-bottom:10px">Sound on.</div>
+    <p style="font-size:30px;line-height:1.38;color:var(--muted);margin:34px 0 0;width:440px;letter-spacing:-.01em">The TikTok sounds you love keep playing in your pocket. Even offline.</p>
+  </div>
+  <div style="position:absolute;left:72px;top:850px;z-index:6">
+    <div class="cta" style="height:84px;font-size:30px;padding:0 38px">Get Tikify. Free.</div>
+  </div>
+  <div class="fine" style="position:absolute;left:74px;bottom:40px;font-size:16px">Not affiliated with TikTok</div>
+  ${phone('lock', { x: 610, y: 150, scale: 1.0, rotate: 7 })}
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

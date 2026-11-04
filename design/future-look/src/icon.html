@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script>
+<style>
+  .big { position: absolute; left: 50%; top: 120px; transform: translateX(-50%); filter: drop-shadow(0 50px 90px rgba(255,45,122,.35)) drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
+  .row { position: absolute; left: 0; right: 0; top: 720px; display: flex; justify-content: center; align-items: flex-end; gap: 56px; }
+  .row div { text-align: center; font-size: 16px; color: var(--faint); font-weight: 600; }
+  .row svg { display: block; margin: 0 auto 14px; }
+</style></head>
+<body>
+<div class="board" id="b" style="width:1024px;height:1024px"></div>
+<script>
+document.getElementById('b').innerHTML = `
+  ${glow(512, 380, 320, '#ff2d7a', .32)}${glow(700, 520, 220, '#8b5cff', .35)}
+  <div class="big">${mark(520)}</div>
+  <div class="row">
+    <div>${mark(180)}App icon</div>
+    <div>${mark(120)}Home Screen</div>
+    <div>${mark(76)}Settings</div>
+    <div>${mark(40)}Favicon</div>
+    <div style="display:flex;flex-direction:column;align-items:center"><div class="lockup" style="font-size:44px;color:var(--text);height:180px;margin-bottom:14px">${mark(56)}Tikify</div>Lockup</div>
+  </div>
+  <div class="grain"></div>
+`;
+</script>
+</body></html>

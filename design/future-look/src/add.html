@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="shared.js"></script>
+<style>
+  .hdr { position: absolute; top: 66px; left: 20px; right: 20px; }
+  .hdr p { margin: 8px 0 0; color: var(--muted); font-size: 15px; line-height: 1.4; }
+  .field { position: absolute; top: 172px; left: 16px; right: 16px; height: 58px; border-radius: 18px; background: var(--glass); border: 1px solid rgba(255,255,255,.14);
+    display: flex; align-items: center; gap: 10px; padding: 0 8px 0 16px; box-shadow: 0 0 0 4px rgba(255,45,122,.12); }
+  .field svg { width: 20px; height: 20px; color: var(--muted); }
+  .field .u { flex: 1; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .field .u span { color: var(--muted); }
+  .found { position: absolute; top: 248px; left: 20px; display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; }
+  .found .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--glow); display: grid; place-items: center; }
+  .found .dot svg { width: 12px; height: 12px; color: #fff; }
+  .card { position: absolute; top: 280px; left: 16px; right: 16px; border-radius: 28px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+  .card .bg { position: absolute; inset: -60px; background: url(../covers/golden.png) center/cover; filter: blur(40px) saturate(1.4) brightness(.65); }
+  .card .in { position: relative; padding: 18px; }
+  .card .top { display: flex; gap: 14px; align-items: center; }
+  .card img { width: 96px; height: 96px; border-radius: 18px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+  .card .t { font-size: 19px; font-weight: 760; letter-spacing: -.5px; line-height: 1.15; }
+  .card .s { font-size: 13.5px; color: rgba(255,255,255,.72); margin-top: 4px; }
+  .prev { display: flex; align-items: center; gap: 12px; margin-top: 18px; background: rgba(0,0,0,.28); border-radius: 18px; padding: 10px 14px 10px 10px; }
+  .prev .pb { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; flex: none; }
+  .prev .pb svg { width: 18px; height: 18px; }
+  .prev .tm { font-size: 12px; font-weight: 650; color: rgba(255,255,255,.7); font-variant-numeric: tabular-nums; }
+  .lbl { position: absolute; top: 530px; left: 20px; }
+  .to { position: absolute; top: 560px; left: 16px; right: 0; display: flex; gap: 8px; }
+  .to .chip.on svg { width: 14px; height: 14px; }
+  .cta { position: absolute; top: 640px; left: 16px; right: 16px; height: 58px; border-radius: 20px; background: var(--glow); display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 17px; font-weight: 750; letter-spacing: -.2px;
+    box-shadow: 0 16px 40px rgba(255,45,122,.45), inset 0 1px 0 rgba(255,255,255,.35); }
+  .cta svg { width: 20px; height: 20px; }
+  .note { position: absolute; top: 710px; left: 0; right: 0; text-align: center; font-size: 12.5px; color: var(--faint); }
+</style></head>
+<body>
+<div class="screen" id="s"></div>
+<script>
+document.getElementById('s').innerHTML = `
+  <div class="ambient" style="background-image:url(../covers/golden.png); opacity:.22; inset:10% -40% -20% -40%"></div>
+  ${statusBar()}
+  <div class="hdr"><div class="title-xl">Add a sound</div><p>Paste a TikTok link. We’ll find the sound<br>and save it to your device.</p></div>
+  <div class="field">${ic('link')}<div class="u">tiktok.com<span>/@sunnie.wav/video/7431…</span></div><span class="chip on" style="height:40px;border-radius:13px">Paste</span></div>
+  <div class="found"><span class="dot">${ic('check')}</span>Sound found</div>
+  <div class="card"><div class="bg"></div><div class="in">
+    <div class="top"><img class="cover" src="../covers/golden.png">
+      <div><div class="t">golden hour,<br>but sad</div><div class="s">@sunnie.wav · 1:54</div></div></div>
+    <div class="prev"><div class="pb">${ic('play')}</div><div style="flex:1">${wave(40, .0, { h: 26, w: 2.6, gap: 2.4, rest: 'rgba(255,255,255,.55)', seed: 5 })}</div><span class="tm">1:54</span></div>
+  </div></div>
+  <div class="lbl eyebrow">Save to</div>
+  <div class="to"><span class="chip on">${ic('check')}Late Night Drive</span><span class="chip">Soft Hours</span><span class="chip">${ic('plus')}New</span></div>
+  <div class="cta">${ic('offline')}Save sound</div>
+  <div class="note">Plays offline and with your screen locked</div>
+  ${dock({ tab: 'add', scrim: 120 })}
+`;
+</script>
+</body></html>

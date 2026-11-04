@@ -1,0 +1,30 @@
+/* Ad and presentation boards: phone frame, background glow, type. Sizes are real pixels. */
+.board { position: relative; overflow: hidden; background: var(--ink); }
+.board .glow { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+.board .grain { position: absolute; inset: 0; opacity: .14; mix-blend-mode: overlay; pointer-events: none; z-index: 50;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+
+/* A generic modern phone: 393 × 852 screen, thin bezel, titanium edge, side buttons. */
+.phone { position: absolute; width: 417px; height: 876px; border-radius: 70px; padding: 12px; background: #050506; transform-origin: 0 0;
+  box-shadow: 0 0 0 1.5px #55545c, 0 0 0 4px #232227, 0 0 0 5px #6b6a72, 0 80px 140px rgba(0,0,0,.65), 0 30px 60px rgba(0,0,0,.4); }
+.phone img.scr { width: 393px; height: 852px; border-radius: 58px; display: block; }
+.phone .btn { position: absolute; width: 5px; background: #3c3b42; border-radius: 3px; }
+.phone .btn.a { left: -8px; top: 190px; height: 60px; }
+.phone .btn.b { left: -8px; top: 270px; height: 60px; }
+.phone .btn.c { right: -8px; top: 230px; height: 100px; }
+.phone::after { content: ""; position: absolute; inset: 12px; border-radius: 58px; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.10), rgba(255,255,255,0) 30%); }
+
+.h-sans { font-weight: 800; letter-spacing: -.045em; line-height: .98; }
+.h-serif { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; line-height: .95; }
+.lockup { display: flex; align-items: center; gap: 14px; font-weight: 800; letter-spacing: -.03em; }
+
+.pill { position: absolute; display: inline-flex; align-items: center; gap: 12px; padding: 16px 24px 16px 16px; border-radius: 999px; z-index: 10;
+  background: linear-gradient(180deg, rgba(44,30,56,.92), rgba(26,20,34,.92)); border: 1.5px solid rgba(255,255,255,.14);
+  box-shadow: 0 24px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1); font-size: 28px; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
+.pill .ico { width: 46px; height: 46px; border-radius: 50%; background: var(--glow); display: grid; place-items: center; flex: none; }
+.pill .ico svg { width: 26px; height: 26px; color: #fff; }
+
+.cta { display: inline-flex; align-items: center; gap: 14px; height: 92px; padding: 0 44px; border-radius: 999px; background: #fff; color: #0b0a0f;
+  font-size: 34px; font-weight: 800; letter-spacing: -.02em; box-shadow: 0 20px 60px rgba(255,45,122,.35); }
+.fine { font-size: 18px; color: rgba(246,243,248,.42); letter-spacing: 0; }

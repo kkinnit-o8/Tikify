@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Tikify ad film</title>
+<style>
+  @font-face { font-family: 'Inter'; src: url('file:///home/user/Tikify/fonts/Inter-Variable.woff2') format('woff2'); font-weight: 100 900; font-style: normal; }
+  @font-face { font-family: 'Instrument Serif'; src: url('file:///home/user/Tikify/fonts/InstrumentSerif-Italic.woff2') format('woff2'); font-weight: 400; font-style: italic; }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #film { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #08070b; perspective: 2200px; perspective-origin: 50% 50%; font-family: Inter, system-ui, sans-serif; }
+  #bg { position: absolute; left: 0; top: 0; }
+  #world { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-style: preserve-3d; }
+  #grain { position: absolute; left: -100px; top: -100px; width: 1280px; height: 2120px; background: url('file:///tmp/claude-0/-home-user-Tikify/ece3f78c-d3dd-5dde-b884-0f5893502a95/scratchpad/assets/noise.png'); opacity: .055; pointer-events: none; mix-blend-mode: overlay; }
+  .grad { background: linear-gradient(135deg, #ff6a3d, #ff2d7a 50%, #8b5cff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .glass { background: rgba(18, 17, 24, .72); border: 1.5px solid rgba(255,255,255,.14); box-shadow: 0 30px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+  img { -webkit-user-drag: none; }
+</style></head>
+<body>
+<div id="film">
+  <canvas id="bg" width="1080" height="1920"></canvas>
+  <div id="world"></div>
+  <div id="grain"></div>
+</div>
+<script src="engine.js"></script>
+<script src="tl.js"></script>
+<script src="ui.js"></script>
+<script src="scenes/s_hook.js"></script>
+<script src="scenes/s_drop.js"></script>
+<script>
+  (async () => {
+    FILM.fonts = ['900 100px "Inter"', '800 100px "Inter"', '700 100px "Inter"', '600 100px "Inter"', '500 100px "Inter"', '400 100px "Inter"', 'italic 400 100px "Instrument Serif"'];
+    FILM.cs = (o) => Object.assign({ cx: 540, cy: 960, s: 1, rx: 0, ry: 0, rz: 0 }, o || {});
+    await FILM.start({ W: 1080, H: 1920, fps: TL.fps, dur: TL.dur });
+    await UI.ready();
+    const seek0 = window.__seek;
+    window.__seek = async (t) => { await seek0(t); await UI.flush(); };
+    window.__blur = UI.blurWindows;   // [[t0, t1, subframes], …] for the capture
+    window.__ready = true;
+  })();
+</script>
+</body></html>

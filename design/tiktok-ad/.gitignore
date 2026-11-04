@@ -1,0 +1,8 @@
+# captures, generated clip frames, renders and the soundtrack stay local (see README)
+film/assets/
+work/
+out/
+*.mp4
+*.wav
+*.mp3
+*.m4a

@@ -6,7 +6,7 @@
   <!-- app.js puts this title back whenever the Library (the home page) is shown: it's the one search results use. -->
   <title>Tikify – Save TikTok Sounds &amp; Play Them Like Music</title>
   <meta name="description" content="Save TikTok sounds and play them like music: make playlists, listen offline and keep playing with your phone locked. Free, no account, on iPhone and Android.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#08070b">
   <meta name="color-scheme" content="dark">
   <!-- Search engines and link previews (iMessage, WhatsApp, Discord, X…) need absolute URLs:
        update these, robots.txt, sitemap.xml and the pages' own tags if the site moves. -->
@@ -35,7 +35,8 @@
   <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <!-- dark from the first frame, before styles.css arrives -->
-  <style>html, body { background: #121212; }</style>
+  <style>html, body { background: #08070b; }</style>
+  <link rel="preload" href="fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <!-- What Tikify is, for search engines. Only true facts: no ratings or reviews it doesn't have. -->
   <script type="application/ld+json">
@@ -83,6 +84,7 @@
 </head>
 <body>
   <div id="app">
+    <div class="glow" id="glow" aria-hidden="true"></div>
     <header class="topbar">
       <button class="icon-btn" id="backBtn" aria-label="Back" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg>
@@ -98,7 +100,7 @@
            introduction on the empty Library (see libraryIntro). -->
       <noscript>
         <div class="intro">
-          <h2>Save TikTok sounds. Play them like music.</h2>
+          <h2>Save TikTok sounds. <span class="serif">Play them like music.</span></h2>
           <p>Tikify keeps the sounds you love from TikTok in your own library, so you can listen to them
             like songs: in playlists, offline and with your phone locked. Free, no account.</p>
           <p><b>Tikify needs JavaScript.</b> Turn it on in your browser settings to use the app.</p>

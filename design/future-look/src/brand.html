@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="ads.css">
+<script src="shared.js"></script><script src="phone.js"></script>
+<style>html, body { background: transparent; } #o { display: inline-block; } #o > svg { display: block; }</style></head>
+<body>
+<div id="o"></div>
+<script>
+// The app's own icons and link preview, one per ?k=: any (rounded, transparent corners), full
+// (full bleed: iOS rounds it itself), maskable (full bleed, the mark inside Android's safe zone),
+// favicon, og (1200 × 630, around the real app's screenshots/player.jpg). ?s= is the size in pixels.
+const q = new URLSearchParams(location.search);
+const k = q.get('k'), s = +q.get('s') || 512;
+const o = document.getElementById('o');
+if (k === 'any') o.innerHTML = mark(s, { glow: s >= 120 });
+if (k === 'full') o.innerHTML = mark(s, { full: true, glow: s >= 120 });
+if (k === 'maskable') o.innerHTML = mark(s, { full: true, scale: .78, glow: true });
+if (k === 'favicon') o.innerHTML = mark(s, { glow: false });
+if (k === 'og') {
+  document.body.style.background = '#08070b';
+  o.innerHTML = `<div class="board" style="width:1200px;height:630px">
+    ${glow(150, 120, 330, '#ff6a3d', .36)}${glow(620, 40, 300, '#ff2d7a', .3)}${glow(1050, 520, 360, '#8b5cff', .5)}
+    <div style="position:absolute;left:84px;top:96px">
+      <div class="lockup" style="font-size:44px">${mark(76)}Tikify</div>
+      <div class="h-sans" style="font-size:76px;margin-top:56px">Save TikTok sounds.</div>
+      <div class="h-serif grad-text" style="font-size:96px;margin-top:2px;padding-bottom:10px">Play them like music.</div>
+      <div style="font-size:26px;font-weight:600;color:var(--muted);margin-top:34px;letter-spacing:-.01em">Playlists · Works offline · Free, no account</div>
+    </div>
+    ${phone(null, { x: 850, y: 66, scale: .78, rotate: 8, z: 2, src: '../../../screenshots/player.jpg', h: 699 })}
+    <div class="grain"></div></div>`;
+}
+</script>
+</body></html>

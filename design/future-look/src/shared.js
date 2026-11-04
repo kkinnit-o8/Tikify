@@ -54,7 +54,7 @@ function dock({ tab = 'library', mini = null, scrim = 250 } = {}) {
 }
 
 // The mark: sound bars whose heights trace a play triangle.
-function mark(size = 64, { bg = true, id = 'mg' + Math.random().toString(36).slice(2, 7) } = {}) {
+function mark(size = 64, { bg = true, full = false, scale = 1, glow = size >= 120, id = 'mg' + Math.random().toString(36).slice(2, 7) } = {}) {
   const bars = [];
   const n = 5, x0 = 25, w = 8, step = 12;
   for (let i = 0; i < n; i++) {
@@ -62,15 +62,15 @@ function mark(size = 64, { bg = true, id = 'mg' + Math.random().toString(36).sli
     const h = Math.max(w, 2 * 31 * (83 - cx) / (83 - x0));
     bars.push(`<rect x="${x}" y="${(50 - h / 2).toFixed(2)}" width="${w}" height="${h.toFixed(2)}" rx="${w / 2}"/>`);
   }
-  const big = size >= 120;
+  const big = glow;
   return `<svg class="mark" width="${size}" height="${size}" viewBox="0 0 100 100">
     <defs>
       <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a45"/><stop offset=".5" stop-color="#ff2d7a"/><stop offset="1" stop-color="#8b5cff"/></linearGradient>
       <radialGradient id="${id}b" cx=".3" cy=".2" r="1"><stop offset="0" stop-color="#2a2333"/><stop offset="1" stop-color="#07060a"/></radialGradient>
       <filter id="${id}g" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
-    ${bg ? `<rect width="100" height="100" rx="23" fill="url(#${id}b)"/><rect x=".5" y=".5" width="99" height="99" rx="22.5" fill="none" stroke="#fff" stroke-opacity=".12"/>` : ''}
-    <g fill="url(#${id})" ${big ? `filter="url(#${id}g)"` : ''}>${bars.join('')}</g>
+    ${full ? `<rect width="100" height="100" fill="url(#${id}b)"/>` : bg ? `<rect width="100" height="100" rx="23" fill="url(#${id}b)"/><rect x=".5" y=".5" width="99" height="99" rx="22.5" fill="none" stroke="#fff" stroke-opacity=".12"/>` : ''}
+    <g transform="translate(50 50) scale(${scale}) translate(-50 -50)"><g fill="url(#${id})" ${big ? `filter="url(#${id}g)"` : ''}>${bars.join('')}</g></g>
   </svg>`;
 }
 

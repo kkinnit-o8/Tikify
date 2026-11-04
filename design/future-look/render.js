@@ -1,6 +1,8 @@
 // Renders the Tikify concept images with Playwright.
 //   node design/future-look/render.js            → everything
-//   node design/future-look/render.js covers     → only one stage (covers | screens | ads)
+//   node design/future-look/render.js covers     → only one stage (covers | screens | ads | brand)
+// "brand" redraws the app's own icons and link preview in icons/ (not part of "everything"); its
+// og.png frames screenshots/player.jpg, so take the store screenshots first (design/screenshots.js).
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -59,6 +61,22 @@ async function main() {
       await page.close();
     }
     console.log('ads done');
+  }
+  if (only === 'brand') {
+    const ICONS = path.join(ROOT, '..', '..', 'icons');
+    // [kind, size, file]: see brand.html
+    for (const [k, size, f] of [['any', 512, 'icon-512.png'], ['any', 192, 'icon-192.png'], ['maskable', 512, 'maskable-512.png'],
+      ['full', 180, 'apple-touch-icon.png'], ['favicon', 32, 'favicon-32.png']]) {
+      const page = await browser.newPage({ viewport: { width: size, height: size } });
+      await page.goto(url('brand.html', `?k=${k}&s=${size}`)); await ready(page);
+      await page.locator('#o > svg').screenshot({ path: path.join(ICONS, f), omitBackground: k === 'any' || k === 'favicon' });
+      await page.close();
+    }
+    const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+    await page.goto(url('brand.html', '?k=og')); await ready(page);
+    await page.locator('.board').screenshot({ path: path.join(ICONS, 'og.png') });
+    await page.close();
+    console.log('brand done');
   }
   await browser.close();
 }
